@@ -1,12 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Send, MessageCircle, Bot } from 'lucide-react'
+import { X, Send, MessageCircle, Bot, Loader2, Sparkles } from 'lucide-react'
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasAppeared, setHasAppeared] = useState(false)
   const [showInitialMessage, setShowInitialMessage] = useState(false)
   const [hasAutoOpened, setHasAutoOpened] = useState(false)
+  const [messages, setMessages] = useState([])
+  const [inputValue, setInputValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
+  const messagesEndRef = useRef(null)
+  const inputRef = useRef(null)
 
   // Show chatbot button after 7 seconds
   useEffect(() => {
@@ -32,7 +38,214 @@ const Chatbot = () => {
     }
   }, [showInitialMessage, isOpen, hasAutoOpened])
 
+  // Initialize with welcome message
+  useEffect(() => {
+    if (showInitialMessage && messages.length === 0) {
+      setMessages([{
+        id: 0,
+        text: initialMessage,
+        sender: 'bot',
+        timestamp: new Date(),
+      }])
+    }
+  }, [showInitialMessage, messages.length])
+
   const initialMessage = "Hello! 👋 Welcome to Gift of Grace. I'm here to help you discover our premium wellness products. How can I assist you today?"
+
+  // ============================================
+  // MODEL INTEGRATION FUNCTION
+  // ============================================
+  // This function handles communication with the model
+  // You can easily modify this to work with:
+  // - REST API endpoints
+  // - Local model files 
+  // - WebSocket connections
+  // - Any other integration method
+  // ============================================
+  const getModelResponse = async (userMessage, conversationHistory) => {
+    try {
+      // OPTION 1: REST API Endpoint (most common)
+      // Replace 'YOUR_API_ENDPOINT' with your  model API endpoint
+      const response = await fetch('YOUR_API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          history: conversationHistory,
+          // Add any other parameters your model needs
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from model')
+      }
+
+      const data = await response.json()
+      // Adjust this based on your API response structure
+      return data.response || data.message || data.text || 'I apologize, but I could not process that request.'
+
+      // OPTION 2: Local Model File (if using a local model)
+      // Uncomment and modify if  provided a local model file
+      /*
+      const model = await import('./path/to/model.js')
+      return await model.generateResponse(userMessage, conversationHistory)
+      */
+
+      // OPTION 3: WebSocket Connection
+      // Uncomment if using WebSocket
+      /*
+      const ws = new WebSocket('ws://your-websocket-endpoint')
+      return new Promise((resolve, reject) => {
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data)
+          resolve(data.response)
+          ws.close()
+        }
+        ws.onerror = reject
+        ws.send(JSON.stringify({ message: userMessage, history: conversationHistory }))
+      })
+      */
+    } catch (error) {
+      console.error('Error getting model response:', error)
+      // Fallback response if model fails
+      return "I'm sorry, I'm having trouble connecting right now. Please try again later or contact our support team."
+    }
+  }
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  // Focus input when chat opens
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [isOpen])
+
+  // Handle sending a message
+  const handleSendMessage = async (e) => {
+    e?.preventDefault()
+    
+    const message = inputValue.trim()
+    if (!message || isLoading) return
+
+    // Add user message to chat
+    const userMessage = {
+      id: Date.now(),
+      text: message,
+      sender: 'user',
+      timestamp: new Date(),
+    }
+    
+    setMessages((prev) => [...prev, userMessage])
+    setInputValue('')
+    setIsLoading(true)
+    setIsTyping(false)
+
+    // Get conversation history for context
+    const conversationHistory = [
+      ...messages.map((msg) => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text,
+      })),
+      { role: 'user', content: message },
+    ]
+
+    // Show typing indicator after 0.5 seconds
+    const typingTimer = setTimeout(() => {
+      setIsTyping(true)
+    }, 500)
+
+    // Track when typing indicator actually appears
+    let typingShownAt = null
+    const typingShowTimer = setTimeout(() => {
+      typingShownAt = Date.now()
+    }, 500)
+
+    // Minimum time to show typing indicator after it appears (0.5 seconds)
+    const minTypingDisplayDuration = 500
+
+    try {
+      // Get response from model
+      const botResponse = await getModelResponse(message, conversationHistory)
+
+      // Clear timers
+      clearTimeout(typingTimer)
+      clearTimeout(typingShowTimer)
+
+      // Ensure typing indicator shows for minimum duration after appearing
+      if (typingShownAt) {
+        const elapsed = Date.now() - typingShownAt
+        const remainingTime = Math.max(0, minTypingDisplayDuration - elapsed)
+        if (remainingTime > 0) {
+          await new Promise(resolve => setTimeout(resolve, remainingTime))
+        }
+      } else {
+        // If typing indicator hasn't shown yet, wait for it to show + min duration
+        await new Promise(resolve => setTimeout(resolve, 500 + minTypingDisplayDuration))
+      }
+      
+      setIsTyping(false)
+
+      // Add bot response to chat
+      const botMessage = {
+        id: Date.now() + 1,
+        text: botResponse,
+        sender: 'bot',
+        timestamp: new Date(),
+      }
+
+      setMessages((prev) => [...prev, botMessage])
+    } catch (error) {
+      console.error('Error sending message:', error)
+      
+      // Clear timers
+      clearTimeout(typingTimer)
+      clearTimeout(typingShowTimer)
+
+      // Ensure typing indicator shows for minimum duration even on error
+      if (typingShownAt) {
+        const elapsed = Date.now() - typingShownAt
+        const remainingTime = Math.max(0, minTypingDisplayDuration - elapsed)
+        if (remainingTime > 0) {
+          await new Promise(resolve => setTimeout(resolve, remainingTime))
+        }
+      } else {
+        // If typing indicator hasn't shown yet, wait for it to show + min duration
+        await new Promise(resolve => setTimeout(resolve, 500 + minTypingDisplayDuration))
+      }
+      
+      setIsTyping(false)
+
+      const errorMessage = {
+        id: Date.now() + 1,
+        text: "I'm sorry, I'm having trouble connecting right now. Please try again later or contact our support team.",
+        sender: 'bot',
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
+      setIsLoading(false)
+      inputRef.current?.focus()
+    }
+  }
+
+  // Format timestamp
+  const formatTime = (date) => {
+    const now = new Date()
+    const diff = now - date
+    const minutes = Math.floor(diff / 60000)
+    
+    if (minutes < 1) return 'Just now'
+    if (minutes < 60) return `${minutes}m ago`
+    const hours = Math.floor(minutes / 60)
+    if (hours < 24) return `${hours}h ago`
+    return date.toLocaleDateString()
+  }
 
   return (
     <>
@@ -48,13 +261,13 @@ const Chatbot = () => {
           >
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative w-16 h-16 bg-gradient-to-br from-grace-blue to-grace-dark-blue rounded-full shadow-2xl flex items-center justify-center text-white hover:shadow-3xl transition-all duration-300"
-              whileHover={{ scale: 1.1 }}
+              className="relative w-16 h-16 bg-grace-blue rounded-full shadow-2xl flex items-center justify-center text-white hover:bg-grace-dark-blue hover:shadow-3xl transition-all duration-300 group overflow-hidden"
+              whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
               animate={showInitialMessage ? {
                 boxShadow: [
                   '0 20px 25px -5px rgba(59, 130, 246, 0.5)',
-                  '0 20px 25px -5px rgba(59, 130, 246, 0.8)',
+                  '0 25px 30px -5px rgba(59, 130, 246, 0.8)',
                   '0 20px 25px -5px rgba(59, 130, 246, 0.5)',
                 ],
               } : {}}
@@ -66,15 +279,40 @@ const Chatbot = () => {
                 },
               }}
             >
+              {/* Animated background shine */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                animate={{
+                  x: ['-100%', '100%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+              />
               {/* Notification badge */}
               {showInitialMessage && (
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 w-4 h-4 bg-grace-gold rounded-full border-2 border-white"
-                />
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-grace-gold rounded-full border-2 border-white shadow-lg z-10"
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-grace-gold rounded-full"
+                    animate={{
+                      scale: [1, 1.3, 1],
+                      opacity: [0.8, 0, 0.8],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                  />
+                </motion.div>
               )}
-              <MessageCircle className="w-8 h-8" />
+              <MessageCircle className="w-8 h-8 relative z-10" />
             </motion.button>
           </motion.div>
         )}
@@ -99,14 +337,25 @@ const Chatbot = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed bottom-6 right-6 z-40 w-[90vw] sm:w-96 h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100"
+              className="fixed bottom-6 right-6 z-40 w-[90vw] sm:w-96 h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200/50 backdrop-blur-xl"
             >
               {/* Chat Header */}
-              <div className="bg-gradient-to-r from-grace-blue to-grace-dark-blue text-white p-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
+              <div className="bg-grace-blue text-white p-4 flex items-center justify-between shadow-lg relative overflow-hidden">
+                {/* Decorative background pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute inset-0" style={{
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                    backgroundSize: '24px 24px'
+                  }} />
+                </div>
+                <div className="flex items-center space-x-3 relative z-10">
                   {/* Bot Avatar */}
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-full bg-white p-1 flex items-center justify-center overflow-hidden">
+                    <motion.div 
+                      className="w-12 h-12 rounded-full bg-white p-1.5 flex items-center justify-center overflow-hidden shadow-lg ring-2 ring-white/30"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: 'spring', stiffness: 400 }}
+                    >
                       <img
                         src="/images/giftofgracelogo.png"
                         alt="Gift of Grace"
@@ -123,96 +372,295 @@ const Chatbot = () => {
                           `
                         }}
                       />
-                    </div>
-                    {/* Online indicator */}
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+                    </motion.div>
+                    {/* Online indicator with pulse animation */}
+                    <motion.div 
+                      className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white shadow-lg"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [1, 0.8, 1],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
                   </div>
                   <div>
-                    <h3 className="font-serif font-normal text-base">Gift of Grace</h3>
-                    <p className="text-xs text-blue-100">We're here to help</p>
+                    <h3 className="font-serif font-semibold text-lg flex items-center gap-2">
+                      Gift of Grace
+                      <Sparkles className="w-4 h-4 text-grace-gold" />
+                    </h3>
+                    <p className="text-xs text-blue-100/90 font-medium">We're here to help</p>
                   </div>
                 </div>
-                <button
+                <motion.button
                   onClick={() => {
                     setIsOpen(false)
                     setHasAutoOpened(true) // Prevent auto-reopening after manual close
                   }}
-                  className="p-2 hover:bg-white/20 rounded-full transition-colors"
+                  className="p-2 hover:bg-white/20 rounded-full transition-colors relative z-10"
                   aria-label="Close chat"
+                  whileHover={{ rotate: 90, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 400 }}
                 >
                   <X className="w-5 h-5" />
-                </button>
+                </motion.button>
               </div>
 
               {/* Messages Area */}
-              <div className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4">
-                {/* Initial Bot Message */}
+              <div className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4" style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(156, 163, 175, 0.3) transparent'
+              }}>
                 <AnimatePresence>
-                  {showInitialMessage && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ duration: 0.4 }}
-                      className="flex items-start space-x-3"
+                  {messages.length === 0 ? (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center justify-center h-full"
                     >
-                      <div className="w-8 h-8 rounded-full bg-white p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-200">
-                        <img
-                          src="/images/giftofgracelogo.png"
-                          alt="Bot"
-                          className="w-full h-full object-contain"
-                          onError={(e) => {
-                            e.target.style.display = 'none'
-                            e.target.parentElement.innerHTML = `
-                              <svg class="w-5 h-5 text-grace-blue" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                              </svg>
-                            `
+                      <div className="text-center">
+                        <motion.div
+                          animate={{ 
+                            y: [0, -10, 0],
+                            rotate: [0, 5, -5, 0]
                           }}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm border border-gray-200">
-                          <p className="text-gray-700 text-sm leading-relaxed">
-                            {initialMessage}
-                          </p>
-                        </div>
-                        <p className="text-xs text-gray-400 mt-1 ml-1">Just now</p>
+                          transition={{ 
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: 'easeInOut'
+                          }}
+                        >
+                          <Bot className="w-16 h-16 text-grace-blue/30 mx-auto mb-4" />
+                        </motion.div>
+                        <p className="text-gray-400 text-sm font-medium">Starting conversation...</p>
+                        <p className="text-gray-300 text-xs mt-1">Ask me anything about our products!</p>
                       </div>
                     </motion.div>
+                  ) : (
+                    messages.map((message) => (
+                      <motion.div
+                        key={message.id}
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className={`flex items-start space-x-3 ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
+                      >
+                        {/* Avatar */}
+                        {message.sender === 'bot' && (
+                          <motion.div 
+                            className="w-9 h-9 rounded-full bg-white p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-gray-100 shadow-sm"
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ type: 'spring', stiffness: 400 }}
+                          >
+                            <img
+                              src="/images/giftofgracelogo.png"
+                              alt="Bot"
+                              className="w-full h-full object-contain"
+                              onError={(e) => {
+                                e.target.style.display = 'none'
+                                e.target.parentElement.innerHTML = `
+                                  <svg class="w-5 h-5 text-grace-blue" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+                                  </svg>
+                                `
+                              }}
+                            />
+                          </motion.div>
+                        )}
+                        {message.sender === 'user' && (
+                          <motion.div 
+                            className="w-9 h-9 rounded-full bg-grace-blue flex-shrink-0 flex items-center justify-center text-white text-xs font-bold shadow-md ring-2 ring-blue-200/50"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            transition={{ type: 'spring', stiffness: 400 }}
+                          >
+                            <span className="text-[10px]">You</span>
+                          </motion.div>
+                        )}
+                        
+                        {/* Message Content */}
+                        <div className={`flex-1 ${message.sender === 'user' ? 'flex flex-col items-end' : ''}`}>
+                          <motion.div
+                            initial={{ scale: 0.9 }}
+                            animate={{ scale: 1 }}
+                            className={`rounded-2xl px-4 py-3 shadow-md ${
+                              message.sender === 'user'
+                                ? 'bg-grace-blue text-white rounded-tr-sm max-w-[85%] hover:bg-grace-dark-blue transition-colors'
+                                : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100 max-w-[85%]'
+                            }`}
+                          >
+                            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${
+                              message.sender === 'user' ? 'text-white' : 'text-gray-800'
+                            }`}>
+                              {message.text}
+                            </p>
+                          </motion.div>
+                          <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className={`text-xs text-gray-400 mt-1.5 px-1 ${message.sender === 'user' ? 'mr-1' : 'ml-1'}`}
+                          >
+                            {formatTime(message.timestamp)}
+                          </motion.p>
+                        </div>
+                      </motion.div>
+                    ))
                   )}
                 </AnimatePresence>
 
-                {/* Empty state when no messages yet */}
-                {!showInitialMessage && (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center">
-                      <Bot className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                      <p className="text-gray-400 text-sm">Starting conversation...</p>
+                {/* Loading indicator with typing animation */}
+                {(isLoading && isTyping) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    className="flex items-start space-x-3"
+                  >
+                    <motion.div 
+                      className="w-9 h-9 rounded-full bg-white p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-gray-100 shadow-sm"
+                      animate={{ 
+                        scale: [1, 1.05, 1],
+                      }}
+                      transition={{ 
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: 'easeInOut'
+                      }}
+                    >
+                      <img
+                        src="/images/giftofgracelogo.png"
+                        alt="Bot"
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.target.style.display = 'none'
+                          e.target.parentElement.innerHTML = `
+                            <svg class="w-5 h-5 text-grace-blue" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+                            </svg>
+                          `
+                        }}
+                      />
+                    </motion.div>
+                    <div className="flex-1">
+                      <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-4 shadow-md border border-gray-100">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex space-x-1.5">
+                            <motion.div
+                              className="w-2.5 h-2.5 bg-grace-blue rounded-full"
+                              animate={{ 
+                                y: [0, -10, 0],
+                                scale: [1, 1.2, 1],
+                                opacity: [0.5, 1, 0.5]
+                              }}
+                              transition={{ 
+                                duration: 0.8, 
+                                repeat: Infinity, 
+                                delay: 0,
+                                ease: 'easeInOut'
+                              }}
+                            />
+                            <motion.div
+                              className="w-2.5 h-2.5 bg-grace-blue rounded-full"
+                              animate={{ 
+                                y: [0, -10, 0],
+                                scale: [1, 1.2, 1],
+                                opacity: [0.5, 1, 0.5]
+                              }}
+                              transition={{ 
+                                duration: 0.8, 
+                                repeat: Infinity, 
+                                delay: 0.25,
+                                ease: 'easeInOut'
+                              }}
+                            />
+                            <motion.div
+                              className="w-2.5 h-2.5 bg-grace-blue rounded-full"
+                              animate={{ 
+                                y: [0, -10, 0],
+                                scale: [1, 1.2, 1],
+                                opacity: [0.5, 1, 0.5]
+                              }}
+                              transition={{ 
+                                duration: 0.8, 
+                                repeat: Infinity, 
+                                delay: 0.5,
+                                ease: 'easeInOut'
+                              }}
+                            />
+                          </div>
+                          <motion.span
+                            className="text-xs text-gray-500"
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ 
+                              duration: 1.5, 
+                              repeat: Infinity,
+                              ease: 'easeInOut'
+                            }}
+                          >
+                            typing...
+                          </motion.span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
 
               {/* Input Area */}
-              <div className="border-t border-gray-200 p-4 bg-white">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    placeholder="Type your message..."
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-grace-blue focus:border-transparent text-sm"
-                  />
+              <div className="border-t border-gray-200/50 bg-white p-4">
+                <form onSubmit={handleSendMessage} className="flex items-end space-x-2">
+                  <div className="flex-1 relative">
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder="Type your message..."
+                      disabled={isLoading}
+                      className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-blue/50 focus:border-grace-blue transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md"
+                    />
+                    {inputValue.trim() && (
+                      <motion.button
+                        type="button"
+                        onClick={() => setInputValue('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <X className="w-3.5 h-3.5 text-gray-400" />
+                      </motion.button>
+                    )}
+                  </div>
                   <motion.button
-                    className="w-10 h-10 bg-gradient-to-r from-grace-blue to-grace-dark-blue text-white rounded-full flex items-center justify-center hover:from-grace-dark-blue hover:to-grace-blue transition-all duration-300 shadow-lg"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    type="submit"
+                    disabled={!inputValue.trim() || isLoading}
+                    className="w-12 h-12 bg-grace-blue text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-dark-blue hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
+                    whileHover={!isLoading && inputValue.trim() ? { scale: 1.05, rotate: 5 } : {}}
+                    whileTap={!isLoading && inputValue.trim() ? { scale: 0.95 } : {}}
                     aria-label="Send message"
                   >
-                    <Send className="w-5 h-5" />
+                    {/* Shine effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    {isLoading ? (
+                      <Loader2 className="w-5 h-5 animate-spin relative z-10" />
+                    ) : (
+                      <Send className="w-5 h-5 relative z-10" />
+                    )}
                   </motion.button>
-                </div>
-                <p className="text-xs text-gray-400 mt-2 text-center">
+                </form>
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-xs text-gray-400 mt-3 text-center flex items-center justify-center gap-1"
+                >
+                  <Sparkles className="w-3 h-3 text-grace-gold" />
                   Powered by Gift of Grace
-                </p>
+                </motion.p>
               </div>
             </motion.div>
           </>

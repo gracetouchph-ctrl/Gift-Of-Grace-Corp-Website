@@ -46,7 +46,7 @@ const Hero = () => {
               <img
                 src="/images/giftofgracelogo.png"
                 alt="Gift of Grace Logo"
-                className="h-24 sm:h-32 lg:h-40 xl:h-48 w-auto object-contain drop-shadow-lg"
+                className="h-24 sm:h-32 lg:h-40 xl:h-48 w-auto object-contain"
                 loading="eager"
                 fetchPriority="high"
               />
