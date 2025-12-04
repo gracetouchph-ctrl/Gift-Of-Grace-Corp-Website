@@ -261,14 +261,14 @@ const Chatbot = () => {
           >
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative w-16 h-16 bg-grace-blue rounded-full shadow-2xl flex items-center justify-center text-white hover:bg-grace-dark-blue hover:shadow-3xl transition-all duration-300 group overflow-hidden"
+              className="relative w-16 h-16 bg-grace-accent rounded-full shadow-2xl flex items-center justify-center text-white hover:bg-grace-accent/90 hover:shadow-3xl transition-all duration-300 group overflow-hidden"
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
               animate={showInitialMessage ? {
                 boxShadow: [
-                  '0 20px 25px -5px rgba(59, 130, 246, 0.5)',
-                  '0 25px 30px -5px rgba(59, 130, 246, 0.8)',
-                  '0 20px 25px -5px rgba(59, 130, 246, 0.5)',
+                  '0 20px 25px -5px rgba(240, 86, 68, 0.5)',
+                  '0 25px 30px -5px rgba(240, 86, 68, 0.8)',
+                  '0 20px 25px -5px rgba(240, 86, 68, 0.5)',
                 ],
               } : {}}
               transition={{
@@ -296,10 +296,10 @@ const Chatbot = () => {
                 <motion.div
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
-                  className="absolute -top-1 -right-1 w-5 h-5 bg-grace-gold rounded-full border-2 border-white shadow-lg z-10"
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-grace-accent-alt rounded-full border-2 border-white shadow-lg z-10"
                 >
                   <motion.div
-                    className="absolute inset-0 bg-grace-gold rounded-full"
+                    className="absolute inset-0 bg-grace-accent-alt rounded-full"
                     animate={{
                       scale: [1, 1.3, 1],
                       opacity: [0.8, 0, 0.8],
@@ -340,7 +340,7 @@ const Chatbot = () => {
               className="fixed bottom-6 right-6 z-40 w-[90vw] sm:w-96 h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200/50 backdrop-blur-xl"
             >
               {/* Chat Header */}
-              <div className="bg-grace-blue text-white p-4 flex items-center justify-between shadow-lg relative overflow-hidden">
+              <div className="bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white p-4 flex items-center justify-between shadow-lg relative overflow-hidden">
                 {/* Decorative background pattern */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute inset-0" style={{
@@ -390,7 +390,7 @@ const Chatbot = () => {
                   <div>
                     <h3 className="font-serif font-semibold text-lg flex items-center gap-2">
                       Gift of Grace
-                      <Sparkles className="w-4 h-4 text-grace-gold" />
+                      <Sparkles className="w-4 h-4 text-grace-accent-alt" />
                     </h3>
                     <p className="text-xs text-blue-100/90 font-medium">We're here to help</p>
                   </div>
@@ -434,7 +434,7 @@ const Chatbot = () => {
                             ease: 'easeInOut'
                           }}
                         >
-                          <Bot className="w-16 h-16 text-grace-blue/30 mx-auto mb-4" />
+                          <Bot className="w-16 h-16 text-grace-accent-alt/40 mx-auto mb-4" />
                         </motion.div>
                         <p className="text-gray-400 text-sm font-medium">Starting conversation...</p>
                         <p className="text-gray-300 text-xs mt-1">Ask me anything about our products!</p>
@@ -473,7 +473,7 @@ const Chatbot = () => {
                         )}
                         {message.sender === 'user' && (
                           <motion.div 
-                            className="w-9 h-9 rounded-full bg-grace-blue flex-shrink-0 flex items-center justify-center text-white text-xs font-bold shadow-md ring-2 ring-blue-200/50"
+                            className="w-9 h-9 rounded-full bg-grace-accent flex-shrink-0 flex items-center justify-center text-white text-xs font-bold shadow-md ring-2 ring-grace-accent-alt/40"
                             whileHover={{ scale: 1.1, rotate: 5 }}
                             transition={{ type: 'spring', stiffness: 400 }}
                           >
@@ -488,7 +488,7 @@ const Chatbot = () => {
                             animate={{ scale: 1 }}
                             className={`rounded-2xl px-4 py-3 shadow-md ${
                               message.sender === 'user'
-                                ? 'bg-grace-blue text-white rounded-tr-sm max-w-[85%] hover:bg-grace-dark-blue transition-colors'
+                                ? 'bg-grace-accent text-white rounded-tr-sm max-w-[85%] hover:bg-grace-accent/90 transition-colors'
                                 : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100 max-w-[85%]'
                             }`}
                           >
@@ -536,7 +536,7 @@ const Chatbot = () => {
                         onError={(e) => {
                           e.target.style.display = 'none'
                           e.target.parentElement.innerHTML = `
-                            <svg class="w-5 h-5 text-grace-blue" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-5 h-5 text-grace-accent" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
                             </svg>
                           `
@@ -548,7 +548,7 @@ const Chatbot = () => {
                         <div className="flex items-center space-x-3">
                           <div className="flex space-x-1.5">
                             <motion.div
-                              className="w-2.5 h-2.5 bg-grace-blue rounded-full"
+                              className="w-2.5 h-2.5 bg-grace-accent rounded-full"
                               animate={{ 
                                 y: [0, -10, 0],
                                 scale: [1, 1.2, 1],
@@ -562,7 +562,7 @@ const Chatbot = () => {
                               }}
                             />
                             <motion.div
-                              className="w-2.5 h-2.5 bg-grace-blue rounded-full"
+                              className="w-2.5 h-2.5 bg-grace-accent rounded-full"
                               animate={{ 
                                 y: [0, -10, 0],
                                 scale: [1, 1.2, 1],
@@ -576,7 +576,7 @@ const Chatbot = () => {
                               }}
                             />
                             <motion.div
-                              className="w-2.5 h-2.5 bg-grace-blue rounded-full"
+                              className="w-2.5 h-2.5 bg-grace-accent rounded-full"
                               animate={{ 
                                 y: [0, -10, 0],
                                 scale: [1, 1.2, 1],
@@ -620,7 +620,7 @@ const Chatbot = () => {
                       onChange={(e) => setInputValue(e.target.value)}
                       placeholder="Type your message..."
                       disabled={isLoading}
-                      className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-blue/50 focus:border-grace-blue transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md"
+                      className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-accent/50 focus:border-grace-accent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md"
                     />
                     {inputValue.trim() && (
                       <motion.button
@@ -639,7 +639,7 @@ const Chatbot = () => {
                   <motion.button
                     type="submit"
                     disabled={!inputValue.trim() || isLoading}
-                    className="w-12 h-12 bg-grace-blue text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-dark-blue hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
+                    className="w-12 h-12 bg-grace-accent text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-accent/90 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
                     whileHover={!isLoading && inputValue.trim() ? { scale: 1.05, rotate: 5 } : {}}
                     whileTap={!isLoading && inputValue.trim() ? { scale: 0.95 } : {}}
                     aria-label="Send message"
@@ -658,7 +658,7 @@ const Chatbot = () => {
                   animate={{ opacity: 1 }}
                   className="text-xs text-gray-400 mt-3 text-center flex items-center justify-center gap-1"
                 >
-                  <Sparkles className="w-3 h-3 text-grace-gold" />
+                  <Sparkles className="w-3 h-3 text-grace-accent-alt" />
                   Powered by Gift of Grace
                 </motion.p>
               </div>

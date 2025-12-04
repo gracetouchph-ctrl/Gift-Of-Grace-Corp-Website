@@ -10,13 +10,13 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen pt-20 overflow-hidden bg-gradient-to-br from-grace-light-blue via-white to-blue-50"
+      className="relative min-h-screen pt-20 overflow-hidden bg-gradient-to-br from-grace-light-blue via-white to-grace-accent-alt/20"
     >
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Subtle circles */}
-        <div className="absolute top-20 right-10 w-72 h-72 bg-grace-blue/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-grace-gold/10 rounded-full blur-3xl" />
+        <div className="absolute top-20 right-10 w-72 h-72 bg-grace-accent-alt/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-grace-accent/15 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -64,10 +64,10 @@ const Hero = () => {
               }}
               className="space-y-4"
             >
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-grace-dark-blue font-normal italic leading-relaxed tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-grace-accent font-normal italic leading-relaxed tracking-tight">
                 A Touch of Grace,
               </h2>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-grace-gold font-medium italic leading-relaxed tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-grace-dark-blue font-medium italic leading-relaxed tracking-tight">
                 Infused with Comfort
               </h2>
             </motion.div>
@@ -84,8 +84,9 @@ const Hero = () => {
                 delay: 0.2
               }}
             >
-              Discover our handcrafted delicacies made with care and tradition. 
-              Each product reflects our passion for taste, wellness, and comfort.
+              Discover our handcrafted delicacies made with care and tradition. Each product reflects
+              our passion for taste, wellness, and comfort—rooted in Filipino flavors and infused
+              with grace.
             </motion.p>
 
             {/* CTA Button */}
@@ -104,7 +105,7 @@ const Hero = () => {
                 href="https://ph.shp.ee/k5ZzgF6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-grace-blue to-grace-dark-blue text-white px-8 py-4 rounded-full text-lg font-normal tracking-wide uppercase hover:from-grace-dark-blue hover:to-grace-blue transition-all duration-300 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2"
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white px-8 py-4 rounded-full text-lg font-normal tracking-wide uppercase hover:from-grace-accent-alt hover:to-grace-accent transition-all duration-300 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2"
                 whileHover={{ scale: 1.05, x: 5 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Shop now on Shopee"
@@ -129,8 +130,8 @@ const Hero = () => {
           >
             <div className="relative w-full max-w-xl">
               {/* Multiple layered decorative backgrounds */}
-              <div className="absolute inset-0 bg-gradient-to-br from-grace-blue/25 via-grace-gold/20 to-grace-blue/15 rounded-full blur-3xl transform scale-125 -z-10" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-grace-gold/15 to-grace-blue/25 rounded-full blur-2xl transform scale-110 -z-10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-grace-accent-alt/30 via-grace-accent/15 to-grace-accent-alt/20 rounded-full blur-3xl transform scale-125 -z-10" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-grace-accent/10 to-grace-accent-alt/25 rounded-full blur-2xl transform scale-110 -z-10" />
               
               {/* Main image container with elegant multi-layer frame */}
               <motion.div
@@ -146,31 +147,31 @@ const Hero = () => {
                 whileHover={{ scale: 1.03 }}
               >
                 {/* Outer shadow frame */}
-                <div className="absolute -inset-4 bg-gradient-to-br from-grace-gold/40 via-grace-blue/30 to-grace-gold/40 rounded-[2.5rem] blur-xl opacity-60" />
+                <div className="absolute -inset-4 bg-gradient-to-br from-grace-accent/50 via-grace-accent-alt/40 to-grace-accent/50 rounded-[2.5rem] blur-xl opacity-60" />
                 
                 {/* Middle decorative ring */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-grace-blue/30 via-white to-grace-gold/30 rounded-[2rem] p-1">
-                  <div className="w-full h-full bg-gradient-to-br from-grace-blue/10 to-grace-gold/10 rounded-[1.75rem]" />
+                <div className="absolute -inset-2 bg-gradient-to-r from-grace-accent-alt/40 via-white to-grace-accent/30 rounded-[2rem] p-1">
+                  <div className="w-full h-full bg-gradient-to-br from-grace-accent-alt/15 to-grace-accent/15 rounded-[1.75rem]" />
                 </div>
 
                 {/* Inner image frame */}
-                <div className="relative bg-gradient-to-br from-white via-grace-light-blue/30 to-white p-5 lg:p-8 rounded-3xl shadow-2xl border-4 border-grace-gold/40">
+                <div className="relative bg-gradient-to-br from-white via-grace-light-blue/30 to-white p-5 lg:p-8 rounded-3xl shadow-2xl border-4 border-grace-accent-alt/60">
                   {/* Corner decorations */}
-                  <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-grace-gold/60 rounded-tl-3xl" />
-                  <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-grace-gold/60 rounded-tr-3xl" />
-                  <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-grace-gold/60 rounded-bl-3xl" />
-                  <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-grace-gold/60 rounded-br-3xl" />
+                  <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-grace-accent/70 rounded-tl-3xl" />
+                  <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-grace-accent/70 rounded-tr-3xl" />
+                  <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-grace-accent/70 rounded-bl-3xl" />
+                  <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-grace-accent/70 rounded-br-3xl" />
                   
                   {/* Image with background and overlay effects */}
-                  <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-grace-light-blue via-white to-grace-blue/10">
+                  <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-grace-light-blue via-white to-grace-accent-alt/15">
                     {/* Decorative background pattern */}
                     <div className="absolute inset-0 opacity-30" style={{
                       backgroundImage: 'radial-gradient(circle at 2px 2px, #3B82F6 1px, transparent 0)',
                       backgroundSize: '20px 20px'
                     }} />
                     
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-grace-gold/20 rounded-full blur-2xl" />
-                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-grace-blue/20 rounded-full blur-2xl" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-grace-accent/20 rounded-full blur-2xl" />
+                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-grace-accent-alt/25 rounded-full blur-2xl" />
                     
                     {/* Image */}
                     <motion.img
@@ -186,8 +187,8 @@ const Hero = () => {
                   </div>
 
                   {/* Decorative elements inside frame */}
-                  <div className="absolute -top-2 -right-2 w-12 h-12 bg-grace-gold/20 rounded-full blur-md" />
-                  <div className="absolute -bottom-2 -left-2 w-10 h-10 bg-grace-blue/20 rounded-full blur-md" />
+                  <div className="absolute -top-2 -right-2 w-12 h-12 bg-grace-accent/20 rounded-full blur-md" />
+                  <div className="absolute -bottom-2 -left-2 w-10 h-10 bg-grace-accent-alt/25 rounded-full blur-md" />
                 </div>
 
                 <motion.div
@@ -202,7 +203,7 @@ const Hero = () => {
                   }}
                   style={{ willChange: 'transform' }}
                 >
-                  <Sparkles className="w-full h-full text-grace-gold/40" />
+                  <Sparkles className="w-full h-full text-grace-accent/40" />
                 </motion.div>
                 <motion.div
                   className="absolute -bottom-6 -left-6 w-6 h-6"
@@ -216,12 +217,12 @@ const Hero = () => {
                   }}
                   style={{ willChange: 'transform' }}
                 >
-                  <Sparkles className="w-full h-full text-grace-blue/40" />
+                  <Sparkles className="w-full h-full text-grace-accent-alt/40" />
                 </motion.div>
               </motion.div>
 
               <motion.div
-                className="absolute -top-8 right-8 w-24 h-24 bg-grace-gold/15 rounded-full blur-2xl"
+                className="absolute -top-8 right-8 w-24 h-24 bg-grace-accent/15 rounded-full blur-2xl"
                 animate={{ 
                   y: [0, -15, 0],
                 }}
@@ -233,7 +234,7 @@ const Hero = () => {
                 style={{ willChange: 'transform' }}
               />
               <motion.div
-                className="absolute -bottom-8 -left-8 w-20 h-20 bg-grace-blue/15 rounded-full blur-2xl"
+                className="absolute -bottom-8 -left-8 w-20 h-20 bg-grace-accent-alt/20 rounded-full blur-2xl"
                 animate={{ 
                   y: [0, 15, 0],
                 }}

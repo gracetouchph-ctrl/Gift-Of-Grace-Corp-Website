@@ -11,6 +11,9 @@ export default {
         'grace-gold': '#D4AF37',
         'grace-dark-blue': '#1E40AF',
         'grace-light-blue': '#EFF6FF',
+        // Client accent palette
+        'grace-accent': '#f05644', // warm coral
+        'grace-accent-alt': '#60b2d4', // soft sky blue
       },
       fontFamily: {
         'serif': ['Playfair Display', 'Georgia', 'serif'],

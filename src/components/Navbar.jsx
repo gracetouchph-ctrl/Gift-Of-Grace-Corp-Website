@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+  import { useState, useEffect } from 'react'
 import { ShoppingBag, Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -43,10 +43,10 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-md py-3'
-          : 'bg-white/90 backdrop-blur-sm py-4'
+          ? 'bg-white/95 backdrop-blur-md shadow-md py-3 border-grace-accent/10'
+          : 'bg-white/90 backdrop-blur-sm py-4 border-transparent'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,14 +56,14 @@ const Navbar = () => {
             <a
               href="#home"
               onClick={(e) => handleNavClick(e, 'home')}
-              className="text-gray-700 hover:text-grace-blue transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded px-2 py-1"
+              className="text-gray-700 hover:text-grace-accent transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 rounded px-2 py-1"
             >
               Home
             </a>
             <a
               href="#catalog"
               onClick={(e) => handleNavClick(e, 'catalog')}
-              className="text-gray-700 hover:text-grace-blue transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded px-2 py-1"
+              className="text-gray-700 hover:text-grace-accent transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 rounded px-2 py-1"
             >
               Catalog
             </a>
@@ -78,7 +78,7 @@ const Navbar = () => {
             <a 
               href="#home" 
               onClick={(e) => handleNavClick(e, 'home')}
-              className="flex items-center focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded-lg p-1" 
+              className="flex items-center focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 rounded-lg p-1" 
               aria-label="Gift of Grace Home"
             >
               <img
@@ -104,14 +104,14 @@ const Navbar = () => {
             <a
               href="#about"
               onClick={(e) => handleNavClick(e, 'about')}
-              className="text-gray-700 hover:text-grace-blue transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded px-2 py-1"
+              className="text-gray-700 hover:text-grace-accent transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 rounded px-2 py-1"
             >
               About Us
             </a>
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, 'contact')}
-              className="text-gray-700 hover:text-grace-blue transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded px-2 py-1"
+              className="text-gray-700 hover:text-grace-accent transition-colors duration-200 font-normal tracking-wide uppercase text-sm focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 rounded px-2 py-1"
             >
               Contact
             </a>
@@ -124,7 +124,7 @@ const Navbar = () => {
               href="https://ph.shp.ee/k5ZzgF6"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center space-x-1.5 bg-grace-blue text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-grace-dark-blue transition-colors duration-200 font-normal tracking-wide uppercase text-xs focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2"
+              className="hidden sm:flex items-center space-x-1.5 bg-grace-accent text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-grace-accent/90 transition-colors duration-200 font-normal tracking-wide uppercase text-xs focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Visit Shopee Store"
@@ -136,7 +136,7 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 text-gray-700 hover:text-grace-blue transition-colors focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded-lg"
+              className="md:hidden p-2 text-gray-700 hover:text-grace-accent transition-colors focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 rounded-lg"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
             >
@@ -163,28 +163,28 @@ const Navbar = () => {
                 <a
                   href="#home"
                   onClick={(e) => handleNavClick(e, 'home')}
-                  className="block text-sm text-gray-700 hover:text-grace-blue hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-blue"
+                  className="block text-sm text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-accent"
                 >
                   Home
                 </a>
                 <a
                   href="#catalog"
                   onClick={(e) => handleNavClick(e, 'catalog')}
-                  className="block text-sm text-gray-700 hover:text-grace-blue hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-blue"
+                  className="block text-sm text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-accent"
                 >
                   Catalog
                 </a>
                 <a
                   href="#about"
                   onClick={(e) => handleNavClick(e, 'about')}
-                  className="block text-sm text-gray-700 hover:text-grace-blue hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-blue"
+                  className="block text-sm text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-accent"
                 >
                   About Us
                 </a>
                 <a
                   href="#contact"
                   onClick={(e) => handleNavClick(e, 'contact')}
-                  className="block text-sm text-gray-700 hover:text-grace-blue hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-blue"
+                  className="block text-sm text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-grace-accent"
                 >
                   Contact
                 </a>
@@ -193,7 +193,7 @@ const Navbar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={closeMobileMenu}
-                  className="block text-sm bg-grace-blue text-white px-4 py-2 rounded-full hover:bg-grace-dark-blue transition-colors text-center focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 mt-2"
+                  className="block text-sm bg-grace-accent text-white px-4 py-2 rounded-full hover:bg-grace-accent/90 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 mt-2"
                 >
                   Visit Shopee Store
                 </a>

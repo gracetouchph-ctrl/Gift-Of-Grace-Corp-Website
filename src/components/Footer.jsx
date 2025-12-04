@@ -1,13 +1,25 @@
 import { motion } from 'framer-motion'
-import { Facebook, Instagram, Youtube, ShoppingBag, Mail, Phone } from 'lucide-react'
+import { Facebook, ShoppingBag, Mail, Phone, MapPin } from 'lucide-react'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
-    { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
-    { icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
+    {
+      icon: Facebook,
+      href: 'https://www.facebook.com/kimchigiftofficial/',
+      label: 'Facebook',
+    },
+    {
+      icon: ShoppingBag,
+      href: 'https://ph.shp.ee/k5ZzgF6',
+      label: 'Shopee',
+    },
+    {
+      icon: ShoppingBag,
+      href: 'http://gogcorp.com/',
+      label: 'Shopify',
+    },
   ]
 
   return (
@@ -30,12 +42,13 @@ const Footer = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h3 className="text-2xl font-serif font-normal mb-4 tracking-wide">Gift Of Grace</h3>
-            <p className="text-blue-200 mb-4 italic">
-              A Touch of Grace, Infused with Comfort
-            </p>
+            <h3 className="text-2xl font-serif font-normal mb-4 tracking-wide">
+              Gift of Grace Food Manufacturing Corporation
+            </h3>
+            <p className="text-blue-200 mb-4 italic">A Touch of Grace, Infused with Comfort</p>
             <p className="text-blue-100 text-sm">
-              Bringing you premium wellness products crafted with care and tradition.
+              Proudly Filipino-made kimchi, tofu, rice coffee, pickled radish, and chicken pastil—
+              crafted to nourish, comfort, and bless communities across Northern Luzon and beyond.
             </p>
           </motion.div>
 
@@ -48,22 +61,40 @@ const Footer = () => {
           >
             <h4 className="text-lg font-normal mb-4 tracking-wide uppercase text-sm">Get In Touch</h4>
             <div className="space-y-3">
+              <div className="flex items-start space-x-2 text-blue-200">
+                <MapPin className="w-5 h-5 mt-0.5" aria-hidden="true" />
+                <p className="text-sm leading-relaxed">
+                  #5 Purok 6, Pinsao Pilot Project,
+                  <br />
+                  Baguio City, 2600, Philippines
+                </p>
+              </div>
               <a
-                href="mailto:contact@giftofgrace.com"
+                href="mailto:kimchigift@gmail.com"
                 className="flex items-center space-x-2 text-blue-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-grace-dark-blue rounded px-2 py-1"
                 aria-label="Send email to Gift of Grace"
               >
                 <Mail className="w-5 h-5" aria-hidden="true" />
-                <span>contact@giftofgrace.com</span>
+                <span>kimchigift@gmail.com</span>
               </a>
-              <a
-                href="tel:+639123456789"
-                className="flex items-center space-x-2 text-blue-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-grace-dark-blue rounded px-2 py-1"
-                aria-label="Call Gift of Grace"
-              >
-                <Phone className="w-5 h-5" aria-hidden="true" />
-                <span>+63 912 345 6789</span>
-              </a>
+              <div className="space-y-1 text-blue-200 text-sm">
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-5 h-5" aria-hidden="true" />
+                  <span>Landline: +63 074 661 3554</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-5 h-5" aria-hidden="true" />
+                  <span>Globe: +63 917 5958 907</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-5 h-5" aria-hidden="true" />
+                  <span>Smart: +63 999 991 6052</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-5 h-5" aria-hidden="true" />
+                  <span>Smart: +63 908 7804 565</span>
+                </div>
+              </div>
               <motion.a
                 href="https://ph.shp.ee/k5ZzgF6"
                 target="_blank"
