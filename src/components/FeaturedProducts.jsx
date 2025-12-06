@@ -49,7 +49,17 @@ const FeaturedProducts = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [hasAnimated, setHasAnimated] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
   const carouselRef = useRef(null)
+
+  // Track window width for responsive carousel
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const goToSlide = (index) => {
     if (index >= 0 && index < products.length) {
@@ -115,7 +125,7 @@ const FeaturedProducts = () => {
   return (
     <section
       id="catalog"
-      className="py-20 bg-gradient-to-b from-white to-grace-light-blue/30 overflow-hidden"
+      className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-white to-grace-light-blue/30 overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -124,12 +134,12 @@ const FeaturedProducts = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 md:mb-16 px-2"
         >
-          <h2 className="text-4xl sm:text-5xl font-normal text-grace-dark-blue mb-4 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-grace-dark-blue mb-3 sm:mb-4 tracking-tight">
             Our Featured Products
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
             Discover our handcrafted delicacies made with care and tradition
           </p>
         </motion.div>
@@ -150,12 +160,12 @@ const FeaturedProducts = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2"
+            className="absolute left-1 sm:left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/95 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2"
             aria-label="Previous product"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <ChevronLeft className="w-6 h-6 text-grace-blue" aria-hidden="true" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-grace-blue" aria-hidden="true" />
           </motion.button>
           <motion.button
             onClick={nextSlide}
@@ -163,18 +173,18 @@ const FeaturedProducts = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2"
+            className="absolute right-1 sm:right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/95 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2"
             aria-label="Next product"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <ChevronRight className="w-6 h-6 text-grace-blue" aria-hidden="true" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-grace-blue" aria-hidden="true" />
           </motion.button>
 
           {/* Carousel */}
           <div
             ref={carouselRef}
-            className="relative h-[600px] sm:h-[700px] lg:h-[800px] overflow-visible"
+            className="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] overflow-visible"
           >
             <div className="relative h-full flex items-center justify-center">
               {getVisibleProducts().map(({ productIndex, displayPosition }) => {
@@ -183,16 +193,22 @@ const FeaturedProducts = () => {
                 const isCenter = position === 0
                 const distance = Math.abs(position)
 
+                // Calculate responsive spacing and effects
+                const spacing = windowWidth < 640 ? 260 : windowWidth < 1024 ? 320 : 420
+                const sideScale = windowWidth < 640 ? 0.65 : 0.75
+                const sideOpacity = windowWidth < 640 ? 0.2 : 0.35
+                const sideBlur = windowWidth < 640 ? 'blur(6px)' : 'blur(4px)'
+
                 return (
                   <motion.div
                     key={`${product.id}-${productIndex}`}
                     initial={false}
                     animate={{
-                      x: position * 420, // Slightly increased spacing for smoother feel
-                      scale: isCenter ? 1 : 0.75,
-                      opacity: isCenter ? 1 : 0.35,
+                      x: position * spacing,
+                      scale: isCenter ? 1 : sideScale,
+                      opacity: isCenter ? 1 : sideOpacity,
                       zIndex: isCenter ? 10 : 5 - distance,
-                      filter: isCenter ? 'blur(0px)' : 'blur(4px)',
+                      filter: isCenter ? 'blur(0px)' : sideBlur,
                     }}
                     transition={{
                       x: {
@@ -225,7 +241,7 @@ const FeaturedProducts = () => {
                     className="absolute cursor-grab active:cursor-grabbing"
                     onClick={() => !isDragging && goToSlide(productIndex)}
                   >
-                    <div className="relative w-[280px] sm:w-[320px] lg:w-[380px]">
+                    <div className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[380px]">
                       {/* Product Card */}
                       <motion.div
                         className={`relative bg-white rounded-3xl overflow-hidden transition-all duration-300 ${
@@ -302,7 +318,7 @@ const FeaturedProducts = () => {
                         )}
 
                         {/* Product Image Container with Enhanced Styling */}
-                        <div className={`relative h-64 sm:h-72 lg:h-80 overflow-hidden ${
+                        <div className={`relative h-48 sm:h-64 md:h-72 lg:h-80 overflow-hidden ${
                           isCenter 
                             ? 'bg-gradient-to-br from-grace-light-blue via-blue-50 via-grace-gold/10 to-grace-light-blue' 
                             : 'bg-gradient-to-br from-gray-50 to-blue-50'
@@ -380,12 +396,12 @@ const FeaturedProducts = () => {
                         </div>
 
                         {/* Product Info */}
-                        <div className={`relative p-6 space-y-4 ${isCenter ? 'bg-gradient-to-b from-white to-grace-light-blue/10' : 'bg-white'}`}>
+                        <div className={`relative p-4 sm:p-6 space-y-3 sm:space-y-4 ${isCenter ? 'bg-gradient-to-b from-white to-grace-light-blue/10' : 'bg-white'}`}>
                           {/* Creative Divider - Only on center */}
                           {isCenter && (
-                            <div className="absolute top-0 left-6 right-6 h-px flex items-center justify-center">
+                            <div className="absolute top-0 left-4 right-4 sm:left-6 sm:right-6 h-px flex items-center justify-center">
                               <div className="flex-1 h-px bg-grace-gold/20" />
-                              <div className="w-8 h-0.5 bg-grace-blue/40 mx-2 rounded-full" />
+                              <div className="w-6 sm:w-8 h-0.5 bg-grace-blue/40 mx-2 rounded-full" />
                               <div className="flex-1 h-px bg-grace-gold/20" />
                             </div>
                           )}
@@ -394,7 +410,7 @@ const FeaturedProducts = () => {
                           <div>
                             <h3
                               className={`font-normal text-grace-dark-blue tracking-tight transition-all duration-300 ${
-                                isCenter ? 'text-xl sm:text-2xl font-medium' : 'text-base sm:text-lg'
+                                isCenter ? 'text-lg sm:text-xl md:text-2xl font-medium' : 'text-sm sm:text-base md:text-lg'
                               }`}
                             >
                               {product.name}
@@ -406,12 +422,12 @@ const FeaturedProducts = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.25 }}
-                                className="flex items-center gap-1 mt-2"
+                                className="flex items-center gap-1 mt-1 sm:mt-2"
                               >
                                 {[1, 2, 3, 4, 5].map((star) => (
                                   <Star
                                     key={star}
-                                    className="w-4 h-4 fill-grace-gold text-grace-gold"
+                                    className="w-3 h-3 sm:w-4 sm:h-4 fill-grace-gold text-grace-gold"
                                   />
                                 ))}
                                 <span className="text-xs text-gray-500 ml-1">(4.9)</span>
@@ -425,28 +441,28 @@ const FeaturedProducts = () => {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: 0.3 }}
-                              className="text-gray-600 text-sm leading-relaxed line-clamp-2"
+                              className="text-gray-600 text-xs sm:text-sm leading-relaxed line-clamp-2"
                             >
                               {product.description}
                             </motion.p>
                           )}
 
                           {/* Price with Enhanced Styling */}
-                          <div className={`flex items-baseline gap-2 ${isCenter ? 'pt-2' : ''}`}>
+                          <div className={`flex items-baseline gap-2 flex-wrap ${isCenter ? 'pt-1 sm:pt-2' : ''}`}>
                             {isCenter && (
-                              <span className="text-xs text-gray-400 uppercase tracking-wide">Price</span>
+                              <span className="text-xs text-gray-400 uppercase tracking-wide hidden sm:inline">Price</span>
                             )}
                             <span
                               className={`font-semibold tracking-tight transition-all duration-300 ${
                                 isCenter 
-                                  ? 'text-2xl sm:text-3xl bg-gradient-to-r from-grace-blue to-grace-dark-blue bg-clip-text text-transparent' 
-                                  : 'text-lg sm:text-xl text-grace-blue'
+                                  ? 'text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-grace-blue to-grace-dark-blue bg-clip-text text-transparent' 
+                                  : 'text-base sm:text-lg md:text-xl text-grace-blue'
                               }`}
                             >
                               {product.price}
                             </span>
                             {isCenter && (
-                              <span className="text-xs text-gray-400 ml-auto">Best Value</span>
+                              <span className="text-xs text-gray-400 ml-auto hidden sm:inline">Best Value</span>
                             )}
                           </div>
 
@@ -460,7 +476,7 @@ const FeaturedProducts = () => {
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.4 }}
                               onClick={(e) => e.stopPropagation()}
-                              className="relative flex items-center justify-center space-x-2 bg-gradient-to-r from-grace-blue via-grace-dark-blue to-grace-blue text-white px-6 py-3.5 rounded-full text-sm font-semibold tracking-wide uppercase hover:from-grace-dark-blue hover:via-grace-blue hover:to-grace-dark-blue transition-all duration-500 shadow-xl hover:shadow-2xl w-full focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 overflow-hidden group"
+                              className="relative flex items-center justify-center space-x-2 bg-gradient-to-r from-grace-blue via-grace-dark-blue to-grace-blue text-white px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide uppercase hover:from-grace-dark-blue hover:via-grace-blue hover:to-grace-dark-blue transition-all duration-500 shadow-xl hover:shadow-2xl w-full focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 overflow-hidden group"
                               whileHover={{ scale: 1.03 }}
                               whileTap={{ scale: 0.97 }}
                               aria-label={`Shop ${product.name} on Shopee`}
@@ -469,9 +485,9 @@ const FeaturedProducts = () => {
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                               
                               {/* Button Content */}
-                              <span className="relative z-10 flex items-center gap-2">
-                                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                                <span>Shop on Shopee</span>
+                              <span className="relative z-10 flex items-center gap-1.5 sm:gap-2">
+                                <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+                                <span className="whitespace-nowrap">Shop on Shopee</span>
                                 <motion.div
                                   animate={{ x: [0, 3, 0] }}
                                   transition={{ 
@@ -479,6 +495,7 @@ const FeaturedProducts = () => {
                                     repeat: Infinity,
                                     ease: 'easeInOut'
                                   }}
+                                  className="hidden sm:inline"
                                 >
                                   →
                                 </motion.div>
@@ -500,7 +517,7 @@ const FeaturedProducts = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex justify-center items-center gap-3 mt-12"
+            className="flex justify-center items-center gap-2 sm:gap-3 mt-8 sm:mt-12"
           >
             {products.map((product, index) => (
               <motion.button
@@ -546,7 +563,7 @@ const FeaturedProducts = () => {
 
         {/* View All Products Button */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-10 sm:mt-12 md:mt-16 px-4"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -556,13 +573,13 @@ const FeaturedProducts = () => {
             href="https://ph.shp.ee/k5ZzgF6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-grace-gold text-white px-8 py-4 rounded-full text-lg font-normal tracking-wide uppercase hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-grace-gold focus:ring-offset-2"
+            className="inline-flex items-center space-x-2 bg-grace-gold text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base lg:text-lg font-normal tracking-wide uppercase hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-grace-gold focus:ring-offset-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="View all products on Shopee"
           >
-            <ShoppingCart className="w-5 h-5" aria-hidden="true" />
-            <span>View All Products on Shopee</span>
+            <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+            <span className="whitespace-nowrap">View All Products on Shopee</span>
           </motion.a>
         </motion.div>
       </div>

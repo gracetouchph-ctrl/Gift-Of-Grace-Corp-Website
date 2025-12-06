@@ -257,13 +257,13 @@ const Chatbot = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed bottom-6 right-6 z-40"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40"
           >
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative w-16 h-16 bg-grace-accent rounded-full shadow-2xl flex items-center justify-center text-white hover:bg-grace-accent/90 hover:shadow-3xl transition-all duration-300 group overflow-hidden"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
+              className="relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-grace-accent to-grace-accent-alt rounded-full shadow-2xl flex items-center justify-center hover:shadow-3xl transition-all duration-300 group overflow-hidden"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               animate={showInitialMessage ? {
                 boxShadow: [
                   '0 20px 25px -5px rgba(240, 86, 68, 0.5)',
@@ -312,7 +312,24 @@ const Chatbot = () => {
                   />
                 </motion.div>
               )}
-              <MessageCircle className="w-8 h-8 relative z-10" />
+              {/* Logo Icon */}
+              <div className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center p-1.5 sm:p-2">
+                <img
+                  src="/images/giftofgracelogo.png"
+                  alt="Chat with Gift of Grace"
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none'
+                    if (e.target.parentElement) {
+                      e.target.parentElement.innerHTML = `
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-grace-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                      `
+                    }
+                  }}
+                />
+              </div>
             </motion.button>
           </motion.div>
         )}
@@ -337,10 +354,10 @@ const Chatbot = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed bottom-6 right-6 z-40 w-[90vw] sm:w-96 h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200/50 backdrop-blur-xl"
+              className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-40 w-full sm:w-96 h-[calc(100vh-4rem)] sm:h-[600px] sm:max-h-[600px] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border-t border-l border-r sm:border border-gray-200/50 backdrop-blur-xl"
             >
               {/* Chat Header */}
-              <div className="bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white p-4 flex items-center justify-between shadow-lg relative overflow-hidden">
+              <div className="bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white p-3 sm:p-4 flex items-center justify-between shadow-lg relative overflow-hidden rounded-t-3xl sm:rounded-t-3xl">
                 {/* Decorative background pattern */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute inset-0" style={{
@@ -348,34 +365,36 @@ const Chatbot = () => {
                     backgroundSize: '24px 24px'
                   }} />
                 </div>
-                <div className="flex items-center space-x-3 relative z-10">
+                <div className="flex items-center space-x-2 sm:space-x-3 relative z-10">
                   {/* Bot Avatar */}
                   <div className="relative">
                     <motion.div 
-                      className="w-12 h-12 rounded-full bg-white p-1.5 flex items-center justify-center overflow-hidden shadow-lg ring-2 ring-white/30"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-grace-accent to-grace-accent-alt shadow-xl flex items-center justify-center overflow-hidden"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: 'spring', stiffness: 400 }}
                     >
-                      <img
-                        src="/images/giftofgracelogo.png"
-                        alt="Gift of Grace"
-                        className="w-full h-full object-contain"
-                        onError={(e) => {
-                          e.target.style.display = 'none'
-                          e.target.parentElement.innerHTML = `
-                            <div class="w-full h-full flex items-center justify-center bg-grace-blue/10 rounded-full">
-                              <svg class="w-6 h-6 text-grace-blue" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                              </svg>
-                            </div>
-                          `
-                        }}
-                      />
+                      <div className="w-full h-full rounded-full bg-white flex items-center justify-center p-1.5 sm:p-2">
+                        <img
+                          src="/images/giftofgracelogo.png"
+                          alt="Gift of Grace"
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            e.target.style.display = 'none'
+                            e.target.parentElement.innerHTML = `
+                              <div class="w-full h-full flex items-center justify-center bg-grace-blue/10 rounded-full">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-grace-blue" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+                                  <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
+                                </svg>
+                              </div>
+                            `
+                          }}
+                        />
+                      </div>
                     </motion.div>
                     {/* Online indicator with pulse animation */}
                     <motion.div 
-                      className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white shadow-lg"
+                      className="absolute bottom-0 right-0 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-green-400 rounded-full border-2 border-white shadow-lg z-10"
                       animate={{
                         scale: [1, 1.2, 1],
                         opacity: [1, 0.8, 1],
@@ -388,11 +407,11 @@ const Chatbot = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="font-serif font-semibold text-lg flex items-center gap-2">
+                    <h3 className="font-serif font-semibold text-base sm:text-lg flex items-center gap-1.5 sm:gap-2">
                       Gift of Grace
-                      <Sparkles className="w-4 h-4 text-grace-accent-alt" />
+                      <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-grace-accent-alt" />
                     </h3>
-                    <p className="text-xs text-blue-100/90 font-medium">We're here to help</p>
+                    <p className="text-[10px] sm:text-xs text-blue-100/90 font-medium">We're here to help</p>
                   </div>
                 </div>
                 <motion.button
@@ -400,18 +419,18 @@ const Chatbot = () => {
                     setIsOpen(false)
                     setHasAutoOpened(true) // Prevent auto-reopening after manual close
                   }}
-                  className="p-2 hover:bg-white/20 rounded-full transition-colors relative z-10"
+                  className="p-1.5 sm:p-2 hover:bg-white/20 rounded-full transition-colors relative z-10"
                   aria-label="Close chat"
                   whileHover={{ rotate: 90, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: 'spring', stiffness: 400 }}
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </motion.button>
               </div>
 
               {/* Messages Area */}
-              <div className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4" style={{
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 bg-gray-50 space-y-3 sm:space-y-4" style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(156, 163, 175, 0.3) transparent'
               }}>
@@ -434,10 +453,10 @@ const Chatbot = () => {
                             ease: 'easeInOut'
                           }}
                         >
-                          <Bot className="w-16 h-16 text-grace-accent-alt/40 mx-auto mb-4" />
+                          <Bot className="w-12 h-12 sm:w-16 sm:h-16 text-grace-accent-alt/40 mx-auto mb-3 sm:mb-4" />
                         </motion.div>
-                        <p className="text-gray-400 text-sm font-medium">Starting conversation...</p>
-                        <p className="text-gray-300 text-xs mt-1">Ask me anything about our products!</p>
+                        <p className="text-gray-400 text-xs sm:text-sm font-medium">Starting conversation...</p>
+                        <p className="text-gray-300 text-[10px] sm:text-xs mt-1">Ask me anything about our products!</p>
                       </div>
                     </motion.div>
                   ) : (
@@ -447,12 +466,12 @@ const Chatbot = () => {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3 }}
-                        className={`flex items-start space-x-3 ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
+                        className={`flex items-start space-x-2 sm:space-x-3 ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
                       >
                         {/* Avatar */}
                         {message.sender === 'bot' && (
                           <motion.div 
-                            className="w-9 h-9 rounded-full bg-white p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-gray-100 shadow-sm"
+                            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white p-1 sm:p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-gray-100 shadow-sm"
                             whileHover={{ scale: 1.1 }}
                             transition={{ type: 'spring', stiffness: 400 }}
                           >
@@ -473,26 +492,26 @@ const Chatbot = () => {
                         )}
                         {message.sender === 'user' && (
                           <motion.div 
-                            className="w-9 h-9 rounded-full bg-grace-accent flex-shrink-0 flex items-center justify-center text-white text-xs font-bold shadow-md ring-2 ring-grace-accent-alt/40"
+                            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-grace-accent flex-shrink-0 flex items-center justify-center text-white text-[10px] sm:text-xs font-bold shadow-md ring-2 ring-grace-accent-alt/40"
                             whileHover={{ scale: 1.1, rotate: 5 }}
                             transition={{ type: 'spring', stiffness: 400 }}
                           >
-                            <span className="text-[10px]">You</span>
+                            <span className="text-[9px] sm:text-[10px]">You</span>
                           </motion.div>
                         )}
                         
                         {/* Message Content */}
-                        <div className={`flex-1 ${message.sender === 'user' ? 'flex flex-col items-end' : ''}`}>
+                        <div className={`flex-1 min-w-0 ${message.sender === 'user' ? 'flex flex-col items-end' : ''}`}>
                           <motion.div
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
-                            className={`rounded-2xl px-4 py-3 shadow-md ${
+                            className={`rounded-xl sm:rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-md ${
                               message.sender === 'user'
-                                ? 'bg-grace-accent text-white rounded-tr-sm max-w-[85%] hover:bg-grace-accent/90 transition-colors'
-                                : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100 max-w-[85%]'
+                                ? 'bg-grace-accent text-white rounded-tr-sm max-w-[90%] sm:max-w-[85%] hover:bg-grace-accent/90 transition-colors'
+                                : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100 max-w-[90%] sm:max-w-[85%]'
                             }`}
                           >
-                            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${
+                            <p className={`text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words ${
                               message.sender === 'user' ? 'text-white' : 'text-gray-800'
                             }`}>
                               {message.text}
@@ -501,7 +520,7 @@ const Chatbot = () => {
                           <motion.p 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className={`text-xs text-gray-400 mt-1.5 px-1 ${message.sender === 'user' ? 'mr-1' : 'ml-1'}`}
+                            className={`text-[10px] sm:text-xs text-gray-400 mt-1 sm:mt-1.5 px-1 ${message.sender === 'user' ? 'mr-1' : 'ml-1'}`}
                           >
                             {formatTime(message.timestamp)}
                           </motion.p>
@@ -519,7 +538,7 @@ const Chatbot = () => {
                     className="flex items-start space-x-3"
                   >
                     <motion.div 
-                      className="w-9 h-9 rounded-full bg-white p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-gray-100 shadow-sm"
+                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white p-1 sm:p-1.5 flex-shrink-0 flex items-center justify-center overflow-hidden border-2 border-gray-100 shadow-sm"
                       animate={{ 
                         scale: [1, 1.05, 1],
                       }}
@@ -544,9 +563,9 @@ const Chatbot = () => {
                       />
                     </motion.div>
                     <div className="flex-1">
-                      <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-4 shadow-md border border-gray-100">
-                        <div className="flex items-center space-x-3">
-                          <div className="flex space-x-1.5">
+                      <div className="bg-white rounded-xl sm:rounded-2xl rounded-tl-sm px-3 sm:px-4 py-3 sm:py-4 shadow-md border border-gray-100">
+                        <div className="flex items-center space-x-2 sm:space-x-3">
+                          <div className="flex space-x-1 sm:space-x-1.5">
                             <motion.div
                               className="w-2.5 h-2.5 bg-grace-accent rounded-full"
                               animate={{ 
@@ -610,7 +629,7 @@ const Chatbot = () => {
               </div>
 
               {/* Input Area */}
-              <div className="border-t border-gray-200/50 bg-white p-4">
+              <div className="border-t border-gray-200/50 bg-white p-3 sm:p-4 safe-area-inset-bottom">
                 <form onSubmit={handleSendMessage} className="flex items-end space-x-2">
                   <div className="flex-1 relative">
                     <input
@@ -620,45 +639,45 @@ const Chatbot = () => {
                       onChange={(e) => setInputValue(e.target.value)}
                       placeholder="Type your message..."
                       disabled={isLoading}
-                      className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-accent/50 focus:border-grace-accent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md"
+                      className="w-full px-3 py-2.5 sm:px-4 sm:py-3 pr-10 sm:pr-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-accent/50 focus:border-grace-accent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md"
                     />
                     {inputValue.trim() && (
                       <motion.button
                         type="button"
                         onClick={() => setInputValue('')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                        className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                       >
-                        <X className="w-3.5 h-3.5 text-gray-400" />
+                        <X className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-400" />
                       </motion.button>
                     )}
                   </div>
                   <motion.button
                     type="submit"
                     disabled={!inputValue.trim() || isLoading}
-                    className="w-12 h-12 bg-grace-accent text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-accent/90 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
-                    whileHover={!isLoading && inputValue.trim() ? { scale: 1.05, rotate: 5 } : {}}
+                    className="w-11 h-11 sm:w-12 sm:h-12 bg-grace-accent text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-accent/90 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group flex-shrink-0"
+                    whileHover={!isLoading && inputValue.trim() ? { scale: 1.05 } : {}}
                     whileTap={!isLoading && inputValue.trim() ? { scale: 0.95 } : {}}
                     aria-label="Send message"
                   >
                     {/* Shine effect on hover */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                     {isLoading ? (
-                      <Loader2 className="w-5 h-5 animate-spin relative z-10" />
+                      <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin relative z-10" />
                     ) : (
-                      <Send className="w-5 h-5 relative z-10" />
+                      <Send className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
                     )}
                   </motion.button>
                 </form>
                 <motion.p 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-xs text-gray-400 mt-3 text-center flex items-center justify-center gap-1"
+                  className="text-[10px] sm:text-xs text-gray-400 mt-2 sm:mt-3 text-center flex items-center justify-center gap-1"
                 >
-                  <Sparkles className="w-3 h-3 text-grace-accent-alt" />
+                  <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-grace-accent-alt" />
                   Powered by Gift of Grace
                 </motion.p>
               </div>
