@@ -27,3 +27,17 @@ dist-ssr
 .env
 .env.local
 .env.production
+backend/.env
+
+# Python Backend
+backend/venv/
+backend/__pycache__/
+backend/actions/__pycache__/
+backend/.rasa/
+*.pyc
+*.pyo
+*.pyd
+
+# RASA cache and temporary files
+backend/models/*.tar.gz
+backend/.rasa

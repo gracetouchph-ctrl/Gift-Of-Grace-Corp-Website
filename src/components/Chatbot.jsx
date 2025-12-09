@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, MessageCircle, Bot, Loader2, Sparkles } from 'lucide-react'
 
+// RASA API Configuration
+// Change this URL when deploying to production
+const RASA_API_URL = import.meta.env.VITE_RASA_API_URL || 'http://localhost:5005/webhooks/rest/webhook'
+
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasAppeared, setHasAppeared] = useState(false)
@@ -53,64 +57,56 @@ const Chatbot = () => {
   const initialMessage = "Hello! 👋 Welcome to Gift of Grace. I'm here to help you discover our premium wellness products. How can I assist you today?"
 
   // ============================================
-  // MODEL INTEGRATION FUNCTION
+  // RASA RAG INTEGRATION
   // ============================================
-  // This function handles communication with the model
-  // You can easily modify this to work with:
-  // - REST API endpoints
-  // - Local model files 
-  // - WebSocket connections
-  // - Any other integration method
+  // This function communicates with the RASA server
+  // which uses RAG (Retrieval Augmented Generation)
+  // to provide intelligent responses about Gift of Grace
   // ============================================
   const getModelResponse = async (userMessage, conversationHistory) => {
     try {
-      // OPTION 1: REST API Endpoint (most common)
-      // Replace 'YOUR_API_ENDPOINT' with your  model API endpoint
-      const response = await fetch('YOUR_API_ENDPOINT', {
+      // Generate a unique sender ID for the session
+      const senderId = sessionStorage.getItem('chatbot_sender_id') || `user_${Date.now()}`
+      if (!sessionStorage.getItem('chatbot_sender_id')) {
+        sessionStorage.setItem('chatbot_sender_id', senderId)
+      }
+
+      // RASA REST API format
+      const response = await fetch(RASA_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          sender: senderId,
           message: userMessage,
-          history: conversationHistory,
-          // Add any other parameters your model needs
         }),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to get response from model')
+        throw new Error(`RASA server error: ${response.status}`)
       }
 
       const data = await response.json()
-      // Adjust this based on your API response structure
-      return data.response || data.message || data.text || 'I apologize, but I could not process that request.'
 
-      // OPTION 2: Local Model File (if using a local model)
-      // Uncomment and modify if  provided a local model file
-      /*
-      const model = await import('./path/to/model.js')
-      return await model.generateResponse(userMessage, conversationHistory)
-      */
+      // RASA returns an array of responses
+      // Each response has a "text" field and optionally "buttons", "image", etc.
+      if (Array.isArray(data) && data.length > 0) {
+        // Combine all text responses into one message
+        const combinedResponse = data
+          .filter(msg => msg.text)
+          .map(msg => msg.text)
+          .join('\n\n')
 
-      // OPTION 3: WebSocket Connection
-      // Uncomment if using WebSocket
-      /*
-      const ws = new WebSocket('ws://your-websocket-endpoint')
-      return new Promise((resolve, reject) => {
-        ws.onmessage = (event) => {
-          const data = JSON.parse(event.data)
-          resolve(data.response)
-          ws.close()
-        }
-        ws.onerror = reject
-        ws.send(JSON.stringify({ message: userMessage, history: conversationHistory }))
-      })
-      */
+        return combinedResponse || 'I apologize, but I could not process that request.'
+      }
+
+      return 'I apologize, but I could not process that request.'
+
     } catch (error) {
-      console.error('Error getting model response:', error)
-      // Fallback response if model fails
-      return "I'm sorry, I'm having trouble connecting right now. Please try again later or contact our support team."
+      console.error('Error getting RASA response:', error)
+      // Fallback response if RASA server fails
+      return "I'm sorry, I'm having trouble connecting to the knowledge base right now. Please make sure the RASA server is running (rasa run --cors \"*\") and try again."
     }
   }
 

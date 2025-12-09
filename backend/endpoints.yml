@@ -1,0 +1,13 @@
+# endpoints.yml
+# Custom action server endpoint
+action_endpoint:
+  url: "http://localhost:5055/webhook"
+
+# HTTP API configuration
+# Note: CORS is configured when running the RASA server with --cors "*"
+# Run RASA with: rasa run --cors "*" --enable-api
+http_api:
+  # Increase response timeout for RAG responses (in milliseconds)
+  response_timeout: 30000
+  # Workers for handling requests
+  max_workers: 2
