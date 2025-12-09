@@ -161,34 +161,34 @@ const Navbar = () => {
             >
               <div className="mt-2 pb-2 border-t border-gray-200 pt-2">
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <a
-                    href="#home"
-                    onClick={(e) => handleNavClick(e, 'home')}
+                <a
+                  href="#home"
+                  onClick={(e) => handleNavClick(e, 'home')}
                     className="inline-block text-sm sm:text-base text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-3 sm:px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-grace-accent whitespace-nowrap"
-                  >
-                    Home
-                  </a>
-                  <a
-                    href="#catalog"
-                    onClick={(e) => handleNavClick(e, 'catalog')}
+                >
+                  Home
+                </a>
+                <a
+                  href="#catalog"
+                  onClick={(e) => handleNavClick(e, 'catalog')}
                     className="inline-block text-sm sm:text-base text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-3 sm:px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-grace-accent whitespace-nowrap"
-                  >
-                    Catalog
-                  </a>
-                  <a
-                    href="#about"
-                    onClick={(e) => handleNavClick(e, 'about')}
+                >
+                  Catalog
+                </a>
+                <a
+                  href="#about"
+                  onClick={(e) => handleNavClick(e, 'about')}
                     className="inline-block text-sm sm:text-base text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-3 sm:px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-grace-accent whitespace-nowrap"
-                  >
-                    About Us
-                  </a>
-                  <a
-                    href="#contact"
-                    onClick={(e) => handleNavClick(e, 'contact')}
+                >
+                  About Us
+                </a>
+                <a
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, 'contact')}
                     className="inline-block text-sm sm:text-base text-gray-700 hover:text-grace-accent hover:bg-gray-50 transition-colors px-3 sm:px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-grace-accent whitespace-nowrap"
-                  >
-                    Contact
-                  </a>
+                >
+                  Contact
+                </a>
                 </div>
               </div>
             </motion.div>
