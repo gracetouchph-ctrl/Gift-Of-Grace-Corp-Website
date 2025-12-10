@@ -5,7 +5,6 @@ transformers>=4.37.0
 torch>=2.1.0
 accelerate>=0.24.0
 bitsandbytes>=0.41.0
-langchain
 pypdf2
 pdfplumber
 numpy

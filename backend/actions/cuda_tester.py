@@ -9,4 +9,4 @@ if torch.cuda.is_available():
     print("CUDA version:", torch.version.cuda)
     print("Device capability:", torch.cuda.get_device_capability(0))
 else:
-    print("❌ CUDA not available – PyTorch is running on CPU.")
+    print("[X] CUDA not available - PyTorch is running on CPU.")
