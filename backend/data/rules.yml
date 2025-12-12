@@ -1,76 +1,97 @@
 version: "3.1"
 
 rules:
-- rule: Activate on session start
+# Session start
+- rule: Activate session
   steps:
   - action: action_session_start
 
-- rule: Handle corporate queries
+# Simple intents - DIRECT responses (no LLM)
+- rule: Respond to greeting
   steps:
-  - intent: corporate_query
-  - action: action_corporate_query
+  - intent: greet
+  - action: action_greet
 
-- rule: Handle products queries
-  steps:
-  - intent: ask_products
-  - action: action_handle_products
-
-- rule: Handle awards queries
-  steps:
-  - intent: ask_awards
-  - action: action_handle_awards
-
-- rule: Handle contact queries
-  steps:
-  - intent: ask_contact
-  - action: action_handle_contact
-
-- rule: Handle founders queries
-  steps:
-  - intent: ask_founders
-  - action: action_handle_founders
-
-- rule: Provide help when asked
-  steps:
-  - intent: help
-  - action: action_provide_help
-
-- rule: Check knowledge base status
-  steps:
-  - intent: check_knowledge_base
-  - action: action_check_knowledge_base
-
-- rule: Explain how to add documents
-  steps:
-  - intent: add_documents
-  - action: action_add_document
-
-- rule: Say goodbye anytime the user says goodbye
+- rule: Respond to goodbye
   steps:
   - intent: goodbye
-  - action: utter_goodbye
+  - action: action_goodbye
 
-- rule: Say 'I am a bot' anytime the user challenges
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
-
-- rule: Handle thank you
+- rule: Respond to thanks
   steps:
   - intent: thankyou
-  - action: utter_thankyou
+  - action: action_thankyou
 
-- rule: Handle out of scope questions
+- rule: Respond to bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: action_bot_challenge
+
+- rule: Respond to help request
+  steps:
+  - intent: help
+  - action: action_help
+
+- rule: Respond to out of scope
   steps:
   - intent: out_of_scope
-  - action: utter_out_of_scope
-
-- rule: Fallback for unclear messages
-  steps:
-  - intent: nlu_fallback
-  - action: action_fallback
+  - action: action_out_of_scope
 
 - rule: Show capabilities
   steps:
   - intent: show_capabilities
   - action: action_show_capabilities
+
+# Company info intents - DIRECT responses (no LLM)
+- rule: Handle products query
+  steps:
+  - intent: ask_products
+  - action: action_handle_products
+
+- rule: Handle founders query
+  steps:
+  - intent: ask_founders
+  - action: action_handle_founders
+
+- rule: Handle awards query
+  steps:
+  - intent: ask_awards
+  - action: action_handle_awards
+
+- rule: Handle location query
+  steps:
+  - intent: ask_location
+  - action: action_handle_location
+
+- rule: Handle contact query
+  steps:
+  - intent: ask_contact
+  - action: action_handle_contact
+
+# General company queries - may use RAG
+- rule: Handle corporate query
+  steps:
+  - intent: corporate_query
+  - action: action_corporate_query
+
+# Utility intents
+- rule: Check knowledge base
+  steps:
+  - intent: check_knowledge_base
+  - action: action_check_knowledge_base
+
+- rule: Add documents info
+  steps:
+  - intent: add_documents
+  - action: action_add_document
+
+- rule: Restart conversation
+  steps:
+  - intent: restart
+  - action: action_restart
+
+# Fallback - ONLY for low confidence (uses FallbackClassifier threshold)
+- rule: Ask for rephrase on low confidence
+  steps:
+  - intent: nlu_fallback
+  - action: action_fallback

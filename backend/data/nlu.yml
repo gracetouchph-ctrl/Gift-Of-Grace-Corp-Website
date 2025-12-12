@@ -9,6 +9,28 @@ nlu:
     - hello there
     - good morning
     - good evening
+    - good afternoon
+    - hi there
+    - hey there
+    - howdy
+    - hiya
+    - greetings
+    - yo
+    - what's up
+    - whats up
+    - sup
+    - hello!
+    - hi!
+    - hey!
+    - good day
+    - nice to meet you
+    - kumusta
+    - musta
+    - hello po
+    - hi po
+    - magandang umaga
+    - magandang hapon
+    - magandang gabi
 
 - intent: goodbye
   examples: |
@@ -18,58 +40,49 @@ nlu:
     - see you later
     - bye
     - bye bye
+    - see ya
+    - later
+    - take care
+    - have a good day
+    - gotta go
+    - im leaving
+    - i'm leaving
+    - catch you later
+    - farewell
+    - until next time
+    - bye for now
+    - thanks bye
+    - thank you bye
+    - ok bye
+    - okay bye
+    - paalam
+    - bye po
+    - sige bye
 
-- intent: corporate_query
+- intent: thankyou
   examples: |
-    - tell me about gift of grace
-    - what is gift of grace food manufacturing
-    - who are the founders of gift of grace
-    - what products does gift of grace make
-    - gift of grace awards
-    - gift of grace location
-    - gift of grace contact information
-    - kimchi gift company
-    - tofu gift manufacturer
-    - tell me about gift of grace food manufacturing corporation
-    - information about gogfmc
-    - what does gift of grace do
-    - tell me about the company gift of grace
-    - gift of grace food manufacturing details
-
-- intent: ask_products
-  examples: |
-    - what products do they make
-    - show me their products
-    - what food items does gift of grace produce
-    - tell me about kimchi gift
-    - information about tofu gift
-    - what is rice coffee with moringa
-    - product portfolio of gift of grace
-
-- intent: ask_awards
-  examples: |
-    - what awards has gift of grace won
-    - show me their achievements
-    - what recognition has gift of grace received
-    - tell me about their industry awards
-    - gift of grace achievements
-
-- intent: ask_contact
-  examples: |
-    - how can I contact gift of grace
-    - what is their phone number
-    - gift of grace email address
-    - where is gift of grace located
-    - what is their address
-    - gift of grace contact details
-
-- intent: ask_founders
-  examples: |
-    - who founded gift of grace
-    - who are the founders
-    - tell me about satur cadsi
-    - who is janice cadsi
-    - gift of grace founders information
+    - thanks
+    - thank you
+    - thank you so much
+    - thanks a lot
+    - appreciate it
+    - thanks for the help
+    - thank you for helping
+    - that's helpful
+    - thats helpful
+    - you've been helpful
+    - thanks for the info
+    - thank you for the information
+    - much appreciated
+    - many thanks
+    - great thanks
+    - perfect thank you
+    - awesome thanks
+    - salamat
+    - salamat po
+    - maraming salamat
+    - thank you very much
+    - thanks so much
 
 - intent: bot_challenge
   examples: |
@@ -77,6 +90,22 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+    - are you real?
+    - are you a robot?
+    - are you ai?
+    - are you artificial intelligence?
+    - is this a bot?
+    - is this automated?
+    - who am i talking to
+    - what am i talking to
+    - are you a machine?
+    - are you a chatbot?
+    - are you a computer?
+    - bot or human?
+    - human or bot?
+    - sino ka ba
+    - tao ka ba
+    - robot ka ba
 
 - intent: help
   examples: |
@@ -86,38 +115,219 @@ nlu:
     - show me what you can do
     - I need help
     - instructions
+    - help me
+    - can you help me
+    - what are your capabilities
+    - how can you help
+    - what do you do
+    - what is this
+    - how do i use this
+    - guide me
+    - assist me
+    - i need assistance
+    - what can i ask you
+    - what questions can i ask
+    - what topics can you answer
+    - ano pwede mo gawin
+    - paano to gamitin
+
+- intent: corporate_query
+  examples: |
+    - tell me about gift of grace
+    - what is gift of grace food manufacturing
+    - information about gogfmc
+    - what does gift of grace do
+    - tell me about the company gift of grace
+    - gift of grace food manufacturing details
+    - what is gogfmc
+    - describe gift of grace
+    - tell me about your company
+    - company information
+    - about your company
+    - what company is this
+    - company details
+    - business information
+    - what business is this
+    - tell me more about gift of grace
+    - i want to know about gift of grace
+    - can you tell me about the company
+    - give me information about gift of grace
+    - what kind of company is gift of grace
+    - gift of grace overview
+    - gift of grace background
+    - history of gift of grace
+    - when was gift of grace founded
+    - how did gift of grace start
+    - origin of gift of grace
+
+- intent: ask_products
+  examples: |
+    - what products do you have
+    - what products do they make
+    - show me their products
+    - what food items does gift of grace produce
+    - tell me about kimchi gift
+    - information about tofu gift
+    - what is rice coffee with moringa
+    - product portfolio of gift of grace
+    - what do you sell
+    - what are your products
+    - list your products
+    - what items do you have
+    - what food do you make
+    - tell me about your products
+    - what products are available
+    - show me products
+    - product list
+    - what can i buy
+    - what do you manufacture
+    - what food products
+    - kimchi
+    - tofu
+    - rice coffee
+    - tell me about the kimchi
+    - tell me about the tofu
+    - tell me about rice coffee
+    - do you sell kimchi
+    - do you have tofu
+    - what kind of kimchi
+    - ano mga products nyo
+    - ano binebenta nyo
+    - may kimchi ba kayo
+
+- intent: ask_awards
+  examples: |
+    - what awards has gift of grace won
+    - show me their achievements
+    - what recognition has gift of grace received
+    - tell me about their industry awards
+    - gift of grace achievements
+    - awards and recognition
+    - what awards do you have
+    - have you won any awards
+    - company achievements
+    - accomplishments
+    - recognitions
+    - any certifications
+    - are you certified
+    - halal certified
+    - is it halal
+    - are products halal
+    - what certifications do you have
+    - tell me about your awards
+    - list your awards
+    - what have you achieved
+    - ano mga awards nyo
+    - may halal ba kayo
+
+- intent: ask_contact
+  examples: |
+    - how can I contact gift of grace
+    - what is their phone number
+    - gift of grace email address
+    - what is their address
+    - gift of grace contact details
+    - contact information
+    - how to contact you
+    - phone number
+    - email address
+    - contact number
+    - how do i reach you
+    - how to reach gift of grace
+    - can i call you
+    - what is the contact
+    - give me contact details
+    - i want to contact you
+    - your contact info
+    - where can i contact you
+    - paano kayo macontact
+    - ano number nyo
+
+- intent: ask_founders
+  examples: |
+    - who founded gift of grace
+    - who are the founders
+    - tell me about satur cadsi
+    - who is janice cadsi
+    - gift of grace founders information
+    - who owns gift of grace
+    - who started gift of grace
+    - who is the owner
+    - who is the ceo
+    - who is the coo
+    - tell me about the founders
+    - founder information
+    - who created gift of grace
+    - who established the company
+    - ownership information
+    - tell me about the owner
+    - who runs gift of grace
+    - management team
+    - sino may ari
+    - sino nagtatag
+
+- intent: ask_location
+  examples: |
+    - where is gift of grace located
+    - what is your address
+    - where are you located
+    - location of gift of grace
+    - where can i find you
+    - gift of grace address
+    - where is the company
+    - company location
+    - your location
+    - where is the store
+    - where is the factory
+    - where do you operate
+    - baguio city address
+    - address in baguio
+    - where in baguio
+    - nasaan kayo
+    - saan kayo located
+    - san kayo matatagpuan
 
 - intent: check_knowledge_base
   examples: |
     - check knowledge base
-    - what documents do you have?
+    - what documents do you have
     - knowledge base status
-    - how many documents do you have?
+    - how many documents do you have
     - show me your knowledge base
+    - what information do you have
+    - database status
+    - system status
 
 - intent: add_documents
   examples: |
     - how to add documents
     - add documents
     - add more files
-    - how do I add to your knowledge base?
+    - how do I add to your knowledge base
     - import documents
-
-- intent: thankyou
-  examples: |
-    - thanks
-    - thank you
-    - thank you so much
-    - thanks a lot
-    - appreciate it
+    - upload files
+    - add information
 
 - intent: out_of_scope
   examples: |
-    - what's the weather like?
+    - what's the weather like
     - tell me a joke
-    - what time is it?
-    - how old are you?
-    - where do you live?
+    - what time is it
+    - how old are you
+    - where do you live
+    - what's your favorite color
+    - sing me a song
+    - play music
+    - what's 2 plus 2
+    - who is the president
+    - tell me the news
+    - what's happening today
+    - recommend a movie
+    - order pizza
+    - book a flight
+    - what's bitcoin price
+    - translate this
+    - search google
 
 - intent: nlu_fallback
   examples: |
@@ -126,6 +336,12 @@ nlu:
     - 12345
     - ????
     - !@#$%
+    - xyzabc
+    - qwerty
+    - aaaaaaa
+    - ...
+    - random text here
+    - blah blah
 
 - intent: restart
   examples: |
@@ -134,6 +350,11 @@ nlu:
     - clear history
     - begin again
     - reset chat
+    - restart
+    - reset
+    - start fresh
+    - new conversation
+    - clear chat
 
 - intent: show_capabilities
   examples: |
@@ -142,3 +363,6 @@ nlu:
     - what are your features
     - tell me about your abilities
     - what can you help with
+    - list your features
+    - your capabilities
+    - what functions do you have

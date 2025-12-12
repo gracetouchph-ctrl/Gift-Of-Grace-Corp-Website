@@ -3,20 +3,21 @@ version: "3.1"
 intents:
   - greet
   - goodbye
-  - bot_challenge
-  - corporate_query
-  - help
-  - check_knowledge_base
-  - add_documents
   - thankyou
-  - out_of_scope
-  - nlu_fallback
-  - restart
-  - show_capabilities
+  - bot_challenge
+  - help
+  - corporate_query
   - ask_products
   - ask_awards
   - ask_contact
   - ask_founders
+  - ask_location
+  - check_knowledge_base
+  - add_documents
+  - out_of_scope
+  - nlu_fallback
+  - restart
+  - show_capabilities
 
 slots:
   search_query:
@@ -31,43 +32,28 @@ slots:
     - type: custom
 
 responses:
-  utter_goodbye:
-  - text: "Goodbye! Feel free to ask if you have more questions about Gift of Grace Food Manufacturing Corporation."
-
-  utter_iamabot:
-  - text: "I am an AI assistant specialized in providing information about Gift of Grace Food Manufacturing Corporation."
-
-  utter_thankyou:
-  - text: "You're welcome! Happy to help with any questions about Gift of Grace Food Manufacturing Corporation."
-
-  utter_out_of_scope:
-  - text: "I'm specifically designed to answer questions about Gift of Grace Food Manufacturing Corporation."
-
   utter_default:
-  - text: "I'm not sure I understand. You can ask me questions about Gift of Grace Food Manufacturing Corporation or say 'help' to see what I can do."
-
-  utter_help:
-  - text: "I can answer questions about Gift of Grace Food Manufacturing Corporation. Try asking about their products, history, awards, or contact information!"
-
-  utter_searching:
-  - text: "🔍 Searching my knowledge base for information about Gift of Grace..."
+  - text: "I'm not sure I understand. Ask me about Gift of Grace - products, founders, awards, or contact info!"
 
 actions:
   - action_session_start
-  - action_corporate_query
-  - action_search_knowledge
-  - action_provide_help
-  - action_fallback
-  - action_show_capabilities
-  - action_add_document
-  - action_check_knowledge_base
+  - action_greet
+  - action_goodbye
+  - action_thankyou
+  - action_bot_challenge
+  - action_help
+  - action_out_of_scope
   - action_handle_products
-  - action_handle_awards
-  - action_handle_contact
   - action_handle_founders
-  - action_corporate_intro
-  - action_debug_corporate_response
-  - action_debug_system_status
+  - action_handle_awards
+  - action_handle_location
+  - action_handle_contact
+  - action_corporate_query
+  - action_fallback
+  - action_check_knowledge_base
+  - action_add_document
+  - action_show_capabilities
+  - action_restart
 
 session_config:
   session_expiration_time: 60

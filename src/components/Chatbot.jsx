@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, MessageCircle, Bot, Loader2, Sparkles } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 
 // RASA API Configuration
 // Change this URL when deploying to production
@@ -507,11 +508,31 @@ const Chatbot = () => {
                                 : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100 max-w-[90%] sm:max-w-[85%]'
                             }`}
                           >
-                            <p className={`text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words ${
-                              message.sender === 'user' ? 'text-white' : 'text-gray-800'
-                            }`}>
-                              {message.text}
-                            </p>
+                            {message.sender === 'user' ? (
+                              <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words text-white">
+                                {message.text}
+                              </p>
+                            ) : (
+                              <div className="text-xs sm:text-sm leading-relaxed break-words text-gray-800 prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-strong:text-gray-900 prose-strong:font-semibold">
+                                <ReactMarkdown
+                                  components={{
+                                    p: ({children}) => <p className="my-1">{children}</p>,
+                                    ul: ({children}) => <ul className="list-disc pl-4 my-1 space-y-0.5">{children}</ul>,
+                                    ol: ({children}) => <ol className="list-decimal pl-4 my-1 space-y-0.5">{children}</ol>,
+                                    li: ({children}) => <li className="my-0.5">{children}</li>,
+                                    strong: ({children}) => <strong className="font-semibold text-gray-900">{children}</strong>,
+                                    em: ({children}) => <em className="italic">{children}</em>,
+                                    a: ({href, children}) => <a href={href} className="text-grace-accent underline hover:text-grace-accent-alt" target="_blank" rel="noopener noreferrer">{children}</a>,
+                                    code: ({children}) => <code className="bg-gray-100 px-1 py-0.5 rounded text-xs font-mono">{children}</code>,
+                                    h1: ({children}) => <h1 className="font-bold text-base mt-2 mb-1">{children}</h1>,
+                                    h2: ({children}) => <h2 className="font-bold text-sm mt-2 mb-1">{children}</h2>,
+                                    h3: ({children}) => <h3 className="font-semibold text-sm mt-1 mb-1">{children}</h3>,
+                                  }}
+                                >
+                                  {message.text}
+                                </ReactMarkdown>
+                              </div>
+                            )}
                           </motion.div>
                           <motion.p 
                             initial={{ opacity: 0 }}

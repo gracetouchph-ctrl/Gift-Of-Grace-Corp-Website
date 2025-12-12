@@ -1,5 +1,6 @@
-# rag_pipeline.py - HUMAN-LIKE CONVERSATIONAL RESPONSES (v3)
+# rag_pipeline.py - HUMAN-LIKE CONVERSATIONAL RESPONSES (v4)
 # Based on RAG best practices for natural language generation
+# Using Google Gemini for LLM responses
 import os
 import json
 import logging
@@ -8,10 +9,17 @@ import faiss
 from dotenv import load_dotenv
 import torch
 from sentence_transformers import SentenceTransformer
-from openai import OpenAI
 from typing import List, Dict, Any
 
 load_dotenv()
+
+# Try to import Google Generative AI
+try:
+    import google.generativeai as genai
+    GEMINI_AVAILABLE = True
+except ImportError:
+    GEMINI_AVAILABLE = False
+    genai = None
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -64,18 +72,29 @@ class CorporateRAGPipeline:
         try:
             logger.info("Loading embedding model...")
             self.embedder = SentenceTransformer("all-MiniLM-L6-v2", device=self.device)
-            logger.info("Setting up GPT-4o-mini client...")
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                logger.warning("OpenAI features disabled - no API key.")
-                self.llm_client = None
+
+            # Setup Gemini LLM client
+            logger.info("Setting up Google Gemini client...")
+            gemini_key = os.getenv("GEMINI_API_KEY")
+
+            if gemini_key and GEMINI_AVAILABLE:
+                genai.configure(api_key=gemini_key)
+                self.llm_client = genai.GenerativeModel('gemini-1.5-flash')
+                self.llm_type = "gemini"
+                logger.info("Google Gemini client initialized (gemini-1.5-flash)")
             else:
-                self.llm_client = OpenAI(api_key=api_key)
-                logger.info("OpenAI client initialized")
+                if not GEMINI_AVAILABLE:
+                    logger.warning("google-generativeai package not installed. Run: pip install google-generativeai")
+                else:
+                    logger.warning("Gemini API key not found in environment.")
+                self.llm_client = None
+                self.llm_type = None
+
             logger.info("RAG models initialized")
         except Exception as e:
             logger.error(f"Error setting up RAG models: {e}")
             self.llm_client = None
+            self.llm_type = None
 
     def _load_vector_db(self):
         try:
@@ -124,7 +143,7 @@ class CorporateRAGPipeline:
             logger.error(f"Error in retrieval: {e}")
             return []
 
-    def generate_with_openai(self, query: str, context_docs: List[Dict[str, Any]]) -> str:
+    def generate_with_llm(self, query: str, context_docs: List[Dict[str, Any]]) -> str:
         if not self.llm_client:
             return self._generate_fallback(query, context_docs)
 
@@ -137,22 +156,24 @@ class CorporateRAGPipeline:
         else:
             context_text = "No specific context retrieved for this query."
 
-        # Build the system prompt with context
-        system_prompt = SYSTEM_PROMPT_TEMPLATE.format(context=context_text)
+        # Build the full prompt with context
+        full_prompt = SYSTEM_PROMPT_TEMPLATE.format(context=context_text) + f"\n\nUser question: {query}"
 
         try:
-            response = self.llm_client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": query}
-                ],
-                max_tokens=500,  # Reduced for more concise responses
-                temperature=0.7  # Slightly higher for more natural variation
-            )
-            return response.choices[0].message.content.strip()
+            if self.llm_type == "gemini":
+                # Use Gemini API
+                response = self.llm_client.generate_content(
+                    full_prompt,
+                    generation_config=genai.types.GenerationConfig(
+                        max_output_tokens=500,
+                        temperature=0.7
+                    )
+                )
+                return response.text.strip()
+            else:
+                return self._generate_fallback(query, context_docs)
         except Exception as e:
-            logger.error(f"OpenAI API error: {e}")
+            logger.error(f"LLM API error: {e}")
             return self._generate_fallback(query, context_docs)
 
     def _generate_fallback(self, query: str, context_docs: List[Dict[str, Any]]) -> str:
@@ -172,6 +193,14 @@ class CorporateRAGPipeline:
         # Thank you responses
         if any(t in query_lower for t in ['thank', 'thanks', 'appreciate', 'salamat']):
             return "You're welcome! Let me know if you have any other questions."
+
+        # Bot identity questions - WHO ARE YOU / WHAT ARE YOU
+        if self._is_asking_bot_identity(query_lower):
+            return self._get_bot_identity_response(query_lower)
+
+        # Bot capabilities questions - WHAT CAN YOU DO
+        if self._is_asking_bot_capabilities(query_lower):
+            return self._get_bot_capabilities_response()
 
         # Yes/No questions - answer directly first
         if self._is_yes_no_question(query_lower):
@@ -194,6 +223,47 @@ class CorporateRAGPipeline:
             return self._get_company_overview()
         else:
             return self._get_contextual_response(query, context_docs)
+
+    def _is_asking_bot_identity(self, query: str) -> bool:
+        """Check if user is asking about the bot's identity"""
+        identity_patterns = [
+            'who are you', 'what are you', 'what is your name', 'your name',
+            'introduce yourself', 'tell me about yourself', 'who am i talking to',
+            'are you a bot', 'are you human', 'are you real', 'are you ai',
+            'sino ka', 'ano ka'  # Filipino
+        ]
+        return any(p in query for p in identity_patterns)
+
+    def _get_bot_identity_response(self, query: str) -> str:
+        """Return appropriate bot identity response"""
+        if 'name' in query:
+            return "My name is Grace! I'm the virtual assistant for Gift of Grace Food Manufacturing Corporation. I'm here to help answer your questions about our company and products."
+        if 'bot' in query or 'ai' in query or 'human' in query or 'real' in query:
+            return "I'm Grace, an AI assistant created to help you learn about Gift of Grace Food Manufacturing Corporation. I'm not a human, but I'm here to help answer your questions about our products, company history, and more!"
+        return "I'm Grace, the virtual assistant for Gift of Grace Food Manufacturing Corporation. I'm here to help you with questions about our healthy food products like kimchi, tofu, and rice coffee, as well as our company story and achievements."
+
+    def _is_asking_bot_capabilities(self, query: str) -> bool:
+        """Check if user is asking what the bot can do"""
+        capability_patterns = [
+            'what can you do', 'what do you do', 'how can you help',
+            'what are your capabilities', 'what can you help with',
+            'what can i ask', 'what questions', 'help me with',
+            'list what you can', 'tell me what you can', 'show me what you can',
+            'ano pwede mo', 'ano kaya mo'  # Filipino
+        ]
+        return any(p in query for p in capability_patterns)
+
+    def _get_bot_capabilities_response(self) -> str:
+        """Return bot capabilities"""
+        return """I can help you with the following:
+
+1. Product Information - Learn about our Kimchi Gift, Tofu Gift, and Rice Coffee with Moringa
+2. Company Story - How Gift of Grace started and grew from a home-based business
+3. Founders - Information about Satur and Janice Cadsi
+4. Awards & Achievements - Our recognitions and Halal certification
+5. Location & Contact - Where to find us in Baguio City
+
+Just ask me anything about Gift of Grace and I'll do my best to help!"""
 
     def _is_yes_no_question(self, query: str) -> bool:
         yes_no_starters = ['can you', 'do you', 'are you', 'is it', 'does', 'will you', 'would you', 'could you', 'is there', 'are there']
@@ -272,7 +342,7 @@ class CorporateRAGPipeline:
         if context_docs is None:
             context_docs = self.retrieve(query)
         if self.llm_client:
-            return self.generate_with_openai(query, context_docs)
+            return self.generate_with_llm(query, context_docs)
         else:
             return self._generate_fallback(query, context_docs)
 
@@ -283,8 +353,9 @@ class CorporateRAGPipeline:
             "company": "Gift of Grace Food Manufacturing Corporation",
             "document_type": "Corporate Report (2025)",
             "embedding_model": "all-MiniLM-L6-v2",
-            "llm_model": "gpt-4o-mini" if self.llm_client else "Fallback mode",
-            "openai_available": self.llm_client is not None
+            "llm_model": "gemini-1.5-flash" if self.llm_type == "gemini" else "Fallback mode",
+            "llm_available": self.llm_client is not None,
+            "llm_type": self.llm_type or "none"
         }
 
     def generate_answer(self, query: str) -> str:
