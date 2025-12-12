@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, MessageCircle, Bot, Loader2, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import Lottie from 'lottie-react'
+
+// Lottie animation URL for the cute assistant character
+const GRACE_ANIMATION_URL = 'https://assets-v2.lottiefiles.com/a/66ccab80-1181-11ee-bc88-5bceb276cd32/46rhxDRLzk.json'
 
 // API Configuration
 // RASA for local development, HF Spaces (Gemini) for cloud deployment
@@ -27,28 +31,45 @@ const Chatbot = () => {
   const inputRef = useRef(null)
 
   // Grace mascot animation states
-  const [isWaving, setIsWaving] = useState(false)
+  const [animationData, setAnimationData] = useState(null)
+  const [isScrolling, setIsScrolling] = useState(false)
+  const [showBubble, setShowBubble] = useState(true)
+  const scrollTimeoutRef = useRef(null)
 
-  // Trigger wave animation periodically
+  // Load Lottie animation data
   useEffect(() => {
-    if (isOpen || !hasAppeared) return
+    fetch(GRACE_ANIMATION_URL)
+      .then(res => res.json())
+      .then(data => setAnimationData(data))
+      .catch(err => console.log('Failed to load animation:', err))
+  }, [])
 
-    // Wave when first appearing
-    const initialWave = setTimeout(() => setIsWaving(true), 500)
-    const stopInitialWave = setTimeout(() => setIsWaving(false), 2500)
+  // Hide bubble on scroll, show again when stopped
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolling(true)
+      setShowBubble(false)
 
-    // Then wave periodically
-    const waveInterval = setInterval(() => {
-      setIsWaving(true)
-      setTimeout(() => setIsWaving(false), 2000)
-    }, 8000)
+      // Clear previous timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
 
-    return () => {
-      clearTimeout(initialWave)
-      clearTimeout(stopInitialWave)
-      clearInterval(waveInterval)
+      // Show bubble again after scrolling stops
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false)
+        setShowBubble(true)
+      }, 1500)
     }
-  }, [isOpen, hasAppeared])
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Check API availability on mount
   useEffect(() => {
@@ -401,192 +422,95 @@ const Chatbot = () => {
         {hasAppeared && !isOpen && activeMode !== null && (
           <motion.div
             initial={{ scale: 0, opacity: 0, y: 50 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
+            animate={{
+              scale: isScrolling ? 0.8 : 1,
+              opacity: 1,
+              y: 0
+            }}
             exit={{ scale: 0, opacity: 0, y: 50 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30"
           >
-            {/* Animated Speech bubble tooltip */}
-            {showInitialMessage && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0, x: 20 }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  x: 0,
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 400,
-                  damping: 15,
-                  delay: 0.3
-                }}
-                className="absolute -top-2 -left-44 sm:-left-48 bg-white rounded-2xl shadow-xl px-4 py-3 border border-grace-accent/20 w-40 sm:w-44"
-              >
-                {/* Typing animation header */}
-                <motion.div className="flex items-center gap-1.5 mb-1">
-                  <motion.span
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-sm font-semibold text-grace-accent"
-                  >
-                    Hi! I'm Grace
-                  </motion.span>
-                  <motion.span
-                    animate={{
-                      rotate: [0, 14, -8, 14, -4, 10, 0],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      repeatDelay: 3
-                    }}
-                    className="text-base"
-                  >
-                    👋
-                  </motion.span>
-                </motion.div>
-
-                {/* Typing text effect */}
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                  className="text-xs text-gray-600"
-                >
-                  Need help? Click me!
-                </motion.p>
-
-                {/* Animated typing dots */}
+            {/* Compact Speech bubble - hides on scroll */}
+            <AnimatePresence>
+              {showInitialMessage && showBubble && !isScrolling && (
                 <motion.div
-                  className="flex gap-1 mt-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.2 }}
+                  initial={{ opacity: 0, scale: 0.8, x: 10 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, x: 10 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  className="absolute bottom-full right-0 mb-2 bg-white rounded-xl shadow-lg px-3 py-2 border border-grace-accent/20 whitespace-nowrap"
                 >
-                  {[0, 1, 2].map((i) => (
-                    <motion.div
-                      key={i}
-                      className="w-1.5 h-1.5 rounded-full bg-grace-accent"
-                      animate={{
-                        y: [0, -5, 0],
-                        scale: [1, 1.2, 1]
-                      }}
-                      transition={{
-                        duration: 0.6,
-                        repeat: Infinity,
-                        delay: i * 0.12,
-                        ease: 'easeInOut'
-                      }}
-                    />
-                  ))}
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-medium text-gray-700">Need help?</span>
+                    <motion.span
+                      animate={{ rotate: [0, 14, -8, 14, 0] }}
+                      transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
+                      className="text-sm"
+                    >
+                      👋
+                    </motion.span>
+                  </div>
+                  {/* Bubble tail */}
+                  <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-r border-b border-grace-accent/20 transform rotate-45" />
                 </motion.div>
+              )}
+            </AnimatePresence>
 
-                {/* Speech bubble tail pointing right */}
-                <div className="absolute top-4 -right-2 w-4 h-4 bg-white border-r border-t border-grace-accent/20 transform rotate-45" />
-              </motion.div>
-            )}
-
-            {/* Grace Mascot Button */}
+            {/* Grace Mascot Button with Lottie Animation */}
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative w-20 h-20 sm:w-24 sm:h-24 cursor-pointer"
-              whileHover={{ scale: 1.05 }}
+              className="relative w-16 h-16 sm:w-20 sm:h-20 cursor-pointer rounded-full bg-gradient-to-br from-grace-accent/10 to-rose-100 shadow-xl border-2 border-white overflow-hidden"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               animate={{
-                y: [0, -8, 0],
+                y: isScrolling ? 0 : [0, -6, 0],
               }}
               transition={{
                 y: {
-                  duration: 2.5,
+                  duration: 2,
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }
               }}
             >
-              {/* Soft glow/shadow under Grace */}
+              {/* Soft pulsing glow */}
               <motion.div
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-3 bg-grace-accent/20 rounded-full blur-md"
+                className="absolute inset-0 rounded-full bg-grace-accent/20"
                 animate={{
-                  scaleX: [1, 0.8, 1],
+                  scale: [1, 1.1, 1],
                   opacity: [0.3, 0.5, 0.3]
                 }}
                 transition={{
-                  duration: 2.5,
+                  duration: 2,
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
               />
 
-              {/* Decorative sparkles around Grace */}
-              <motion.div
-                className="absolute -top-2 -left-2 text-yellow-400 text-sm"
-                animate={{
-                  scale: [0, 1.2, 0],
-                  opacity: [0, 1, 0],
-                  rotate: [0, 180, 360]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  delay: 0.5,
-                  ease: 'easeInOut'
-                }}
-              >
-                ✦
-              </motion.div>
-              <motion.div
-                className="absolute top-2 -right-3 text-pink-400 text-xs"
-                animate={{
-                  scale: [0, 1, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 1.8,
-                  repeat: Infinity,
-                  delay: 1,
-                  ease: 'easeInOut'
-                }}
-              >
-                ✦
-              </motion.div>
-              <motion.div
-                className="absolute bottom-4 -left-3 text-grace-accent text-xs"
-                animate={{
-                  scale: [0, 1.1, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 2.2,
-                  repeat: Infinity,
-                  delay: 1.5,
-                  ease: 'easeInOut'
-                }}
-              >
-                ♥
-              </motion.div>
-
-              {/* Grace Character Image */}
-              <motion.div
-                className="relative w-full h-full"
-                animate={isWaving ? {
-                  rotate: [-2, 2, -2, 2, 0],
-                } : {}}
-                transition={{
-                  duration: 0.5,
-                  repeat: isWaving ? 3 : 0,
-                }}
-              >
-                <img
-                  src="/images/girl.png"
-                  alt="Grace - Your friendly assistant"
-                  className="w-full h-full object-contain drop-shadow-lg"
-                  style={{
-                    filter: 'drop-shadow(0 4px 12px rgba(240, 86, 68, 0.3))'
-                  }}
-                />
-              </motion.div>
+              {/* Lottie Animation Character */}
+              <div className="relative w-full h-full flex items-center justify-center">
+                {animationData ? (
+                  <Lottie
+                    animationData={animationData}
+                    loop={true}
+                    autoplay={true}
+                    style={{
+                      width: '90%',
+                      height: '90%',
+                    }}
+                  />
+                ) : (
+                  // Fallback while loading
+                  <motion.div
+                    className="w-10 h-10 rounded-full bg-grace-accent/30 flex items-center justify-center"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
+                    <MessageCircle className="w-5 h-5 text-grace-accent" />
+                  </motion.div>
+                )}
+              </div>
 
               {/* Notification badge */}
               {showInitialMessage && (
@@ -594,17 +518,13 @@ const Chatbot = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 15, delay: 0.5 }}
-                  className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-br from-grace-accent to-rose-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center"
+                  className="absolute -top-0.5 -right-0.5 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-md flex items-center justify-center"
                 >
-                  <motion.span
-                    className="text-white text-sm"
-                    animate={{
-                      scale: [1, 1.3, 1],
-                    }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    💬
-                  </motion.span>
+                  <motion.div
+                    className="w-2 h-2 bg-white rounded-full"
+                    animate={{ scale: [1, 0.7, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
                 </motion.div>
               )}
             </motion.button>
