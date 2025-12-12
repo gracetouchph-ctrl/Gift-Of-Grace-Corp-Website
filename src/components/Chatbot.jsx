@@ -443,17 +443,80 @@ const Chatbot = () => {
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30"
           >
-            {/* Speech bubble tooltip */}
+            {/* Animated Speech bubble tooltip */}
             {showInitialMessage && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="absolute -top-16 right-0 bg-white rounded-2xl shadow-xl px-4 py-2 border border-gray-100 max-w-[180px]"
+                initial={{ opacity: 0, scale: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  opacity: { duration: 0.3 },
+                  scale: { type: 'spring', stiffness: 400, damping: 15 },
+                  y: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                }}
+                className="absolute -top-20 right-0 bg-white rounded-2xl shadow-xl px-4 py-3 border border-grace-accent/20 max-w-[200px]"
               >
-                <p className="text-sm text-gray-700 font-medium">Hi there! 👋</p>
-                <p className="text-xs text-gray-500">Click me to chat!</p>
+                <motion.div className="flex items-center gap-1">
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-sm text-gray-700 font-medium"
+                  >
+                    Hi there!
+                  </motion.span>
+                  <motion.span
+                    animate={{
+                      rotate: [0, 20, -20, 20, 0],
+                      scale: [1, 1.2, 1.2, 1.2, 1]
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      repeatDelay: 2
+                    }}
+                    className="text-lg"
+                  >
+                    👋
+                  </motion.span>
+                </motion.div>
+                <motion.p
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 'auto' }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  className="text-xs text-gray-500 overflow-hidden whitespace-nowrap"
+                >
+                  Click me to chat!
+                </motion.p>
+                {/* Animated dots */}
+                <motion.div
+                  className="flex gap-1 mt-1"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                >
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-1.5 h-1.5 rounded-full bg-grace-accent"
+                      animate={{
+                        y: [0, -4, 0],
+                        opacity: [0.4, 1, 0.4]
+                      }}
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        delay: i * 0.15,
+                        ease: 'easeInOut'
+                      }}
+                    />
+                  ))}
+                </motion.div>
                 {/* Speech bubble tail */}
-                <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45" />
+                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-r border-b border-grace-accent/20 transform rotate-45" />
               </motion.div>
             )}
 
@@ -464,28 +527,26 @@ const Chatbot = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              {/* Outer glow effect */}
+              {/* Soft outer glow effect */}
               <motion.div
-                className="absolute inset-0 rounded-full bg-grace-accent/30 blur-xl"
+                className="absolute inset-0 rounded-full bg-sky-300/40 blur-xl"
                 animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.6, 0.3],
+                  scale: [1, 1.15, 1],
+                  opacity: [0.4, 0.7, 0.4],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
               />
 
-              {/* Eyeball container */}
+              {/* Cute eyeball container */}
               <div className="relative w-full h-full">
-                {/* Sclera (white of eye) with subtle shadow */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-gray-50 to-gray-100 shadow-2xl border-2 border-gray-200 overflow-hidden">
-                  {/* Blood vessel details */}
-                  <div className="absolute top-2 left-2 w-3 h-0.5 bg-red-200/50 rounded-full rotate-45" />
-                  <div className="absolute top-4 left-1 w-2 h-0.5 bg-red-200/40 rounded-full rotate-12" />
-                  <div className="absolute bottom-3 right-2 w-2 h-0.5 bg-red-200/40 rounded-full -rotate-45" />
+                {/* Sclera (white of eye) - clean and bright */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-white to-sky-50 shadow-xl border-2 border-sky-100 overflow-hidden">
+                  {/* Subtle shine on sclera */}
+                  <div className="absolute top-1 left-2 w-3 h-2 bg-white/80 rounded-full blur-sm" />
                 </div>
 
                 {/* Iris + Pupil container (moves with mouse) */}
@@ -497,79 +558,108 @@ const Chatbot = () => {
                   }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
-                  {/* Iris */}
-                  <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-grace-accent via-rose-500 to-grace-accent-alt shadow-inner overflow-hidden">
-                    {/* Iris texture/pattern */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.3)_0%,transparent_50%)]" />
-                    <div className="absolute inset-0">
-                      {[...Array(12)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="absolute top-1/2 left-1/2 w-0.5 h-full origin-center bg-gradient-to-b from-transparent via-black/10 to-transparent"
-                          style={{ transform: `rotate(${i * 30}deg) translateX(-50%)` }}
-                        />
-                      ))}
-                    </div>
+                  {/* Iris - friendly teal/blue color */}
+                  <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-sky-400 via-teal-400 to-emerald-500 shadow-lg overflow-hidden">
+                    {/* Iris sparkle/highlight */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.5)_0%,transparent_40%)]" />
 
-                    {/* Pupil */}
+                    {/* Soft radial pattern */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_30%,rgba(0,0,0,0.1)_70%)]" />
+
+                    {/* Pupil - larger for cute look */}
                     <motion.div
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-gray-900 shadow-inner"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gray-900"
                       animate={{
-                        scale: showInitialMessage ? [1, 1.2, 1] : 1,
+                        scale: showInitialMessage ? [1, 1.1, 1] : 1,
                       }}
                       transition={{
-                        duration: 2,
+                        duration: 1.5,
                         repeat: showInitialMessage ? Infinity : 0,
                         ease: 'easeInOut',
                       }}
                     >
-                      {/* Pupil highlight */}
-                      <div className="absolute top-0.5 left-0.5 w-1.5 h-1.5 rounded-full bg-white/80" />
-                      <div className="absolute bottom-1 right-0.5 w-1 h-1 rounded-full bg-white/40" />
+                      {/* Big anime-style highlight */}
+                      <div className="absolute top-0.5 left-1 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white" />
+                      {/* Small secondary highlight */}
+                      <div className="absolute bottom-1.5 right-1 w-1 h-1 rounded-full bg-white/70" />
                     </motion.div>
 
-                    {/* Iris ring */}
-                    <div className="absolute inset-0 rounded-full border-2 border-black/20" />
+                    {/* Inner iris ring for depth */}
+                    <div className="absolute inset-1 rounded-full border border-white/20" />
                   </div>
                 </motion.div>
 
-                {/* Eyelid (for blinking) */}
+                {/* Cute eyelids (for blinking) - soft pink */}
                 <motion.div
                   className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
                   initial={false}
                 >
                   {/* Upper eyelid */}
                   <motion.div
-                    className="absolute inset-x-0 top-0 bg-gradient-to-b from-amber-100 via-amber-50 to-transparent rounded-t-full"
+                    className="absolute inset-x-0 top-0 bg-gradient-to-b from-pink-200 via-pink-100 to-transparent rounded-t-full"
                     initial={{ height: '0%' }}
-                    animate={{ height: isBlinking ? '55%' : '0%' }}
-                    transition={{ duration: 0.075, ease: 'easeInOut' }}
+                    animate={{ height: isBlinking ? '52%' : '0%' }}
+                    transition={{ duration: 0.1, ease: 'easeInOut' }}
                   />
                   {/* Lower eyelid */}
                   <motion.div
-                    className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-amber-100 via-amber-50 to-transparent rounded-b-full"
+                    className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-pink-200 via-pink-100 to-transparent rounded-b-full"
                     initial={{ height: '0%' }}
-                    animate={{ height: isBlinking ? '55%' : '0%' }}
-                    transition={{ duration: 0.075, ease: 'easeInOut' }}
+                    animate={{ height: isBlinking ? '52%' : '0%' }}
+                    transition={{ duration: 0.1, ease: 'easeInOut' }}
                   />
                 </motion.div>
 
-                {/* Eye outline/lash hints */}
-                <div className="absolute inset-0 rounded-full border-4 border-amber-200/50 pointer-events-none" />
+                {/* Soft eye outline */}
+                <div className="absolute inset-0 rounded-full border-3 border-pink-200/60 pointer-events-none" />
+
+                {/* Cute sparkle decorations */}
+                <motion.div
+                  className="absolute -top-1 -right-1 text-yellow-300"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7],
+                    rotate: [0, 15, 0]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: 'easeInOut'
+                  }}
+                >
+                  ✦
+                </motion.div>
+                <motion.div
+                  className="absolute -bottom-0.5 -left-1 text-xs text-pink-300"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: 0.5,
+                    ease: 'easeInOut'
+                  }}
+                >
+                  ✦
+                </motion.div>
               </div>
 
-              {/* Notification indicator */}
+              {/* Notification indicator - cute heart style */}
               {showInitialMessage && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center"
+                  className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center"
                 >
-                  <motion.div
-                    className="w-2 h-2 bg-white rounded-full"
-                    animate={{ scale: [1, 0.5, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
+                  <motion.span
+                    className="text-white text-xs"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                  >
+                    💬
+                  </motion.span>
                 </motion.div>
               )}
             </motion.button>
