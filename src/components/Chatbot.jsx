@@ -26,6 +26,67 @@ const Chatbot = () => {
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
+  // Eyeball animation states
+  const [eyePosition, setEyePosition] = useState({ x: 0, y: 0 })
+  const [isBlinking, setIsBlinking] = useState(false)
+  const eyeRef = useRef(null)
+
+  // Track mouse movement for eyeball effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!eyeRef.current || isOpen) return
+
+      const eye = eyeRef.current.getBoundingClientRect()
+      const eyeCenterX = eye.left + eye.width / 2
+      const eyeCenterY = eye.top + eye.height / 2
+
+      const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX)
+      const distance = Math.min(
+        Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 15,
+        8
+      )
+
+      setEyePosition({
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance,
+      })
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [isOpen])
+
+  // Random blinking effect
+  useEffect(() => {
+    if (isOpen) return
+
+    const blink = () => {
+      setIsBlinking(true)
+      setTimeout(() => setIsBlinking(false), 150)
+    }
+
+    // Blink randomly every 2-5 seconds
+    const scheduleNextBlink = () => {
+      const delay = 2000 + Math.random() * 3000
+      return setTimeout(() => {
+        blink()
+        blinkTimeout = scheduleNextBlink()
+      }, delay)
+    }
+
+    let blinkTimeout = scheduleNextBlink()
+
+    // Also blink twice quickly when first appearing
+    if (hasAppeared) {
+      setTimeout(() => {
+        blink()
+        setTimeout(blink, 300)
+      }, 500)
+    }
+
+    return () => clearTimeout(blinkTimeout)
+  }, [isOpen, hasAppeared])
+
   // Check API availability on mount
   useEffect(() => {
     const checkRasaAvailability = async () => {
@@ -372,7 +433,7 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Chatbot Button */}
+      {/* Floating Eyeball Chat Button */}
       <AnimatePresence>
         {hasAppeared && !isOpen && activeMode !== null && (
           <motion.div
@@ -382,77 +443,135 @@ const Chatbot = () => {
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30"
           >
+            {/* Speech bubble tooltip */}
+            {showInitialMessage && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="absolute -top-16 right-0 bg-white rounded-2xl shadow-xl px-4 py-2 border border-gray-100 max-w-[180px]"
+              >
+                <p className="text-sm text-gray-700 font-medium">Hi there! 👋</p>
+                <p className="text-xs text-gray-500">Click me to chat!</p>
+                {/* Speech bubble tail */}
+                <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-r border-b border-gray-100 transform rotate-45" />
+              </motion.div>
+            )}
+
             <motion.button
+              ref={eyeRef}
               onClick={() => setIsOpen(true)}
-              className="relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-grace-accent to-grace-accent-alt rounded-full shadow-2xl flex items-center justify-center hover:shadow-3xl transition-all duration-300 group overflow-hidden"
-              whileHover={{ scale: 1.05 }}
+              className="relative w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              animate={showInitialMessage ? {
-                boxShadow: [
-                  '0 20px 25px -5px rgba(240, 86, 68, 0.5)',
-                  '0 25px 30px -5px rgba(240, 86, 68, 0.8)',
-                  '0 20px 25px -5px rgba(240, 86, 68, 0.5)',
-                ],
-              } : {}}
-              transition={{
-                boxShadow: {
+            >
+              {/* Outer glow effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-grace-accent/30 blur-xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   ease: 'easeInOut',
-                },
-              }}
-            >
-              {/* Animated background shine */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                animate={{
-                  x: ['-100%', '100%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'linear',
                 }}
               />
-              {/* Notification badge */}
+
+              {/* Eyeball container */}
+              <div className="relative w-full h-full">
+                {/* Sclera (white of eye) with subtle shadow */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-gray-50 to-gray-100 shadow-2xl border-2 border-gray-200 overflow-hidden">
+                  {/* Blood vessel details */}
+                  <div className="absolute top-2 left-2 w-3 h-0.5 bg-red-200/50 rounded-full rotate-45" />
+                  <div className="absolute top-4 left-1 w-2 h-0.5 bg-red-200/40 rounded-full rotate-12" />
+                  <div className="absolute bottom-3 right-2 w-2 h-0.5 bg-red-200/40 rounded-full -rotate-45" />
+                </div>
+
+                {/* Iris + Pupil container (moves with mouse) */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  animate={{
+                    x: eyePosition.x,
+                    y: eyePosition.y,
+                  }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  {/* Iris */}
+                  <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-grace-accent via-rose-500 to-grace-accent-alt shadow-inner overflow-hidden">
+                    {/* Iris texture/pattern */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.3)_0%,transparent_50%)]" />
+                    <div className="absolute inset-0">
+                      {[...Array(12)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute top-1/2 left-1/2 w-0.5 h-full origin-center bg-gradient-to-b from-transparent via-black/10 to-transparent"
+                          style={{ transform: `rotate(${i * 30}deg) translateX(-50%)` }}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Pupil */}
+                    <motion.div
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-gray-900 shadow-inner"
+                      animate={{
+                        scale: showInitialMessage ? [1, 1.2, 1] : 1,
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: showInitialMessage ? Infinity : 0,
+                        ease: 'easeInOut',
+                      }}
+                    >
+                      {/* Pupil highlight */}
+                      <div className="absolute top-0.5 left-0.5 w-1.5 h-1.5 rounded-full bg-white/80" />
+                      <div className="absolute bottom-1 right-0.5 w-1 h-1 rounded-full bg-white/40" />
+                    </motion.div>
+
+                    {/* Iris ring */}
+                    <div className="absolute inset-0 rounded-full border-2 border-black/20" />
+                  </div>
+                </motion.div>
+
+                {/* Eyelid (for blinking) */}
+                <motion.div
+                  className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
+                  initial={false}
+                >
+                  {/* Upper eyelid */}
+                  <motion.div
+                    className="absolute inset-x-0 top-0 bg-gradient-to-b from-amber-100 via-amber-50 to-transparent rounded-t-full"
+                    initial={{ height: '0%' }}
+                    animate={{ height: isBlinking ? '55%' : '0%' }}
+                    transition={{ duration: 0.075, ease: 'easeInOut' }}
+                  />
+                  {/* Lower eyelid */}
+                  <motion.div
+                    className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-amber-100 via-amber-50 to-transparent rounded-b-full"
+                    initial={{ height: '0%' }}
+                    animate={{ height: isBlinking ? '55%' : '0%' }}
+                    transition={{ duration: 0.075, ease: 'easeInOut' }}
+                  />
+                </motion.div>
+
+                {/* Eye outline/lash hints */}
+                <div className="absolute inset-0 rounded-full border-4 border-amber-200/50 pointer-events-none" />
+              </div>
+
+              {/* Notification indicator */}
               {showInitialMessage && (
                 <motion.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  className="absolute -top-1 -right-1 w-5 h-5 bg-grace-accent-alt rounded-full border-2 border-white shadow-lg z-10"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center"
                 >
                   <motion.div
-                    className="absolute inset-0 bg-grace-accent-alt rounded-full"
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.8, 0, 0.8],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
+                    className="w-2 h-2 bg-white rounded-full"
+                    animate={{ scale: [1, 0.5, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
                   />
                 </motion.div>
               )}
-              {/* Logo Icon */}
-              <div className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center p-1.5 sm:p-2">
-                <img
-                  src="/images/giftofgracelogo.png"
-                  alt="Chat with Gift of Grace"
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                    if (e.target.parentElement) {
-                      e.target.parentElement.innerHTML = `
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-grace-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
-                      `
-                    }
-                  }}
-                />
-              </div>
             </motion.button>
           </motion.div>
         )}
