@@ -4,8 +4,61 @@ import { X, Send, MessageCircle, Bot, Loader2, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import Lottie from 'lottie-react'
 
-// Lottie animation URL for the cute assistant character
-const GRACE_ANIMATION_URL = 'https://assets-v2.lottiefiles.com/a/66ccab80-1181-11ee-bc88-5bceb276cd32/46rhxDRLzk.json'
+// Interactive Digital Assistant animation from LottieFiles
+// A cute robot assistant perfect for the chatbot
+const GRACE_ANIMATION_URL = 'https://assets-v2.lottiefiles.com/a/4beb1208-1167-11ee-8a85-bf74c92392f1/WaEfyS2NQM.json'
+
+// Helper function to customize Lottie animation colors
+// Converts color arrays in Lottie format to new colors
+const customizeLottieColors = (animationData, colorMap) => {
+  if (!animationData) return animationData
+
+  const data = JSON.parse(JSON.stringify(animationData)) // Deep clone
+
+  // Recursive function to find and replace colors
+  const replaceColors = (obj) => {
+    if (!obj || typeof obj !== 'object') return
+
+    // Check if this is a color property (k array with RGB values 0-1)
+    if (obj.k && Array.isArray(obj.k) && obj.k.length >= 3) {
+      const [r, g, b] = obj.k
+      // Check if it's a color value (0-1 range)
+      if (r <= 1 && g <= 1 && b <= 1 && r >= 0 && g >= 0 && b >= 0) {
+        // Apply color mapping based on brightness
+        const brightness = (r + g + b) / 3
+
+        // Customize main colors to brand theme
+        if (brightness > 0.7) {
+          // Light colors -> Grace accent light
+          obj.k = [0.988, 0.898, 0.918, 1] // #FCE5EA - soft pink
+        } else if (brightness > 0.4) {
+          // Mid colors -> Grace accent
+          obj.k = [0.914, 0.118, 0.388, 1] // #E91E63 - grace accent pink
+        } else if (brightness > 0.2) {
+          // Dark colors -> Purple accent
+          obj.k = [0.612, 0.153, 0.69, 1] // #9C27B0 - purple
+        }
+      }
+    }
+
+    // Recurse into nested objects and arrays
+    if (Array.isArray(obj)) {
+      obj.forEach(replaceColors)
+    } else {
+      Object.values(obj).forEach(replaceColors)
+    }
+  }
+
+  // Process layers
+  if (data.layers) {
+    replaceColors(data.layers)
+  }
+
+  return data
+}
+
+// Particle colors for blast effect
+const PARTICLE_COLORS = ['#E91E63', '#9C27B0', '#2196F3', '#00BCD4', '#4CAF50', '#FF9800']
 
 // API Configuration
 // RASA for local development, HF Spaces (Gemini) for cloud deployment
@@ -34,14 +87,77 @@ const Chatbot = () => {
   const [animationData, setAnimationData] = useState(null)
   const [isScrolling, setIsScrolling] = useState(false)
   const [showBubble, setShowBubble] = useState(true)
+  const [particles, setParticles] = useState([])
+  const [isHovering, setIsHovering] = useState(false)
   const scrollTimeoutRef = useRef(null)
+  const particleIntervalRef = useRef(null)
 
-  // Load Lottie animation data
+  // Generate floating particles around the robot
+  const generateParticle = () => {
+    const id = Date.now() + Math.random()
+    const angle = Math.random() * Math.PI * 2
+    const distance = 40 + Math.random() * 30
+    const color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)]
+    const size = 4 + Math.random() * 6
+    const duration = 1.5 + Math.random() * 1
+
+    return {
+      id,
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance,
+      color,
+      size,
+      duration,
+    }
+  }
+
+  // Continuous particle generation
   useEffect(() => {
-    fetch(GRACE_ANIMATION_URL)
-      .then(res => res.json())
-      .then(data => setAnimationData(data))
-      .catch(err => console.log('Failed to load animation:', err))
+    if (hasAppeared && !isOpen && !isScrolling) {
+      // Generate particles continuously
+      particleIntervalRef.current = setInterval(() => {
+        setParticles(prev => {
+          const newParticles = [...prev, generateParticle()]
+          // Keep only last 8 particles
+          return newParticles.slice(-8)
+        })
+      }, 400)
+    } else {
+      if (particleIntervalRef.current) {
+        clearInterval(particleIntervalRef.current)
+      }
+      setParticles([])
+    }
+
+    return () => {
+      if (particleIntervalRef.current) {
+        clearInterval(particleIntervalRef.current)
+      }
+    }
+  }, [hasAppeared, isOpen, isScrolling])
+
+  // Load Lottie animation data and customize colors
+  useEffect(() => {
+    const loadAnimation = async () => {
+      try {
+        const response = await fetch(GRACE_ANIMATION_URL)
+        if (response.ok) {
+          const data = await response.json()
+          if (data && (data.v || data.layers)) {
+            // Apply brand color customization
+            const customizedData = customizeLottieColors(data)
+            setAnimationData(customizedData)
+            console.log('Loaded and customized robot animation')
+            return
+          }
+        }
+      } catch (err) {
+        console.log('Failed to load animation:', err)
+      }
+      console.log('Animation load failed, using fallback icon')
+    }
+
+    loadAnimation()
   }, [])
 
   // Hide bubble on scroll, show again when stopped
@@ -457,57 +573,148 @@ const Chatbot = () => {
               )}
             </AnimatePresence>
 
-            {/* Grace Mascot Button with Lottie Animation */}
+            {/* Grace Robot Mascot - No container, animation IS the button */}
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative w-16 h-16 sm:w-20 sm:h-20 cursor-pointer rounded-full bg-gradient-to-br from-grace-accent/10 to-rose-100 shadow-xl border-2 border-white overflow-hidden"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+              className="relative w-20 h-20 sm:w-24 sm:h-24 cursor-pointer"
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
               animate={{
-                y: isScrolling ? 0 : [0, -6, 0],
+                y: isScrolling ? 0 : [0, -8, 0],
               }}
               transition={{
                 y: {
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
                   ease: 'easeInOut'
-                }
+                },
+                scale: { type: 'spring', stiffness: 400, damping: 15 }
               }}
             >
-              {/* Soft pulsing glow */}
+              {/* Orbiting energy rings */}
               <motion.div
-                className="absolute inset-0 rounded-full bg-grace-accent/20"
+                className="absolute inset-0 pointer-events-none"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 border border-grace-accent/30 rounded-full" />
+              </motion.div>
+              <motion.div
+                className="absolute inset-0 pointer-events-none"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+              >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 sm:w-32 sm:h-32 border border-purple-400/20 rounded-full" />
+              </motion.div>
+
+              {/* Floating particles - blast effect */}
+              <AnimatePresence>
+                {particles.map((particle) => (
+                  <motion.div
+                    key={particle.id}
+                    className="absolute top-1/2 left-1/2 rounded-full pointer-events-none"
+                    style={{
+                      width: particle.size,
+                      height: particle.size,
+                      backgroundColor: particle.color,
+                      boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`,
+                    }}
+                    initial={{
+                      x: 0,
+                      y: 0,
+                      scale: 0,
+                      opacity: 1
+                    }}
+                    animate={{
+                      x: particle.x,
+                      y: particle.y,
+                      scale: [0, 1.5, 0],
+                      opacity: [0, 1, 0]
+                    }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{
+                      duration: particle.duration,
+                      ease: 'easeOut'
+                    }}
+                  />
+                ))}
+              </AnimatePresence>
+
+              {/* Pulsing glow effect behind robot */}
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, rgba(233,30,99,0.4) 0%, rgba(156,39,176,0.2) 50%, transparent 70%)',
+                }}
                 animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.5, 0.3]
+                  scale: isHovering ? [1, 1.4, 1.2] : [1, 1.2, 1],
+                  opacity: isHovering ? [0.8, 1, 0.8] : [0.5, 0.7, 0.5],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: isHovering ? 0.8 : 2,
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
               />
 
-              {/* Lottie Animation Character */}
-              <div className="relative w-full h-full flex items-center justify-center">
+              {/* Sparkle decorations */}
+              <motion.div
+                className="absolute -top-1 -right-1 text-yellow-400 pointer-events-none"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  rotate: [0, 15, -15, 0],
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-1 -left-1 text-cyan-400 pointer-events-none"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  rotate: [0, -10, 10, 0],
+                  opacity: [0.6, 1, 0.6]
+                }}
+                transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+              >
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+              </motion.div>
+
+              {/* Robot Lottie Animation - The main attraction */}
+              <div className="relative w-full h-full flex items-center justify-center z-10">
                 {animationData ? (
-                  <Lottie
-                    animationData={animationData}
-                    loop={true}
-                    autoplay={true}
-                    style={{
-                      width: '90%',
-                      height: '90%',
-                    }}
-                  />
-                ) : (
-                  // Fallback while loading
                   <motion.div
-                    className="w-10 h-10 rounded-full bg-grace-accent/30 flex items-center justify-center"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
+                    animate={{
+                      filter: isHovering
+                        ? ['drop-shadow(0 0 8px rgba(233,30,99,0.6))', 'drop-shadow(0 0 15px rgba(156,39,176,0.8))', 'drop-shadow(0 0 8px rgba(233,30,99,0.6))']
+                        : 'drop-shadow(0 0 5px rgba(233,30,99,0.3))'
+                    }}
+                    transition={{ duration: 1, repeat: isHovering ? Infinity : 0 }}
                   >
-                    <MessageCircle className="w-5 h-5 text-grace-accent" />
+                    <Lottie
+                      animationData={animationData}
+                      loop={true}
+                      autoplay={true}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                      }}
+                    />
+                  </motion.div>
+                ) : (
+                  // Fallback robot icon while loading
+                  <motion.div
+                    className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center"
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Bot className="w-10 h-10 sm:w-12 sm:h-12 text-grace-accent drop-shadow-lg" />
                   </motion.div>
                 )}
               </div>
@@ -518,12 +725,12 @@ const Chatbot = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 15, delay: 0.5 }}
-                  className="absolute -top-0.5 -right-0.5 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-md flex items-center justify-center"
+                  className="absolute top-0 right-0 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center z-20"
                 >
                   <motion.div
                     className="w-2 h-2 bg-white rounded-full"
-                    animate={{ scale: [1, 0.7, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    animate={{ scale: [1, 0.6, 1] }}
+                    transition={{ duration: 1.2, repeat: Infinity }}
                   />
                 </motion.div>
               )}
