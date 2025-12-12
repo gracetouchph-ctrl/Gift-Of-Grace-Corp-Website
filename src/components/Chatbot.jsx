@@ -96,10 +96,10 @@ const Chatbot = () => {
   const generateParticle = () => {
     const id = Date.now() + Math.random()
     const angle = Math.random() * Math.PI * 2
-    const distance = 40 + Math.random() * 30
+    const distance = 20 + Math.random() * 15 // Smaller distance
     const color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)]
-    const size = 4 + Math.random() * 6
-    const duration = 1.5 + Math.random() * 1
+    const size = 2 + Math.random() * 3 // Smaller particles
+    const duration = 1.2 + Math.random() * 0.8
 
     return {
       id,
@@ -578,11 +578,11 @@ const Chatbot = () => {
               onClick={() => setIsOpen(true)}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
-              className="relative w-20 h-20 sm:w-24 sm:h-24 cursor-pointer"
-              whileHover={{ scale: 1.15 }}
+              className="relative w-14 h-14 sm:w-16 sm:h-16 cursor-pointer"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               animate={{
-                y: isScrolling ? 0 : [0, -8, 0],
+                y: isScrolling ? 0 : [0, -5, 0],
               }}
               transition={{
                 y: {
@@ -593,20 +593,13 @@ const Chatbot = () => {
                 scale: { type: 'spring', stiffness: 400, damping: 15 }
               }}
             >
-              {/* Orbiting energy rings */}
+              {/* Subtle orbiting ring */}
               <motion.div
                 className="absolute inset-0 pointer-events-none"
                 animate={{ rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
               >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 border border-grace-accent/30 rounded-full" />
-              </motion.div>
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-              >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 sm:w-32 sm:h-32 border border-purple-400/20 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-18 sm:h-18 border border-grace-accent/20 rounded-full" />
               </motion.div>
 
               {/* Floating particles - blast effect */}
@@ -642,45 +635,33 @@ const Chatbot = () => {
                 ))}
               </AnimatePresence>
 
-              {/* Pulsing glow effect behind robot */}
+              {/* Subtle glow effect behind robot */}
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full pointer-events-none"
                 style={{
-                  background: 'radial-gradient(circle, rgba(233,30,99,0.4) 0%, rgba(156,39,176,0.2) 50%, transparent 70%)',
+                  background: 'radial-gradient(circle, rgba(233,30,99,0.25) 0%, transparent 70%)',
                 }}
                 animate={{
-                  scale: isHovering ? [1, 1.4, 1.2] : [1, 1.2, 1],
-                  opacity: isHovering ? [0.8, 1, 0.8] : [0.5, 0.7, 0.5],
+                  scale: isHovering ? [1, 1.15, 1.1] : [1, 1.08, 1],
+                  opacity: isHovering ? [0.6, 0.8, 0.6] : [0.4, 0.5, 0.4],
                 }}
                 transition={{
-                  duration: isHovering ? 0.8 : 2,
+                  duration: 2,
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
               />
 
-              {/* Sparkle decorations */}
+              {/* Small sparkle decoration */}
               <motion.div
-                className="absolute -top-1 -right-1 text-yellow-400 pointer-events-none"
+                className="absolute -top-0.5 -right-0.5 text-yellow-400 pointer-events-none"
                 animate={{
-                  scale: [1, 1.3, 1],
-                  rotate: [0, 15, -15, 0],
-                  opacity: [0.7, 1, 0.7]
+                  scale: [1, 1.2, 1],
+                  opacity: [0.6, 1, 0.6]
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-              </motion.div>
-              <motion.div
-                className="absolute -bottom-1 -left-1 text-cyan-400 pointer-events-none"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  rotate: [0, -10, 10, 0],
-                  opacity: [0.6, 1, 0.6]
-                }}
-                transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-              >
-                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+                <Sparkles className="w-3 h-3" />
               </motion.div>
 
               {/* Robot Lottie Animation - The main attraction */}
