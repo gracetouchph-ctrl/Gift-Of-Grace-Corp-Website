@@ -1,163 +1,163 @@
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef, memo } from 'react'
 import { Heart, Sparkles, Leaf, Target, Eye } from 'lucide-react'
 
-const About = () => {
-  const values = [
-    {
-      icon: Heart,
-      title: 'Rooted in Care',
-      description:
-        'Born from a mother’s passion for Korean kimchi lovingly adapted to the Filipino palate, every recipe is crafted as if made for family.',
-    },
-    {
-      icon: Leaf,
-      title: 'Health & Quality First',
-      description:
-        'From kimchi and tofu to rice coffee, pickled radish, and chicken pastil, each product is created to be both delicious and nourishing.',
-    },
-    {
-      icon: Sparkles,
-      title: 'Growing with Community',
-      description:
-        'From a home-based kitchen to over 150 outlets and major retail partners, our journey is guided by service, integrity, and grace.',
-    },
-  ]
+const values = [
+  {
+    icon: Heart,
+    title: 'Rooted in Care',
+    description:
+      "Born from a mother's passion for Korean kimchi lovingly adapted to the Filipino palate, every recipe is crafted as if made for family.",
+  },
+  {
+    icon: Leaf,
+    title: 'Health & Quality First',
+    description:
+      'From kimchi and tofu to rice coffee, pickled radish, and chicken pastil, each product is created to be both delicious and nourishing.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Growing with Community',
+    description:
+      'From a home-based kitchen to over 150 outlets and major retail partners, our journey is guided by service, integrity, and grace.',
+  },
+]
+
+const About = memo(() => {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section
+      ref={sectionRef}
       id="about"
-      className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-grace-light-blue via-white to-blue-50"
+      className="py-20 lg:py-28 bg-gradient-to-b from-white via-slate-50/50 to-white overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-5xl mx-auto text-center mb-10 sm:mb-12 md:mb-16 px-4"
-        >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-grace-dark-blue mb-4 sm:mb-5 tracking-tight">
-            About Gift of Grace Food Manufacturing Corporation
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className={`max-w-4xl mx-auto text-center mb-16 lg:mb-20 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <span className="inline-block px-4 py-1.5 bg-grace-accent/10 text-grace-accent rounded-full text-sm font-medium mb-6">
+            Our Story
+          </span>
+          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-serif font-medium text-gray-900 tracking-tight mb-6">
+            About Gift of Grace
+            <span className="block text-grace-accent">Food Manufacturing</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed mb-3 sm:mb-4">
+          <p className="text-gray-600 text-lg leading-relaxed mb-4">
             Gift of Grace Food Manufacturing Corporation began its journey in 2017, born from a
             mother's passion for creating Korean kimchi infused with a flavor profile tailored to
             the Filipino taste.
           </p>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-3 sm:mb-4">
-            What started as a humble home-based business—sharing products with neighbors—soon grew
+          <p className="text-gray-500 leading-relaxed">
+            What started as a humble home-based business sharing products with neighbors soon grew
             beyond the household, reaching the local community, the online market, and eventually
             well-known retail chains such as SM, Savemore, Puregold, and Robinsons.
           </p>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-3 sm:mb-4">
-            From its flagship kimchi, the product line has expanded to include tofu, rice coffee,
-            pickled radish, and chicken pastil—each crafted with care to ensure both great taste and
-            nutritional value. The company is deeply committed to offering healthy, high-quality
-            food products that support the well-being of its customers.
-          </p>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-            With over 150 outlets now operating across Northern Luzon, Gift of Grace has grown from
-            a sole proprietorship into a thriving corporation. Today, it continues to expand into
-            new markets, actively engage in government and community initiatives, and set a clear
-            path toward lasting success—while staying true to its mission and vision of delivering
-            nutritious, flavorful, and proudly Filipino-made local products.
-          </p>
-        </motion.div>
+        </div>
 
-        {/* Values / Highlights */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        {/* Values Grid */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16 lg:mb-20 transition-all duration-700 delay-200 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {values.map((item, index) => {
             const Icon = item.icon
             return (
-              <motion.div
+              <div
                 key={index}
-                className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ y: -5 }}
+                style={{ transitionDelay: `${200 + index * 100}ms` }}
+                className={`group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 text-center ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-grace-blue/10 rounded-full mb-3 sm:mb-4">
-                  <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-grace-blue" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-grace-accent/10 to-rose-100/50 rounded-2xl mb-5 group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="w-8 h-8 text-grace-accent" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-normal text-grace-dark-blue mb-2 sm:mb-3 tracking-tight">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3 tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{item.description}</p>
-              </motion.div>
+                <p className="text-gray-500 leading-relaxed">{item.description}</p>
+              </div>
             )
           })}
-        </motion.div>
+        </div>
 
         {/* Mission & Vision */}
-        <motion.div
-          className="mt-10 sm:mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto px-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-t-4 border-grace-accent">
-            <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <div className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-grace-accent/10">
-                <Target className="w-4 h-4 sm:w-5 sm:h-5 text-grace-accent" />
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16 lg:mb-20 transition-all duration-700 delay-400 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <div className="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-grace-accent to-rose-500 flex items-center justify-center">
+                <Target className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-normal text-grace-dark-blue tracking-tight">Mission</h3>
+              <h3 className="text-2xl font-serif font-medium text-gray-900">Mission</h3>
             </div>
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+            <p className="text-gray-600 leading-relaxed">
               To produce 10 different varieties of quality and healthy foods by year 2025.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-t-4 border-grace-accent-alt">
-            <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <div className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-grace-accent-alt/10">
-                <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-grace-accent-alt" />
+          <div className="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-grace-accent-alt flex items-center justify-center">
+                <Eye className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-normal text-grace-dark-blue tracking-tight">Vision</h3>
+              <h3 className="text-2xl font-serif font-medium text-gray-900">Vision</h3>
             </div>
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-              To provide not just a living but to extend blessing&mdash;sharing grace through
+            <p className="text-gray-600 leading-relaxed">
+              To provide not just a living but to extend blessing, sharing grace through
               nutritious, flavorful, and proudly Filipino-made local products.
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* Company Photos */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-5xl mx-auto mt-10 sm:mt-12 md:mt-16 px-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          {[1, 2, 3, 4, 5].map((item) => (
-            <motion.div
-              key={item}
-              className="aspect-square w-[calc(50%-0.375rem)] sm:w-[calc(33.333%-0.667rem)] md:w-[calc(20%-0.8rem)] rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-br from-grace-blue/10 to-grace-gold/10 border border-white/60 shadow-md"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img
-                src={`/images/CompanyPicture${item}.PNG`}
-                alt={`Gift of Grace company photo ${item}`}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className={`transition-all duration-700 delay-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            {[1, 2, 3, 4, 5].map((item, index) => (
+              <div
+                key={item}
+                style={{ transitionDelay: `${500 + index * 100}ms` }}
+                className={`group aspect-square rounded-2xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:scale-105 ${
+                  isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}
+              >
+                <img
+                  src={`/images/CompanyPicture${item}.PNG`}
+                  alt={`Gift of Grace company photo ${item}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
-}
+})
+
+About.displayName = 'About'
 
 export default About
-

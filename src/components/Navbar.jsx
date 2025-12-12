@@ -65,7 +65,7 @@ const Navbar = memo(() => {
           >
             <div className={`relative transition-all duration-300 ${isScrolled ? 'w-12 h-12' : 'w-14 h-14 lg:w-16 lg:h-16'}`}>
               <img
-                src="/images/giftofgracelogo.png"
+                src="/images/giftofgracelogo_transparent.png"
                 alt="Gift of Grace"
                 className="w-full h-full object-contain drop-shadow-md group-hover:drop-shadow-lg transition-all duration-300"
                 loading="eager"

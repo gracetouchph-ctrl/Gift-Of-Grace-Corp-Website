@@ -121,7 +121,7 @@ const Hero = memo(() => {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-gradient-to-br from-grace-accent to-rose-500 flex items-center justify-center">
                       <img
-                        src="/images/giftofgracelogo.png"
+                        src="/images/giftofgracelogo_transparent.png"
                         alt="Gift of Grace"
                         className="w-8 h-8 lg:w-10 lg:h-10 object-contain"
                       />

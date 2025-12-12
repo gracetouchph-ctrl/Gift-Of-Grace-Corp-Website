@@ -123,7 +123,10 @@ ProductCard.displayName = 'ProductCard'
 
 const FeaturedProducts = memo(() => {
   const [isVisible, setIsVisible] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const sectionRef = useRef(null)
+  const carouselRef = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -141,6 +144,34 @@ const FeaturedProducts = memo(() => {
     }
 
     return () => observer.disconnect()
+  }, [])
+
+  // Auto-play carousel
+  useEffect(() => {
+    if (!isAutoPlaying) return
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % products.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [isAutoPlaying])
+
+  const goToSlide = useCallback((index) => {
+    setActiveIndex(index)
+    setIsAutoPlaying(false)
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000)
+  }, [])
+
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % products.length)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 10000)
+  }, [])
+
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + products.length) % products.length)
+    setIsAutoPlaying(false)
+    setTimeout(() => setIsAutoPlaying(true), 10000)
   }, [])
 
   return (
@@ -166,6 +197,116 @@ const FeaturedProducts = memo(() => {
           <p className="text-gray-500 text-lg max-w-md lg:text-right">
             Each product is carefully crafted using traditional recipes passed down through generations.
           </p>
+        </div>
+
+        {/* Featured Product Carousel - Hero showcase */}
+        <div className={`mb-16 lg:mb-20 transition-all duration-700 delay-100 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <div className="relative bg-gradient-to-br from-slate-50 via-white to-grace-light-blue/20 rounded-3xl p-6 lg:p-10 border border-gray-100 shadow-lg overflow-hidden">
+            {/* Background decorations */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-grace-accent/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-grace-gold/5 rounded-full blur-3xl" />
+
+            <div className="relative grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Image Side */}
+              <div className="relative order-2 lg:order-1">
+                <div
+                  ref={carouselRef}
+                  className="relative h-72 lg:h-96 flex items-center justify-center"
+                >
+                  {products.map((product, index) => (
+                    <div
+                      key={product.id}
+                      className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-out ${
+                        index === activeIndex
+                          ? 'opacity-100 scale-100 translate-x-0'
+                          : index < activeIndex
+                            ? 'opacity-0 scale-90 -translate-x-full'
+                            : 'opacity-0 scale-90 translate-x-full'
+                      }`}
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="max-h-full max-w-full object-contain drop-shadow-2xl"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Navigation arrows */}
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 lg:-translate-x-4 w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-grace-accent hover:scale-110 transition-all duration-300"
+                  aria-label="Previous product"
+                >
+                  <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 lg:translate-x-4 w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-grace-accent hover:scale-110 transition-all duration-300"
+                  aria-label="Next product"
+                >
+                  <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
+                </button>
+              </div>
+
+              {/* Content Side */}
+              <div className="order-1 lg:order-2 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-grace-accent/10 rounded-full text-grace-accent text-sm font-medium mb-4">
+                  <span className="w-2 h-2 bg-grace-accent rounded-full animate-pulse" />
+                  {products[activeIndex].category}
+                </div>
+
+                <h3 className="text-2xl lg:text-4xl font-serif font-medium text-gray-900 mb-3 transition-all duration-500">
+                  {products[activeIndex].name}
+                </h3>
+
+                <p className="text-gray-500 text-lg mb-4 max-w-md mx-auto lg:mx-0">
+                  {products[activeIndex].description}
+                </p>
+
+                <div className="flex items-center gap-1 justify-center lg:justify-start mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                  ))}
+                  <span className="text-gray-400 ml-2">(4.9)</span>
+                </div>
+
+                <div className="flex items-center gap-4 justify-center lg:justify-start mb-8">
+                  <span className="text-3xl lg:text-4xl font-bold text-gray-900">
+                    {products[activeIndex].price}
+                  </span>
+                  <a
+                    href={products[activeIndex].shopeeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-grace-accent hover:bg-rose-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-grace-accent/25 hover:scale-105 transition-all duration-300"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    Shop Now
+                  </a>
+                </div>
+
+                {/* Dots indicator */}
+                <div className="flex items-center gap-2 justify-center lg:justify-start">
+                  {products.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`transition-all duration-300 rounded-full ${
+                        index === activeIndex
+                          ? 'w-8 h-2 bg-grace-accent'
+                          : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Go to product ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Products Grid */}

@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef, memo } from 'react'
 import { ExternalLink, Award, PlayCircle, Image as ImageIcon, X } from 'lucide-react'
 import { awards } from '../data/awards'
 
@@ -9,23 +8,43 @@ const iconFor = (type) => {
   return Award
 }
 
-const Awards = () => {
+const Awards = memo(() => {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
+
   const [openItem, setOpenItem] = useState(null)
 
   return (
     <section
+      ref={sectionRef}
       id="awards"
-      className="py-12 sm:py-16 bg-gradient-to-b from-white via-grace-light-blue/20 to-white"
+      className="py-20 lg:py-28 bg-gradient-to-b from-slate-50/50 via-white to-white overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-grace-accent mb-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`text-center mb-12 lg:mb-16 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <span className="inline-block px-4 py-1.5 bg-grace-accent/10 text-grace-accent rounded-full text-sm font-medium mb-6">
+            Recognition
+          </span>
+          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-serif font-medium text-gray-900 tracking-tight mb-4">
             Awards & Milestones
-          </p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal text-grace-dark-blue tracking-tight">
-            Celebrating Our Achievements
           </h2>
-          <p className="text-sm sm:text-base text-gray-600 mt-3">
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto">
             Recognitions, features, and community impact stories from Gift of Grace.
           </p>
         </div>
@@ -35,7 +54,7 @@ const Awards = () => {
           const Icon = iconFor(item.type)
           const hasLinks = !!item.links
             return (
-              <motion.div
+              <div
                 key={`${item.title}-${idx}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -95,7 +114,7 @@ const Awards = () => {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>
@@ -103,10 +122,7 @@ const Awards = () => {
         {/* Overlay for link list */}
         {openItem && openItem.links && (
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black/50 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
+            <div
               className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
             >
               <div className="relative h-32 sm:h-40 bg-center bg-cover" style={{
@@ -155,13 +171,15 @@ const Awards = () => {
                   </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
       </div>
     </section>
   )
-}
+})
+
+Awards.displayName = 'Awards'
 
 export default Awards
 
