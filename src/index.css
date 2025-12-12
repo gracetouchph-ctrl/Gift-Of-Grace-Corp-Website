@@ -7,15 +7,15 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-sans antialiased;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif;
   }
-  
+
   /* Optimize animations performance */
   @media (prefers-reduced-motion: reduce) {
     * {
@@ -31,35 +31,112 @@
   .scrollbar-thin {
     scrollbar-width: thin;
   }
-  
+
   .scrollbar-thin::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   .scrollbar-thin::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   .scrollbar-thin::-webkit-scrollbar-thumb {
     background-color: rgba(156, 163, 175, 0.3);
     border-radius: 10px;
     transition: background-color 0.2s;
   }
-  
+
   .scrollbar-thin:hover::-webkit-scrollbar-thumb {
     background-color: rgba(156, 163, 175, 0.5);
   }
-  
-  .scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
-    background-color: rgba(209, 213, 219, 0.5);
+}
+
+/* Performance-optimized CSS animations */
+@layer utilities {
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
   }
-  
-  .scrollbar-thumb-gray-400::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.6);
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.6s ease-out 0.2s forwards;
+    opacity: 0;
   }
-  
-  .scrollbar-track-transparent::-webkit-scrollbar-track {
-    background: transparent;
+
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 0.6s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  /* Slow bounce for scroll indicator */
+  .animate-bounce-slow {
+    animation: bounceSlow 2s infinite;
+  }
+
+  /* Slide up animation */
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  /* Scale in animation */
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Optimize will-change for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* GPU acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
