@@ -45,8 +45,11 @@ echo.
 echo ============================================
 echo All servers starting!
 echo.
-echo Backend:  http://localhost:5005
-echo Frontend: http://localhost:5173 (will open in browser)
+echo RASA Server:    http://localhost:5005
+echo Actions Server: http://localhost:5055
+echo Frontend:       http://localhost:5173
+echo.
+echo NOTE: To start Admin API, run: start-all-admin.bat
 echo.
 echo Wait about 30-60 seconds for everything to load.
 echo ============================================
