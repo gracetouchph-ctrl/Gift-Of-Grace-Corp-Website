@@ -4,14 +4,17 @@ intents:
   - greet
   - goodbye
   - thankyou
+  - acknowledge
   - bot_challenge
   - help
   - corporate_query
   - ask_products
+  - ask_price
   - ask_awards
   - ask_contact
   - ask_founders
   - ask_location
+  - ask_employees
   - check_knowledge_base
   - add_documents
   - out_of_scope
@@ -40,14 +43,17 @@ actions:
   - action_greet
   - action_goodbye
   - action_thankyou
+  - action_acknowledge
   - action_bot_challenge
   - action_help
   - action_out_of_scope
   - action_handle_products
+  - action_calculate_price
   - action_handle_founders
   - action_handle_awards
   - action_handle_location
   - action_handle_contact
+  - action_handle_employees
   - action_corporate_query
   - action_fallback
   - action_check_knowledge_base

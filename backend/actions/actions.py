@@ -48,6 +48,35 @@ THANKYOU_RESPONSES = [
     "Glad I could help! Is there anything else about Gift of Grace you'd like to know?",
 ]
 
+ACKNOWLEDGMENT_RESPONSES = [
+    "Thank you! Is there anything else you'd like to know about Gift of Grace?",
+    "I appreciate that! Feel free to ask more questions about our products or company.",
+    "Thanks! Would you like to know more about our products, prices, or anything else?",
+    "Glad you find that interesting! What else can I help you with?",
+]
+
+# Product prices for calculation
+PRODUCT_PRICES = {
+    'kimchi': 60,
+    'kimchi gift': 60,
+    'tofu': 43,
+    'tofu gift': 43,
+    'rice coffee 20g': 170,
+    'rice coffee 200g': 90,
+    'rice coffee 350g': 165,
+    'rice coffee': 90,  # default to 200g
+}
+
+EMPLOYEE_INFO = """Gift of Grace Food Manufacturing has grown from a husband-and-wife team to a dedicated workforce:
+
+**Leadership:**
+- Satur Cadsi (CEO) - Company operations & business development
+- Janice Osenio Cadsi (COO) - Production & quality control
+
+**Team Size:** The company has expanded to employ local workers from Baguio City, providing jobs and supporting the community. The exact number varies with production needs, but they maintain a core team for manufacturing, quality control, and distribution.
+
+They're proud to be a Filipino-owned MSME creating local employment opportunities!"""
+
 BOT_RESPONSES = [
     "I'm Grace, an AI assistant for Gift of Grace Food Manufacturing Corporation. I'm here to help answer your questions!",
     "Yes, I'm an AI chatbot created to help you learn about Gift of Grace and their products.",
@@ -177,6 +206,80 @@ class ActionHelp(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(text=random.choice(HELP_RESPONSES))
+        return []
+
+
+class ActionAcknowledge(Action):
+    """Handle acknowledgments like wow, great, nice, etc."""
+    def name(self) -> Text:
+        return "action_acknowledge"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(text=random.choice(ACKNOWLEDGMENT_RESPONSES))
+        return []
+
+
+class ActionCalculatePrice(Action):
+    """Calculate total price for product orders"""
+    def name(self) -> Text:
+        return "action_calculate_price"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        import re
+        query = tracker.latest_message.get('text', '').lower()
+        logger.info(f"Price calculation query: {query}")
+
+        # Extract numbers from query
+        numbers = re.findall(r'\d+', query)
+        quantity = int(numbers[0]) if numbers else 1
+
+        # Determine which product
+        total = 0
+        product_name = ""
+        unit_price = 0
+
+        if 'kimchi' in query:
+            unit_price = PRODUCT_PRICES['kimchi']
+            product_name = "Kimchi Gift"
+        elif 'tofu' in query:
+            unit_price = PRODUCT_PRICES['tofu']
+            product_name = "Tofu Gift"
+        elif 'rice coffee' in query or 'coffee' in query:
+            if '20g' in query or 'sachet' in query:
+                unit_price = PRODUCT_PRICES['rice coffee 20g']
+                product_name = "Rice Coffee 20g (10 sachets)"
+            elif '350' in query:
+                unit_price = PRODUCT_PRICES['rice coffee 350g']
+                product_name = "Rice Coffee 350g"
+            else:
+                unit_price = PRODUCT_PRICES['rice coffee 200g']
+                product_name = "Rice Coffee 200g"
+
+        if unit_price > 0:
+            total = unit_price * quantity
+            response = f"**{quantity}x {product_name}**\n\nUnit price: ₱{unit_price}\n**Total: ₱{total}**\n\nWould you like to know where to buy?"
+        else:
+            response = """I can calculate prices for our products:
+
+- **Kimchi Gift** - ₱60/pack
+- **Tofu Gift** - ₱43/pack
+- **Rice Coffee 20g** (10 sachets) - ₱170
+- **Rice Coffee 200g** - ₱90
+- **Rice Coffee 350g** - ₱165
+
+Just ask: "How much for 3 packs of kimchi?" or "Price of 2 tofu packs" """
+
+        dispatcher.utter_message(text=response)
+        return []
+
+
+class ActionHandleEmployees(Action):
+    """Handle employee/staff questions"""
+    def name(self) -> Text:
+        return "action_handle_employees"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(text=EMPLOYEE_INFO)
         return []
 
 

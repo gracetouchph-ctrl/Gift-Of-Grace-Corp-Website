@@ -84,6 +84,59 @@ nlu:
     - thank you very much
     - thanks so much
 
+- intent: acknowledge
+  examples: |
+    - wow
+    - wow!
+    - woah
+    - amazing
+    - great
+    - great!
+    - nice
+    - nice!
+    - cool
+    - cool!
+    - awesome
+    - awesome!
+    - interesting
+    - that's cool
+    - thats cool
+    - that's great
+    - thats great
+    - that's nice
+    - thats nice
+    - that's interesting
+    - thats interesting
+    - wow thats great
+    - wow that's great
+    - oh wow
+    - oh nice
+    - oh cool
+    - good to know
+    - i see
+    - ok
+    - okay
+    - alright
+    - got it
+    - understood
+    - makes sense
+    - ah i see
+    - ah ok
+    - oh i see
+    - galing
+    - ang galing
+    - astig
+    - ayos
+    - sige
+    - oo
+    - yes
+    - yup
+    - yep
+    - aha
+    - hmm ok
+    - oo nga
+    - talaga
+
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -194,6 +247,62 @@ nlu:
     - ano mga products nyo
     - ano binebenta nyo
     - may kimchi ba kayo
+
+- intent: ask_price
+  examples: |
+    - how much is kimchi
+    - how much for kimchi
+    - how much does kimchi cost
+    - price of kimchi
+    - kimchi price
+    - magkano kimchi
+    - magkano ang kimchi
+    - how much for 2 kimchi
+    - how much for 2 packs of kimchi
+    - price of 3 kimchi
+    - cost of kimchi
+    - how much is tofu
+    - how much for tofu
+    - tofu price
+    - price of tofu
+    - magkano tofu
+    - how much for 2 tofu
+    - how much for 3 packs of tofu
+    - how much is rice coffee
+    - rice coffee price
+    - price of rice coffee
+    - magkano rice coffee
+    - calculate price
+    - total cost
+    - how much would it cost
+    - how much will it cost
+    - can you compute the price
+    - compute price
+    - calculate total
+    - what's the total for 2 kimchi
+    - total for 3 tofu
+    - how much if i buy 5 kimchi
+    - price for 4 packs
+
+- intent: ask_employees
+  examples: |
+    - how many employees
+    - how many people work there
+    - how many workers
+    - who works there
+    - how many staff
+    - tell me about the employees
+    - employee count
+    - staff count
+    - how big is the team
+    - team size
+    - how many people
+    - is that all the employees
+    - are there other employees
+    - who else works there
+    - ilan empleyado
+    - ilan nagtatrabaho
+    - sino nagtatrabaho dyan
 
 - intent: ask_awards
   examples: |
