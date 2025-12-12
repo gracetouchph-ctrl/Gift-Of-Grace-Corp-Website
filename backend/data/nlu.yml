@@ -1,477 +1,861 @@
 version: "3.1"
 
 nlu:
-- intent: greet
+
+# ============================================================================
+# PRODUCT INQUIRY INTENTS
+# ============================================================================
+
+- intent: product_inquiry
   examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - good afternoon
-    - hi there
-    - hey there
-    - howdy
-    - hiya
-    - greetings
-    - yo
-    - what's up
-    - whats up
-    - sup
-    - hello!
-    - hi!
-    - hey!
-    - good day
-    - nice to meet you
-    - kumusta
-    - musta
-    - hello po
-    - hi po
-    - magandang umaga
-    - magandang hapon
-    - magandang gabi
+    - What products do you offer?
+    - Tell me about your product line
+    - What do you sell?
+    - Show me your menu
+    - What's available?
+    - Do you have kimchi?
+    - Can you tell me what Gift of Grace makes?
+    - What are your main products?
+    - Product catalog please
+    - What items do you carry?
+    - I want to know what you offer
+    - List all your products
+    - What's your bestseller?
+    - What products are in stock?
+    - Do you make anything besides kimchi?
+    - Tell me more about your offerings
+    - What can I buy from you?
+    - Show me everything you make
+    - What's new this season?
+    - Any specialty items?
+
+- intent: specific_product_inquiry
+  examples: |
+    - What is kimchi exactly?
+    - Tell me about your tofu
+    - What's rice coffee?
+    - Explain pickled radish
+    - What are chicken pastils?
+    - What's Spanish sausage?
+    - Do you have Thai street food?
+    - What's in your kimchi?
+    - How is your kimchi made?
+    - What's the difference between your products?
+    - Which product is best for beginners?
+    - What's the mildest flavor you have?
+    - What's the spiciest option?
+    - Tell me about fermented vegetables
+    - What makes your kimchi special?
+    - Is your tofu organic?
+    - How is rice coffee made?
+    - What's the texture like?
+    - What flavors do you offer?
+    - Any variations of kimchi?
+
+- intent: product_availability
+  examples: |
+    - Is kimchi in stock?
+    - Do you have tofu available?
+    - When will rice coffee be back?
+    - What's currently available?
+    - Which products are in stock right now?
+    - Can you check availability for me?
+    - Is [PRODUCT] available today?
+    - Stock status?
+    - What's available this week?
+    - Do you have [PRODUCT] in my size?
+    - When's the next restock?
+    - Are you out of stock on anything?
+    - Limited edition still available?
+    - What's your inventory situation?
+
+# ============================================================================
+# HEALTH & NUTRITION INTENTS
+# ============================================================================
+
+- intent: health_benefits_general
+  examples: |
+    - What are the health benefits of kimchi?
+    - Is kimchi good for you?
+    - Why is fermented food healthy?
+    - What makes fermentation special?
+    - Tell me about probiotics
+    - How does kimchi help digestion?
+    - Is this healthy?
+    - What nutrients are in kimchi?
+    - Are there any health benefits?
+    - Why should I eat fermented foods?
+    - What's good about probiotics?
+    - Health benefits of fermented vegetables?
+    - Can fermented food boost immunity?
+    - Is kimchi anti-inflammatory?
+    - Does it help with weight management?
+    - Nutritional value of your products?
+    - Is this organic/natural?
+    - Any artificial ingredients?
+
+- intent: probiotic_science
+  examples: |
+    - Explain probiotics to me
+    - What is LAB or lactic acid bacteria?
+    - How do probiotics work?
+    - What's the gut-brain axis?
+    - Tell me the science behind fermentation
+    - How does gut health affect overall health?
+    - What are postbiotics?
+    - Explain the fermentation process scientifically
+    - How do live cultures work?
+    - Why are probiotics important?
+    - What happens during fermentation?
+    - How do fermented foods strengthen immunity?
+    - What's the difference between probiotics and prebiotics?
+    - Do fermented foods really have living bacteria?
+    - How many probiotics are in a serving?
+    - What's the CFU count?
+    - Living cultures explained
+    - Microbiome benefits of fermentation
+    - How fermentation creates beneficial compounds
+    - SCFA and short-chain fatty acids explained
+
+- intent: health_condition_ibs
+  examples: |
+    - Can kimchi help with IBS?
+    - I have digestive issues, can this help?
+    - Does fermented food help constipation?
+    - Will this help my sensitive stomach?
+    - I have digestive problems, what should I try?
+    - Can probiotics ease bloating?
+    - Does this help with acid reflux?
+    - My stomach is sensitive, what's safe?
+    - Will this cause bloating?
+    - How to start if I have digestive issues?
+    - Recommendations for sensitive digestion?
+    - Can I eat this with IBS?
+    - What's the gentlest option for digestion?
+    - Will fermented food worsen my condition?
+    - How much should I eat to avoid bloating?
+
+- intent: health_condition_inflammation
+  examples: |
+    - Can this help with inflammation?
+    - Is kimchi anti-inflammatory?
+    - Does this help joint pain?
+    - Can fermented foods reduce inflammation?
+    - I have chronic inflammation, any recommendations?
+    - What compounds reduce inflammation?
+    - How does fermentation reduce inflammation?
+    - Best fermented food for inflammation?
+    - Can this help with arthritis?
+    - Recommendations for inflammatory conditions?
+
+- intent: health_condition_skin
+  examples: |
+    - Can fermented food improve skin health?
+    - Does probiotics help with acne?
+    - Will this help my skin condition?
+    - Recommendations for skin health?
+    - How do probiotics affect skin?
+    - Can kimchi improve complexion?
+    - Does this help with eczema?
+    - Gut-skin axis explained
+    - Probiotics for skin microbiome?
+
+- intent: health_condition_immune
+  examples: |
+    - Can this boost my immune system?
+    - Does kimchi strengthen immunity?
+    - How do fermented foods help immunity?
+    - What's the immune benefit?
+    - Best for cold/flu prevention?
+    - How to boost immunity with food?
+    - Immune system support recommendations?
+    - What's the natural killer cell connection?
+
+- intent: health_condition_other
+  examples: |
+    - Can this help with energy levels?
+    - Does this help with mood?
+    - Can fermented food improve sleep?
+    - Gut-brain connection explained
+    - Does this help with anxiety?
+    - Any heart health benefits?
+    - Can this help weight management?
+    - Metabolic benefits of fermentation?
+    - Cholesterol reduction from fermented foods?
+
+- intent: dietary_restrictions
+  examples: |
+    - Is this gluten-free?
+    - Vegan options available?
+    - Any dairy-free products?
+    - Vegetarian products?
+    - No salt options?
+    - Low sodium alternatives?
+    - Keto-friendly?
+    - Paleo-friendly?
+    - Organic options?
+    - Non-GMO?
+    - Any allergens?
+    - What about sulfites?
+    - Histamine content?
+    - Any alcohol from fermentation?
+
+- intent: consumption_guidance
+  examples: |
+    - How much should I eat?
+    - Recommended serving size?
+    - How often should I eat fermented food?
+    - When's the best time to consume?
+    - Can I eat too much?
+    - How long to see health benefits?
+    - Start slow or regular consumption?
+    - Beginner dosage recommendations?
+    - Timeline to feel effects?
+    - Safe consumption amount?
+    - How to gradually increase intake?
+
+# ============================================================================
+# RECIPE & USAGE INTENTS
+# ============================================================================
+
+- intent: recipe_request
+  examples: |
+    - What recipes can I make?
+    - How do I eat kimchi?
+    - Recipe ideas please
+    - What dishes use fermented vegetables?
+    - Can I cook with kimchi?
+    - Raw or cooked usage?
+    - Meal ideas with your products?
+    - What pairs well with kimchi?
+    - Serving suggestions?
+    - Quick recipes?
+    - Breakfast ideas with kimchi?
+    - Lunch ideas?
+    - Dinner recipes?
+    - Snack ideas?
+    - Appetizer recipes?
+
+- intent: recipe_pairing
+  examples: |
+    - What goes with kimchi?
+    - Best foods to pair with fermented vegetables?
+    - Protein pairings for kimchi?
+    - Carb pairings?
+    - Vegetable combinations?
+    - How do I serve this?
+    - What's the traditional way to eat kimchi?
+    - Wine pairings?
+    - Beverage pairings with fermented foods?
+    - Meal composition ideas?
+    - Family meal planning with kimchi?
+
+- intent: storage_usage
+  examples: |
+    - How do I store kimchi?
+    - How long does it last?
+    - Refrigerator or pantry?
+    - Can I freeze it?
+    - Shelf life information?
+    - What's the storage temperature?
+    - How to maintain freshness?
+    - Can I eat from the jar directly?
+    - How to prevent spoilage?
+    - What if it gets warm?
+    - Long-term storage methods?
+    - Container recommendations?
+    - Signs of spoilage?
+    - Can it go bad?
+
+- intent: leftover_usage
+  examples: |
+    - What do I do with leftover kimchi?
+    - Leftover recipe ideas?
+    - Kimchi juice uses?
+    - Can I use the brine?
+    - Creative ways to use extras?
+    - Making kimchi mayo?
+    - Kimchi fried rice recipe?
+    - Kimchi soup ideas?
+    - Kimchi as marinade?
+    - Using fermented brine?
+
+# ============================================================================
+# PURCHASE & ORDER INTENTS
+# ============================================================================
+
+- intent: order_purchase
+  examples: |
+    - How do I buy?
+    - I want to purchase
+    - Where can I order?
+    - How to place an order?
+    - Can I buy online?
+    - How to get your products?
+    - Order now?
+    - I want to buy kimchi
+    - Purchase options?
+    - How much is [PRODUCT]?
+    - What's the price?
+    - Can you process my order?
+    - Ready to buy
+    - Checkout process?
+    - Payment methods?
+
+- intent: pricing_information
+  examples: |
+    - How much does it cost?
+    - What's the price of kimchi?
+    - Pricing for [PRODUCT]?
+    - Are there discounts?
+    - Bulk pricing?
+    - Wholesale rates?
+    - Price comparison?
+    - Value for money?
+    - Is it expensive?
+    - Any specials running?
+    - Promo codes?
+    - Member discounts?
+    - Loyalty discounts?
+    - Seasonal pricing?
+
+- intent: order_quantity
+  examples: |
+    - I want to order 5 jars
+    - How many should I buy?
+    - Can I order just one?
+    - Minimum order quantity?
+    - Maximum I can order?
+    - Bulk order options?
+    - Family packs available?
+    - Sampler packs?
+    - Single serving options?
+    - Quantity discounts?
+
+- intent: payment_methods
+  examples: |
+    - What payment options?
+    - Do you accept credit card?
+    - Debit card payment?
+    - Online banking?
+    - Cash on delivery?
+    - PayPal?
+    - GCash?
+    - PayMaya?
+    - Installment options?
+    - Payment security?
+
+# ============================================================================
+# DELIVERY & SHIPPING INTENTS
+# ============================================================================
+
+- intent: delivery_availability
+  examples: |
+    - Do you deliver?
+    - Where do you ship?
+    - What's your delivery area?
+    - Can you deliver to [LOCATION]?
+    - Do you deliver outside Baguio?
+    - National delivery?
+    - International shipping?
+    - Metro Manila delivery?
+    - Provincial delivery?
+    - Cordillera region delivery?
+    - Service areas?
+    - Shipping coverage?
+
+- intent: delivery_timeline
+  examples: |
+    - How long for delivery?
+    - Delivery timeframe?
+    - When will I get my order?
+    - Express delivery available?
+    - Faster shipping options?
+    - Standard delivery time?
+    - Same-day delivery?
+    - Next-day delivery?
+    - Delivery schedule?
+    - Processing time?
+
+- intent: shipping_cost
+  examples: |
+    - How much is shipping?
+    - Shipping fees?
+    - Free shipping available?
+    - Shipping cost calculation?
+    - Does price include shipping?
+    - When is shipping free?
+    - Bulk shipping discounts?
+    - Flat rate shipping?
+    - Variable shipping costs?
+
+- intent: delivery_tracking
+  examples: |
+    - Can I track my order?
+    - Where's my delivery?
+    - Order status?
+    - Tracking number?
+    - Shipping updates?
+    - Delivery confirmation?
+    - When will it arrive?
+    - Is my order shipped?
+    - Package tracking information?
+
+- intent: special_delivery
+  examples: |
+    - Gift delivery available?
+    - Corporate delivery?
+    - Bulk business delivery?
+    - Can you deliver to [LOCATION]?
+    - Special delivery instructions?
+    - Temperature-controlled shipping?
+    - Can you ensure freshness during delivery?
+
+# ============================================================================
+# COMPANY & BRAND INTENTS
+# ============================================================================
+
+- intent: company_info
+  examples: |
+    - Tell me about Gift of Grace
+    - Who's behind this company?
+    - Company history?
+    - When did you start?
+    - What's your mission?
+    - Company values?
+    - About your business?
+    - Who are you?
+    - What makes you different?
+    - Why should I buy from you?
+    - Company background?
+    - Your story?
+
+- intent: founder_story
+  examples: |
+    - Tell me about Grace
+    - Who's the founder?
+    - What's the owner's story?
+    - How did this start?
+    - Grace's journey?
+    - From homemaker to business owner?
+    - Founder background?
+    - Personal story?
+    - What inspired this?
+    - Why fermented foods?
+
+- intent: contact_information
+  examples: |
+    - How do I contact you?
+    - What's your phone number?
+    - Your email address?
+    - Social media?
+    - Facebook page?
+    - Instagram account?
+    - Where are you located?
+    - Business address?
+    - Communication channels?
+    - Best way to reach you?
+    - Contact details?
+    - Hours of operation?
+
+- intent: social_media
+  examples: |
+    - Follow you on Facebook?
+    - What's your Instagram?
+    - Social media handles?
+    - Where to follow?
+    - Online presence?
+    - Connected on any platform?
+    - Shopee link?
+    - Do you have a website?
+
+- intent: business_recognition
+  examples: |
+    - Are you FDA certified?
+    - Any awards?
+    - Business recognition?
+    - Quality certifications?
+    - Food safety standards?
+    - Government recognition?
+    - DTI registered?
+    - DOST award?
+    - Industry recognition?
+    - Quality assurance?
+    - Food product certification?
+
+# ============================================================================
+# SUSTAINABILITY & SOURCING INTENTS
+# ============================================================================
+
+- intent: sourcing_information
+  examples: |
+    - Where do you source ingredients?
+    - Local sourcing?
+    - Are ingredients local?
+    - Where's the vegetables from?
+    - Farmer support?
+    - Do you work with local farmers?
+    - Supply chain information?
+    - Agricultural sourcing?
+    - Baguio farmers?
+    - Cordillera sourcing?
+    - Farm-to-table?
+    - Direct from farmers?
+
+- intent: sustainability_practices
+  examples: |
+    - Sustainable practices?
+    - Eco-friendly?
+    - Environmental impact?
+    - Packaging sustainability?
+    - Reducing waste?
+    - Carbon footprint?
+    - Green initiatives?
+    - Sustainable sourcing?
+    - Community support?
+    - Fair trade?
+    - Ethical practices?
+
+- intent: farmer_support
+  examples: |
+    - Do you support local farmers?
+    - How do you help farmers?
+    - Farmer cooperation?
+    - Agricultural community impact?
+    - Fair pricing for farmers?
+    - Where exactly are farms located?
+    - Meet the farmers?
+    - Farmer stories?
+    - Agricultural sustainability?
+    - Community development?
+
+- intent: freshness_quality
+  examples: |
+    - How fresh are ingredients?
+    - Quality assurance?
+    - How do you ensure quality?
+    - Farm to table timeline?
+    - Ingredient freshness?
+    - Processing methods?
+    - Quality control?
+    - Best practices?
+    - Hygiene standards?
+    - Premium ingredients?
+
+# ============================================================================
+# FERMENTATION & TRADITION INTENTS
+# ============================================================================
+
+- intent: fermentation_process
+  examples: |
+    - How is kimchi made?
+    - Fermentation process explained?
+    - What happens during fermentation?
+    - How long to ferment?
+    - Fermentation temperature?
+    - Fermentation timeline?
+    - Traditional methods?
+    - Modern techniques?
+    - Step-by-step process?
+    - Salt in fermentation?
+    - Ingredients needed?
+    - Equipment used?
+
+- intent: food_safety_fermentation
+  examples: |
+    - How do I know if kimchi is safe?
+    - Food safety standards?
+    - Is fermented food safe?
+    - Can it go bad?
+    - Signs of spoilage?
+    - Safe fermentation practices?
+    - Health risks of fermentation?
+    - Pathogenic bacteria?
+    - Food poisoning risk?
+    - Storage safety?
+    - Why salt matters?
+    - Safe fermentation temperature?
+    - pH levels explained?
+
+- intent: kimchi_varieties
+  examples: |
+    - What types of kimchi?
+    - Kimchi variations?
+    - Regional differences?
+    - Tongbaechu kimchi?
+    - Bossam kimchi?
+    - Cucumber kimchi?
+    - Radish kimchi?
+    - Different flavors?
+    - Mild vs spicy?
+    - What's the difference between varieties?
+    - Which is most popular?
+    - Regional specialties?
+
+- intent: traditional_knowledge
+  examples: |
+    - Kimchi history?
+    - Korean fermentation tradition?
+    - Cultural significance of kimchi?
+    - Traditional recipes?
+    - How long has kimchi been made?
+    - Traditional fermentation methods?
+    - Historical recipes?
+    - Why kimchi matters culturally?
+    - Generational knowledge?
+    - Cultural food practices?
+
+# ============================================================================
+# SEASONAL & AVAILABILITY INTENTS
+# ============================================================================
+
+- intent: seasonal_products
+  examples: |
+    - What's seasonal?
+    - Seasonal varieties?
+    - Limited edition products?
+    - Seasonal availability?
+    - When's something coming?
+    - New flavors?
+    - Seasonal specials?
+    - Upcoming products?
+    - What's in season now?
+    - Harvest calendar?
+
+- intent: product_launch
+  examples: |
+    - Any new products coming?
+    - When's the next release?
+    - Upcoming flavors?
+    - Limited edition drops?
+    - Product announcements?
+    - New offerings?
+    - Product roadmap?
+    - What's next?
+
+- intent: reorder_loyalty
+  examples: |
+    - How do I reorder?
+    - Reorder discount?
+    - Loyalty program?
+    - Repeat customer benefits?
+    - Subscribe and save?
+    - Automatic reordering?
+    - Member benefits?
+    - Regular customer discount?
+    - Bulk buyer program?
+
+# ============================================================================
+# BULK & WHOLESALE INTENTS
+# ============================================================================
+
+- intent: bulk_orders
+  examples: |
+    - Can I order in bulk?
+    - Wholesale pricing?
+    - Bulk discounts?
+    - Minimum order for wholesale?
+    - Corporate orders?
+    - Restaurant supply?
+    - Catering available?
+    - Business partnerships?
+    - B2B options?
+    - Reseller programs?
+
+- intent: corporate_gifting
+  examples: |
+    - Corporate gifts available?
+    - Team gifts?
+    - Company events?
+    - Bulk gifting?
+    - Custom packaging?
+    - Gift sets?
+    - Personalized options?
+    - Minimums for corporate orders?
+
+- intent: restaurant_wholesale
+  examples: |
+    - Restaurant supply?
+    - Can you supply restaurants?
+    - Bulk pricing for businesses?
+    - Commercial quantities?
+    - Food service partnership?
+    - Commercial kitchen supply?
+
+# ============================================================================
+# FIRST-TIME CUSTOMER INTENTS
+# ============================================================================
+
+- intent: first_time_guidance
+  examples: |
+    - I've never tried kimchi
+    - New to fermented foods
+    - Where do I start?
+    - Beginner recommendations?
+    - What should I try first?
+    - How to start eating kimchi?
+    - Which is least spicy?
+    - Easiest to get into?
+    - Beginner-friendly options?
+    - Not sure where to start
+    - Help me choose
+    - What's popular?
+
+- intent: spice_tolerance
+  examples: |
+    - How spicy is this?
+    - I don't like spicy food
+    - Heat level?
+    - Mild options?
+    - Very spicy varieties?
+    - Adjustable spice?
+    - Can you reduce spice?
+    - Bland options?
+    - Flavor intensity?
+    - Taste profile?
+
+- intent: comparison_products
+  examples: |
+    - What's the difference between products?
+    - Product comparison?
+    - Which should I choose?
+    - Kimchi vs tofu?
+    - Best option for me?
+    - Pros and cons?
+    - Price comparison?
+    - Quality comparison?
+    - Feature comparison?
+    - Which is most popular?
+
+- intent: comparison_competitors
+  examples: |
+    - How do you compare to others?
+    - Why choose you over competitors?
+    - Better than other brands?
+    - What makes you different?
+    - Competitive advantage?
+    - Why you're the best?
+    - Quality vs other brands?
+    - Price vs competitors?
+
+# ============================================================================
+# MISCELLANEOUS INTENTS
+# ============================================================================
+
+- intent: general_information
+  examples: |
+    - Tell me more
+    - I want to know more
+    - More information
+    - Detailed explanation
+    - Deeper dive
+    - Elaborate please
+    - Can you explain further?
+    - More details?
+
+- intent: greetings
+  examples: |
+    - Hi
+    - Hello
+    - Hey
+    - Greetings
+    - What's up?
+    - How are you?
+    - Good morning
+    - Good afternoon
+    - Good evening
 
 - intent: goodbye
   examples: |
-    - goodbye
-    - good bye
-    - see you around
-    - see you later
-    - bye
-    - bye bye
-    - see ya
-    - later
-    - take care
-    - have a good day
-    - gotta go
-    - im leaving
-    - i'm leaving
-    - catch you later
-    - farewell
-    - until next time
-    - bye for now
-    - thanks bye
-    - thank you bye
-    - ok bye
-    - okay bye
-    - paalam
-    - bye po
-    - sige bye
+    - Bye
+    - Goodbye
+    - See you later
+    - Take care
+    - Have a good day
+    - Until next time
+    - Bye bye
+    - I'm leaving
+    - Got to go
+    - Talk to you later
+    - Salamat, bye
+    - Paalam
 
-- intent: thankyou
+- intent: affirm
   examples: |
-    - thanks
-    - thank you
-    - thank you so much
-    - thanks a lot
-    - appreciate it
-    - thanks for the help
-    - thank you for helping
-    - that's helpful
-    - thats helpful
-    - you've been helpful
-    - thanks for the info
-    - thank you for the information
-    - much appreciated
-    - many thanks
-    - great thanks
-    - perfect thank you
-    - awesome thanks
-    - salamat
-    - salamat po
-    - maraming salamat
-    - thank you very much
-    - thanks so much
+    - Yes
+    - Yeah
+    - Sure
+    - Okay
+    - Alright
+    - Sounds good
+    - I agree
+    - Absolutely
+    - Definitely
+    - For sure
+    - Let's do it
 
-- intent: acknowledge
+- intent: deny
   examples: |
-    - wow
-    - wow!
-    - woah
-    - amazing
-    - great
-    - great!
-    - nice
-    - nice!
-    - cool
-    - cool!
-    - awesome
-    - awesome!
-    - interesting
-    - that's cool
-    - thats cool
-    - that's great
-    - thats great
-    - that's nice
-    - thats nice
-    - that's interesting
-    - thats interesting
-    - wow thats great
-    - wow that's great
-    - oh wow
-    - oh nice
-    - oh cool
-    - good to know
-    - i see
-    - ok
-    - okay
-    - alright
-    - got it
-    - understood
-    - makes sense
-    - ah i see
-    - ah ok
-    - oh i see
-    - galing
-    - ang galing
-    - astig
-    - ayos
-    - sige
-    - oo
-    - yes
-    - yup
-    - yep
-    - aha
-    - hmm ok
-    - oo nga
-    - talaga
+    - No
+    - Nope
+    - Not interested
+    - I don't think so
+    - Don't want that
+    - Negative
+    - Pass
+    - Not now
+    - Skip that
 
-- intent: bot_challenge
+- intent: gratitude
   examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
-    - are you real?
-    - are you a robot?
-    - are you ai?
-    - are you artificial intelligence?
-    - is this a bot?
-    - is this automated?
-    - who am i talking to
-    - what am i talking to
-    - are you a machine?
-    - are you a chatbot?
-    - are you a computer?
-    - bot or human?
-    - human or bot?
-    - sino ka ba
-    - tao ka ba
-    - robot ka ba
+    - Thanks
+    - Thank you
+    - Appreciate it
+    - Thanks for helping
+    - Much appreciated
+    - Thank you so much
+    - Grateful
 
-- intent: help
+- intent: help_request
   examples: |
-    - help
-    - what can you do?
-    - how does this work?
-    - show me what you can do
-    - I need help
-    - instructions
-    - help me
-    - can you help me
-    - what are your capabilities
-    - how can you help
-    - what do you do
-    - what is this
-    - how do i use this
-    - guide me
-    - assist me
-    - i need assistance
-    - what can i ask you
-    - what questions can i ask
-    - what topics can you answer
-    - ano pwede mo gawin
-    - paano to gamitin
+    - Help me
+    - I need assistance
+    - Can you help?
+    - Assist me
+    - Support needed
+    - Help please
+    - Not sure what to do
+    - Lost
 
-- intent: corporate_query
+- intent: complaint
   examples: |
-    - tell me about gift of grace
-    - what is gift of grace food manufacturing
-    - information about gogfmc
-    - what does gift of grace do
-    - tell me about the company gift of grace
-    - gift of grace food manufacturing details
-    - what is gogfmc
-    - describe gift of grace
-    - tell me about your company
-    - company information
-    - about your company
-    - what company is this
-    - company details
-    - business information
-    - what business is this
-    - tell me more about gift of grace
-    - i want to know about gift of grace
-    - can you tell me about the company
-    - give me information about gift of grace
-    - what kind of company is gift of grace
-    - gift of grace overview
-    - gift of grace background
-    - history of gift of grace
-    - when was gift of grace founded
-    - how did gift of grace start
-    - origin of gift of grace
+    - Your product didn't work
+    - I'm disappointed
+    - Bad experience
+    - Poor quality
+    - Not satisfied
+    - Problem with order
+    - Unhappy
+    - Frustrated
 
-- intent: ask_products
+- intent: suggestion
   examples: |
-    - what products do you have
-    - what products do they make
-    - show me their products
-    - what food items does gift of grace produce
-    - tell me about kimchi gift
-    - information about tofu gift
-    - what is rice coffee with moringa
-    - product portfolio of gift of grace
-    - what do you sell
-    - what are your products
-    - list your products
-    - what items do you have
-    - what food do you make
-    - tell me about your products
-    - what products are available
-    - show me products
-    - product list
-    - what can i buy
-    - what do you manufacture
-    - what food products
-    - kimchi
-    - tofu
-    - rice coffee
-    - tell me about the kimchi
-    - tell me about the tofu
-    - tell me about rice coffee
-    - do you sell kimchi
-    - do you have tofu
-    - what kind of kimchi
-    - ano mga products nyo
-    - ano binebenta nyo
-    - may kimchi ba kayo
+    - Can you recommend?
+    - What would you suggest?
+    - What's best?
+    - Recommendation please
+    - Suggest something
+    - What do you think?
+    - Expert opinion?
+    - Best choice?
 
-- intent: ask_price
+- intent: schedule_call
   examples: |
-    - how much is kimchi
-    - how much for kimchi
-    - how much does kimchi cost
-    - price of kimchi
-    - kimchi price
-    - magkano kimchi
-    - magkano ang kimchi
-    - how much for 2 kimchi
-    - how much for 2 packs of kimchi
-    - price of 3 kimchi
-    - cost of kimchi
-    - how much is tofu
-    - how much for tofu
-    - tofu price
-    - price of tofu
-    - magkano tofu
-    - how much for 2 tofu
-    - how much for 3 packs of tofu
-    - how much is rice coffee
-    - rice coffee price
-    - price of rice coffee
-    - magkano rice coffee
-    - calculate price
-    - total cost
-    - how much would it cost
-    - how much will it cost
-    - can you compute the price
-    - compute price
-    - calculate total
-    - what's the total for 2 kimchi
-    - total for 3 tofu
-    - how much if i buy 5 kimchi
-    - price for 4 packs
-
-- intent: ask_employees
-  examples: |
-    - how many employees
-    - how many people work there
-    - how many workers
-    - who works there
-    - how many staff
-    - tell me about the employees
-    - employee count
-    - staff count
-    - how big is the team
-    - team size
-    - how many people
-    - is that all the employees
-    - are there other employees
-    - who else works there
-    - ilan empleyado
-    - ilan nagtatrabaho
-    - sino nagtatrabaho dyan
-
-- intent: ask_awards
-  examples: |
-    - what awards has gift of grace won
-    - show me their achievements
-    - what recognition has gift of grace received
-    - tell me about their industry awards
-    - gift of grace achievements
-    - awards and recognition
-    - what awards do you have
-    - have you won any awards
-    - company achievements
-    - accomplishments
-    - recognitions
-    - any certifications
-    - are you certified
-    - halal certified
-    - is it halal
-    - are products halal
-    - what certifications do you have
-    - tell me about your awards
-    - list your awards
-    - what have you achieved
-    - ano mga awards nyo
-    - may halal ba kayo
-
-- intent: ask_contact
-  examples: |
-    - how can I contact gift of grace
-    - what is their phone number
-    - gift of grace email address
-    - what is their address
-    - gift of grace contact details
-    - contact information
-    - how to contact you
-    - phone number
-    - email address
-    - contact number
-    - how do i reach you
-    - how to reach gift of grace
-    - can i call you
-    - what is the contact
-    - give me contact details
-    - i want to contact you
-    - your contact info
-    - where can i contact you
-    - paano kayo macontact
-    - ano number nyo
-
-- intent: ask_founders
-  examples: |
-    - who founded gift of grace
-    - who are the founders
-    - tell me about satur cadsi
-    - who is janice cadsi
-    - gift of grace founders information
-    - who owns gift of grace
-    - who started gift of grace
-    - who is the owner
-    - who is the ceo
-    - who is the coo
-    - tell me about the founders
-    - founder information
-    - who created gift of grace
-    - who established the company
-    - ownership information
-    - tell me about the owner
-    - who runs gift of grace
-    - management team
-    - sino may ari
-    - sino nagtatag
-
-- intent: ask_location
-  examples: |
-    - where is gift of grace located
-    - what is your address
-    - where are you located
-    - location of gift of grace
-    - where can i find you
-    - gift of grace address
-    - where is the company
-    - company location
-    - your location
-    - where is the store
-    - where is the factory
-    - where do you operate
-    - baguio city address
-    - address in baguio
-    - where in baguio
-    - nasaan kayo
-    - saan kayo located
-    - san kayo matatagpuan
-
-- intent: check_knowledge_base
-  examples: |
-    - check knowledge base
-    - what documents do you have
-    - knowledge base status
-    - how many documents do you have
-    - show me your knowledge base
-    - what information do you have
-    - database status
-    - system status
-
-- intent: add_documents
-  examples: |
-    - how to add documents
-    - add documents
-    - add more files
-    - how do I add to your knowledge base
-    - import documents
-    - upload files
-    - add information
-
-- intent: out_of_scope
-  examples: |
-    - what's the weather like
-    - tell me a joke
-    - what time is it
-    - how old are you
-    - where do you live
-    - what's your favorite color
-    - sing me a song
-    - play music
-    - what's 2 plus 2
-    - who is the president
-    - tell me the news
-    - what's happening today
-    - recommend a movie
-    - order pizza
-    - book a flight
-    - what's bitcoin price
-    - translate this
-    - search google
-
-- intent: nlu_fallback
-  examples: |
-    - asdfasdf
-    - jibberish
-    - 12345
-    - ????
-    - !@#$%
-    - xyzabc
-    - qwerty
-    - aaaaaaa
-    - ...
-    - random text here
-    - blah blah
-
-- intent: restart
-  examples: |
-    - restart conversation
-    - start over
-    - clear history
-    - begin again
-    - reset chat
-    - restart
-    - reset
-    - start fresh
-    - new conversation
-    - clear chat
-
-- intent: show_capabilities
-  examples: |
-    - what can you do
-    - show your capabilities
-    - what are your features
-    - tell me about your abilities
-    - what can you help with
-    - list your features
-    - your capabilities
-    - what functions do you have
+    - Can we schedule a call?
+    - Book a consultation?
+    - Talk to someone?
+    - Need to speak with owner
+    - Can I call you?
+    - When can we talk?
+    - Schedule a meeting?
+    - Need personal assistance

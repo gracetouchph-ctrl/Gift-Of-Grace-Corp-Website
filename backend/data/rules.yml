@@ -1,112 +1,354 @@
 version: "3.1"
 
 rules:
-# Session start
-- rule: Activate session
-  steps:
-  - action: action_session_start
 
-# Simple intents - DIRECT responses (no LLM)
+# ============================================================================
+# BASIC CONVERSATION RULES
+# ============================================================================
+
 - rule: Respond to greeting
   steps:
-  - intent: greet
-  - action: action_greet
+  - intent: greetings
+  - action: utter_greet
 
 - rule: Respond to goodbye
   steps:
   - intent: goodbye
-  - action: action_goodbye
+  - action: utter_goodbye
 
-- rule: Respond to thanks
+- rule: Respond to gratitude
   steps:
-  - intent: thankyou
-  - action: action_thankyou
+  - intent: gratitude
+  - action: utter_thank_you
 
-- rule: Respond to acknowledgments
+- rule: Respond to affirm
   steps:
-  - intent: acknowledge
-  - action: action_acknowledge
+  - intent: affirm
+  - action: utter_acknowledge
 
-- rule: Respond to bot challenge
+- rule: Respond to deny
   steps:
-  - intent: bot_challenge
-  - action: action_bot_challenge
+  - intent: deny
+  - action: utter_acknowledge
 
 - rule: Respond to help request
   steps:
-  - intent: help
-  - action: action_help
+  - intent: help_request
+  - action: utter_offer_help
 
-- rule: Respond to out of scope
+- rule: Respond to complaint
   steps:
-  - intent: out_of_scope
-  - action: action_out_of_scope
+  - intent: complaint
+  - action: action_escalate_to_human
 
-- rule: Show capabilities
+- rule: Respond to suggestion request
   steps:
-  - intent: show_capabilities
-  - action: action_show_capabilities
+  - intent: suggestion
+  - action: action_recommend_product
 
-# Company info intents - DIRECT responses (no LLM)
-- rule: Handle products query
+- rule: Respond to schedule call
   steps:
-  - intent: ask_products
-  - action: action_handle_products
+  - intent: schedule_call
+  - action: utter_escalate_human
 
-- rule: Handle price calculation
+# ============================================================================
+# PRODUCT INQUIRY RULES
+# ============================================================================
+
+- rule: Handle product inquiry
   steps:
-  - intent: ask_price
-  - action: action_calculate_price
+  - intent: product_inquiry
+  - action: utter_product_list
 
-- rule: Handle employees query
+- rule: Handle specific product inquiry
   steps:
-  - intent: ask_employees
-  - action: action_handle_employees
+  - intent: specific_product_inquiry
+  - action: utter_fermentation_science
 
-- rule: Handle founders query
+- rule: Handle product availability
   steps:
-  - intent: ask_founders
-  - action: action_handle_founders
+  - intent: product_availability
+  - action: action_check_inventory
 
-- rule: Handle awards query
+# ============================================================================
+# HEALTH & NUTRITION RULES
+# ============================================================================
+
+- rule: Handle health benefits general
   steps:
-  - intent: ask_awards
-  - action: action_handle_awards
+  - intent: health_benefits_general
+  - action: utter_health_benefits
 
-- rule: Handle location query
+- rule: Handle probiotic science
   steps:
-  - intent: ask_location
-  - action: action_handle_location
+  - intent: probiotic_science
+  - action: utter_probiotic_benefits
 
-- rule: Handle contact query
+- rule: Handle IBS condition
   steps:
-  - intent: ask_contact
-  - action: action_handle_contact
+  - intent: health_condition_ibs
+  - action: utter_ibs_guidance
 
-# General company queries - may use RAG
-- rule: Handle corporate query
+- rule: Handle inflammation condition
   steps:
-  - intent: corporate_query
-  - action: action_corporate_query
+  - intent: health_condition_inflammation
+  - action: utter_health_benefits
 
-# Utility intents
-- rule: Check knowledge base
+- rule: Handle skin condition
   steps:
-  - intent: check_knowledge_base
-  - action: action_check_knowledge_base
+  - intent: health_condition_skin
+  - action: utter_health_benefits
 
-- rule: Add documents info
+- rule: Handle immune condition
   steps:
-  - intent: add_documents
-  - action: action_add_document
+  - intent: health_condition_immune
+  - action: utter_health_benefits
 
-- rule: Restart conversation
+- rule: Handle other health conditions
   steps:
-  - intent: restart
-  - action: action_restart
+  - intent: health_condition_other
+  - action: utter_health_benefits
 
-# Fallback - ONLY for low confidence (uses FallbackClassifier threshold)
+- rule: Handle dietary restrictions
+  steps:
+  - intent: dietary_restrictions
+  - action: action_log_dietary_restrictions
+
+- rule: Handle consumption guidance
+  steps:
+  - intent: consumption_guidance
+  - action: utter_ibs_guidance
+
+# ============================================================================
+# RECIPE & USAGE RULES
+# ============================================================================
+
+- rule: Handle recipe request
+  steps:
+  - intent: recipe_request
+  - action: utter_recipes
+
+- rule: Handle recipe pairing
+  steps:
+  - intent: recipe_pairing
+  - action: utter_recipes
+
+- rule: Handle storage usage
+  steps:
+  - intent: storage_usage
+  - action: utter_storage_info
+
+- rule: Handle leftover usage
+  steps:
+  - intent: leftover_usage
+  - action: utter_recipes
+
+# ============================================================================
+# PURCHASE & ORDER RULES
+# ============================================================================
+
+- rule: Handle order purchase
+  steps:
+  - intent: order_purchase
+  - action: action_create_order
+
+- rule: Handle pricing information
+  steps:
+  - intent: pricing_information
+  - action: action_calculate_shipping
+
+- rule: Handle order quantity
+  steps:
+  - intent: order_quantity
+  - action: utter_acknowledge
+
+- rule: Handle payment methods
+  steps:
+  - intent: payment_methods
+  - action: utter_payment_methods
+
+# ============================================================================
+# DELIVERY & SHIPPING RULES
+# ============================================================================
+
+- rule: Handle delivery availability
+  steps:
+  - intent: delivery_availability
+  - action: action_check_delivery_area
+
+- rule: Handle delivery timeline
+  steps:
+  - intent: delivery_timeline
+  - action: utter_shipping_info
+
+- rule: Handle shipping cost
+  steps:
+  - intent: shipping_cost
+  - action: action_calculate_shipping
+
+- rule: Handle delivery tracking
+  steps:
+  - intent: delivery_tracking
+  - action: action_track_order
+
+- rule: Handle special delivery
+  steps:
+  - intent: special_delivery
+  - action: utter_shipping_info
+
+# ============================================================================
+# COMPANY & BRAND RULES
+# ============================================================================
+
+- rule: Handle company info
+  steps:
+  - intent: company_info
+  - action: utter_product_list
+
+- rule: Handle founder story
+  steps:
+  - intent: founder_story
+  - action: action_tell_founder_story
+
+- rule: Handle contact information
+  steps:
+  - intent: contact_information
+  - action: utter_contact_info
+
+- rule: Handle social media
+  steps:
+  - intent: social_media
+  - action: action_share_social_handles
+
+- rule: Handle business recognition
+  steps:
+  - intent: business_recognition
+  - action: action_share_certifications
+
+# ============================================================================
+# SUSTAINABILITY & SOURCING RULES
+# ============================================================================
+
+- rule: Handle sourcing information
+  steps:
+  - intent: sourcing_information
+  - action: utter_sourcing_story
+
+- rule: Handle sustainability practices
+  steps:
+  - intent: sustainability_practices
+  - action: utter_sourcing_story
+
+- rule: Handle farmer support
+  steps:
+  - intent: farmer_support
+  - action: action_tell_farmer_story
+
+- rule: Handle freshness quality
+  steps:
+  - intent: freshness_quality
+  - action: utter_sourcing_story
+
+# ============================================================================
+# FERMENTATION & TRADITION RULES
+# ============================================================================
+
+- rule: Handle fermentation process
+  steps:
+  - intent: fermentation_process
+  - action: utter_fermentation_science
+
+- rule: Handle food safety fermentation
+  steps:
+  - intent: food_safety_fermentation
+  - action: utter_fermentation_science
+
+- rule: Handle kimchi varieties
+  steps:
+  - intent: kimchi_varieties
+  - action: utter_spice_levels
+
+- rule: Handle traditional knowledge
+  steps:
+  - intent: traditional_knowledge
+  - action: action_tell_kimchi_history
+
+# ============================================================================
+# SEASONAL & AVAILABILITY RULES
+# ============================================================================
+
+- rule: Handle seasonal products
+  steps:
+  - intent: seasonal_products
+  - action: action_check_seasonal_availability
+
+- rule: Handle product launch
+  steps:
+  - intent: product_launch
+  - action: action_notify_product_launch
+
+- rule: Handle reorder loyalty
+  steps:
+  - intent: reorder_loyalty
+  - action: action_check_purchase_history
+
+# ============================================================================
+# BULK & WHOLESALE RULES
+# ============================================================================
+
+- rule: Handle bulk orders
+  steps:
+  - intent: bulk_orders
+  - action: action_recommend_product
+
+- rule: Handle corporate gifting
+  steps:
+  - intent: corporate_gifting
+  - action: utter_escalate_human
+
+- rule: Handle restaurant wholesale
+  steps:
+  - intent: restaurant_wholesale
+  - action: utter_escalate_human
+
+# ============================================================================
+# FIRST-TIME CUSTOMER RULES
+# ============================================================================
+
+- rule: Handle first time guidance
+  steps:
+  - intent: first_time_guidance
+  - action: utter_spice_levels
+
+- rule: Handle spice tolerance
+  steps:
+  - intent: spice_tolerance
+  - action: utter_spice_levels
+
+- rule: Handle comparison products
+  steps:
+  - intent: comparison_products
+  - action: utter_spice_levels
+
+- rule: Handle comparison competitors
+  steps:
+  - intent: comparison_competitors
+  - action: action_highlight_unique_value
+
+# ============================================================================
+# MISCELLANEOUS RULES
+# ============================================================================
+
+- rule: Handle general information
+  steps:
+  - intent: general_information
+  - action: utter_faq_generic
+
+# ============================================================================
+# FALLBACK RULE
+# ============================================================================
+
 - rule: Ask for rephrase on low confidence
   steps:
   - intent: nlu_fallback
-  - action: action_fallback
+  - action: utter_default

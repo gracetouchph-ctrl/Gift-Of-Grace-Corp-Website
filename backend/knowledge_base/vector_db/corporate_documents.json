@@ -1384,5 +1384,410 @@
       "type": "corporate_report",
       "company": "Gift of Grace Food Manufacturing Corporation"
     }
+  },
+  {
+    "content": "PROBIOTIC SCIENCE: Kimchi contains over 1 million live microbial cells per gram, dominated by Lactic Acid Bacteria (LAB) including Lactobacillus plantarum, L. brevis, L. sakei, Leuconostoc, Weissella, and Pediococcus species. These probiotics create an acidic environment (pH below 4.6) that kills harmful pathogens while strengthening your gut barrier by 40-70%. The fermentation byproducts called postbiotics include short-chain fatty acids (SCFAs) like butyrate, acetate, and propionate which reduce inflammation throughout the body.",
+    "source": "Probiotic Science",
+    "metadata": {
+      "type": "health_science",
+      "topic": "probiotics",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GUT-BRAIN AXIS: 70% of the immune system resides in the gut (gut-associated lymphoid tissue/GALT). Probiotics from kimchi enhance natural killer (NK) cell activity by up to 70%, increase secretory IgA antibodies, and reduce systemic inflammation markers. Additionally, 90% of serotonin (the mood neurotransmitter) is produced in the gut, and GABA (calming neurotransmitter) is also gut-influenced. The vagus nerve connects the gut directly to the brain, so healthy gut bacteria support mood, reduce anxiety, improve cognitive function, and enhance stress response.",
+    "source": "Gut-Brain Connection",
+    "metadata": {
+      "type": "health_science",
+      "topic": "gut_brain_axis",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "KIMCHI NUTRITIONAL PROFILE per 150g (1 cup) serving: Only 23 calories, 1.7-2g protein, 3.6-4g carbohydrates, 1.6-2g fiber, 0.5-0.8g fat. Provides 55% daily value of Vitamin K, 22% Vitamin C, 19% Vitamin B6, 20% Folate (B9), 31% Iron, 24% Riboflavin (B2), 10% Niacin (B3). Kimchi is exceptionally low-calorie while being nutrient-dense, making it ideal for weight management diets without sacrificing nutrition. The fermentation process increases bioavailability of nutrients, making vitamins easier to absorb.",
+    "source": "Nutrition Facts",
+    "metadata": {
+      "type": "nutrition",
+      "topic": "kimchi_nutrition",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "NINE RESEARCH-BACKED HEALTH BENEFITS OF KIMCHI: 1) Nutrient Density - packed with 34+ amino acids, 10+ essential minerals, vitamins A, C, K. 2) Probiotic Powerhouse - 1 million+ live bacteria per gram for gut health. 3) Immune System Support - 70% boost to natural killer cells. 4) Anti-Inflammatory & Anticancer - phenolic compounds, flavonoids, glucosinolates fight inflammation and may protect against cancer. 5) Weight Management - low calorie density, high fiber for satiety. 6) Heart Health - lowers LDL cholesterol and blood sugar. 7) Digestive Health - fiber and probiotics regulate bowel movements. 8) Skin Health - gut-skin axis improves skin microbiome, reduces acne. 9) Brain Health - supports gut-brain axis for mood and cognition.",
+    "source": "Health Benefits Research",
+    "metadata": {
+      "type": "health_science",
+      "topic": "health_benefits",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "FERMENTATION FOOD SAFETY - CRITICAL CONTROL POINTS (CCPs): CCP #1 Salt Concentration 4-5% by weight using non-iodized pickling salt prevents harmful bacteria while favoring LAB. CCP #2 pH must decline below 4.6 - this acidic environment kills pathogens including Clostridium botulinum, Salmonella, E. coli, and Listeria. CCP #3 Temperature Control 68-75°F (20-24°C) is optimal for LAB fermentation. CCP #4 Vegetable Freshness - process within 24 hours of harvest for lower pathogen load and maximum LAB. CCP #5 Anaerobic Environment - keep vegetables submerged below brine, no oxygen exposure.",
+    "source": "Food Safety Standards",
+    "metadata": {
+      "type": "food_safety",
+      "topic": "fermentation_safety",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "FERMENTATION PROCESS STAGES: Stage 1 (Day 0) - Fresh vegetables salted at 4-5%, salt draws water via osmosis creating brine, anaerobic environment established. Stage 2 (Days 1-3) - LAB population explodes, Leuconostoc mesenteroides dominates first, pH drops from 6.5 to 4.5, visible fizzing from CO2 production. Stage 3 (Days 4-7) - pH stabilizes at 3.5-4.2, Lactobacillus plantarum takes over, maximum probiotic count reached, tangy flavor develops. Stage 4 (Weeks 2+) - Fermentation slows in cold storage, flavor continues deepening, probiotics remain viable 3-6 months refrigerated.",
+    "source": "Fermentation Process",
+    "metadata": {
+      "type": "food_science",
+      "topic": "fermentation_stages",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "SIGNS OF PROPER VS SPOILED FERMENTATION: Proper fermentation signs include cloudy brine (LAB growth), fizzing/bubbling (CO2), tangy smell (lactic acid), slightly softened vegetables. DISCARD if you see: mold on surface (white, green, or black), slimy texture (not just soft), rotten smell (not funky but actual rot), or unusual colors (pink, orange). Gift of Grace uses FDA food safety protocols and traditional fermentation with proper pH monitoring to ensure every batch is safe.",
+    "source": "Food Safety Guide",
+    "metadata": {
+      "type": "food_safety",
+      "topic": "spoilage_signs",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "KIMCHI VARIETIES AROUND THE WORLD: Korea has 200+ varieties including Baechu Kimchi (napa cabbage, most common), Kkakdugi (cubed radish), Oi Sobagi (stuffed cucumber), Bossam Kimchi (wrapped luxury style with seafood and fruits), and Dongchimi (water kimchi, no chili). Gift of Grace creates K-Fil Fusion Kimchi that blends Korean fermentation techniques with Filipino vegetables and flavor preferences - authentic spice and fermentation with savory-sweet notes preferred by Filipinos.",
+    "source": "Kimchi Varieties",
+    "metadata": {
+      "type": "product_knowledge",
+      "topic": "kimchi_types",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "FILIPINO FERMENTATION HERITAGE: The Philippines has a rich fermentation tradition including Burong Isda (fermented fish with rice), Burong Hipon (fermented shrimp), Burong Mustasa (fermented mustard greens), Bagoong and Patis (fermented fish/shrimp paste and sauce), Tapuy/Tapey (rice wine from Cordillera region - same region as Gift of Grace), Sukang Iloko (sugarcane vinegar), Puto and Bibingka (fermented rice cakes). Fermentation thrived in the Philippines due to tropical climate requiring preservation, monsoon seasons creating harvest surplus, and abundant rice and seafood.",
+    "source": "Filipino Fermentation Culture",
+    "metadata": {
+      "type": "cultural",
+      "topic": "filipino_fermentation",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "CORDILLERA AGRICULTURAL CONTEXT: Baguio and Benguet in the Cordillera Administrative Region supply 80% of Metro Manila's salad vegetables. The cool highland climate at 1,400m elevation is perfect for temperate vegetables like cabbage, lettuce, carrots, radishes, broccoli. 2024 production reached 253,543.95 metric tons with 6.05% growth. Farming-dependent communities include Kibungan (70.54% agriculture workforce), Buguias (67%), Bokod, Atok, Kabayan (60%+). Gift of Grace sources directly from these local Baguio farmers within 24 hours of harvest, ensuring freshness and supporting the local agricultural economy.",
+    "source": "Local Sourcing",
+    "metadata": {
+      "type": "sourcing",
+      "topic": "cordillera_agriculture",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "WHY BUY LOCAL FROM GIFT OF GRACE: Environmental benefits include reduced carbon footprint with vegetables processed within 24 hours vs imported vegetables traveling thousands of miles. Economic benefits include fair wages for farmers through direct payment, money staying in Cordillera region, and job security for farming families. Quality benefits include fresher vegetables at peak nutrition, full traceability to specific farms, and opportunity for seasonal limited-edition ferments. When you choose Gift of Grace, you're investing in local agriculture, fair wages, and sustainable food systems.",
+    "source": "Sustainability",
+    "metadata": {
+      "type": "sustainability",
+      "topic": "local_sourcing_benefits",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "KIMCHI GIFT COMPLETE PRODUCT INFO: Price ₱60 per pouch. K-Fil Fusion product marrying Korean fermentation with Filipino flavor adaptation. Ingredients include Napa cabbage, radishes, garlic, ginger, and spices, infused with Filipino vinegar. Most varieties are vegan/vegetarian (check label for fish sauce varieties). Many options are gluten-free, fits keto and paleo diets. Spice levels range from mild to spicy. Rich in probiotics, vitamins A, C, K, antioxidants. Boosts immunity, aids digestion, supports weight management. Halal certified. Store refrigerated in airtight container for several months.",
+    "source": "Product Details - Kimchi",
+    "metadata": {
+      "type": "product",
+      "topic": "kimchi_gift",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "TOFU GIFT COMPLETE PRODUCT INFO: Price ₱43. Made from scratch using premium non-GMO soybeans following traditional bean curd-making techniques. Available in Silken, Soft, Firm, and Extra-Firm textures. High-quality complete protein with all 9 essential amino acids. Naturally gluten-free, low in calories. Health benefits include blood sugar regulation (low-glycemic), inflammation reduction (isoflavones), cancer prevention potential, muscle building and repair, respiratory health support. Storage: refrigerate, keep in water, change water daily. Shelf life 3-5 days once opened. Can be frozen to change texture for better marinade absorption.",
+    "source": "Product Details - Tofu",
+    "metadata": {
+      "type": "product",
+      "topic": "tofu_gift",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "RICE COFFEE WITH MORINGA COMPLETE PRODUCT INFO: Prices - 20g sachets (10 pieces) ₱170, 200g package ₱90, 350g package ₱165. Made from carefully roasted rice grains enriched with Moringa (Malunggay) leaves. Flavor is rich, nutty aroma with smooth earthy taste and subtle herbal notes. 100% caffeine-free, non-acidic, safe for children, low calorie. Moringa benefits include Vitamin A, Iron, Calcium, Vitamin C, proteins, flavonoids, phenolics. Preparation: brew like coffee, steep in hot water, French press, pour-over, serve hot or iced. Add milk, honey, spices as desired. Store in cool dry place for several months.",
+    "source": "Product Details - Rice Coffee",
+    "metadata": {
+      "type": "product",
+      "topic": "rice_coffee",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE MARKET REACH AND DISTRIBUTION: Products available at 247+ retail outlets across the Philippines. Major retail chains include SM Supermarkets, Robinsons Supermarkets, Savemore, Puregold, Super8 Grocery Warehouses (Pangasinan and Pampanga branches). Specialty stores include SQJ Pasalubong Center at BGC Metro Manila, Ever Gotesco Commonwealth, Ayala Fairview Terraces, Malinaw Pasig. Regional distribution covers Northern Luzon (primary with 247+ outlets), Parts of Bicol (expanding), Metro Manila (select locations). Nationwide expansion plans underway.",
+    "source": "Market Distribution",
+    "metadata": {
+      "type": "business",
+      "topic": "market_reach",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "HOW TO ORDER FROM GIFT OF GRACE: Visit in person at #5 Purok 6, Pinsao Pilot Project, Baguio City 2600. Order via Facebook by messaging @kimchigiftofficial. Shop online at Shopee Gift of Grace Official Store. Email orders to kimchigift@gmail.com. Call or WhatsApp: Smart 0908 780 4565, Globe +63 917 5958 907, Smart +63 999 991 6052, Landline +63 074 661 3554. For bulk/wholesale orders contact them directly for special pricing. Products also available at retail partners across Northern Luzon and Metro Manila.",
+    "source": "Ordering Information",
+    "metadata": {
+      "type": "contact",
+      "topic": "how_to_order",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE DELIVERY OPTIONS: Within Baguio City direct delivery available, contact via Facebook to arrange. Provincial and nationwide shipping via courier services (LBC, J&T, etc.), shipping fees depend on location and order size. How to order for delivery: 1) Message on Facebook, 2) Provide complete address, 3) Confirm products and quantity, 4) Arrange payment (GCash, bank transfer, or COD where available), 5) Receive tracking details. Note: Fresh tofu may have limited delivery range due to perishable nature. Kimchi and Rice Coffee ship well nationwide.",
+    "source": "Delivery Information",
+    "metadata": {
+      "type": "logistics",
+      "topic": "delivery",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "WHOLESALE AND BUSINESS PARTNERSHIP WITH GIFT OF GRACE: For retailers and resellers - bulk pricing available, minimum order quantities apply, regular supply arrangements possible. For distributors - regional distribution opportunities, exclusive territory discussions available. For food service (restaurants/cafes) - custom packaging options, regular supply schedules, recipe collaboration possible. How to inquire: Contact via Facebook @kimchigiftofficial, Visit #5 Purok 6, Pinsao Pilot Project, Baguio City, Specify your business type and expected volume. Gift of Grace welcomes partnerships that help bring healthy Filipino food to more people.",
+    "source": "Wholesale Information",
+    "metadata": {
+      "type": "business",
+      "topic": "wholesale",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "RECIPE IDEAS WITH GIFT OF GRACE PRODUCTS - KIMCHI USES: Kimchi fried rice (sinangag with kimchi), Kimchi jjigae (Korean stew with pork or tuna), Kimchi pancakes (kimchi buchimgae), Topping for ramen or instant noodles, Kimchi grilled cheese sandwich, Kimchi quesadilla, Add to burger or hotdog. Pairs well with heavy/fatty meats to reduce richness, white fish for brightness, and rice for comfort. Raw kimchi preserves probiotics; cooked kimchi loses some probiotics but gains deeper flavor.",
+    "source": "Recipe Ideas - Kimchi",
+    "metadata": {
+      "type": "recipes",
+      "topic": "kimchi_recipes",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "RECIPE IDEAS WITH GIFT OF GRACE PRODUCTS - TOFU USES: Tokwa't baboy (tofu with pork - classic Filipino dish), Tofu sisig (vegetarian sisig alternative), Tofu stir-fry with vegetables, Mapo tofu, Tofu adobo (vegetarian adobo), Fresh tofu with soy sauce and calamansi, Tofu in sinigang or nilaga, Grilled tofu steaks, Tofu scramble for breakfast, Blended into smoothies for protein boost. Tofu absorbs flavors beautifully - marinate for 30 minutes before cooking for best results. Different textures work best for different dishes: silken for soups/smoothies, firm/extra-firm for grilling and stir-frying.",
+    "source": "Recipe Ideas - Tofu",
+    "metadata": {
+      "type": "recipes",
+      "topic": "tofu_recipes",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "STORAGE GUIDELINES FOR GIFT OF GRACE PRODUCTS - KIMCHI: Store in refrigerator at 0-4°C. Keep sealed when not in use (to contain odors). Fermentation continues slowly in cold - flavor becomes more sour over time. Best consumed within 2-3 months when refrigerated. Can be stored longer but will become increasingly sour. Never freeze kimchi as it destroys texture and kills probiotics. If unopened, shelf life extends further. Signs kimchi is still good: tangy smell, firm texture, no mold. Discard if mold appears, texture becomes slimy, or smell turns rotten.",
+    "source": "Storage Guide - Kimchi",
+    "metadata": {
+      "type": "storage",
+      "topic": "kimchi_storage",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "STORAGE GUIDELINES FOR GIFT OF GRACE PRODUCTS - TOFU: Store in refrigerator. Once opened, keep submerged in water and change water daily for freshness. Best consumed within 3-5 days once opened. Check for off-odors before consuming - fresh tofu should have minimal smell. Can be frozen to extend shelf life - freezing changes texture to be more porous and sponge-like, which is actually great for absorbing marinades. Unopened tofu lasts until expiration date. Do not leave at room temperature for extended periods.",
+    "source": "Storage Guide - Tofu",
+    "metadata": {
+      "type": "storage",
+      "topic": "tofu_storage",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "STORAGE GUIDELINES FOR GIFT OF GRACE PRODUCTS - RICE COFFEE: Store in cool, dry place away from direct sunlight. Keep sealed to prevent moisture absorption. No refrigeration needed. Shelf life is 6-12 months (check packaging for specific date). Once opened, consume within a few weeks for optimal flavor. Avoid storing near strong-smelling foods as coffee can absorb odors. Signs it's still good: dry powder, pleasant nutty aroma. Discard if moisture has gotten in (clumping), or if smell has changed significantly.",
+    "source": "Storage Guide - Rice Coffee",
+    "metadata": {
+      "type": "storage",
+      "topic": "rice_coffee_storage",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "PROBIOTIC CONSUMPTION GUIDELINES: Can I eat kimchi every day? Yes! Daily consumption is safe and beneficial for most people. Recommended amount is 1/2 to 1 cup daily for probiotic benefits. Start with 1-2 tablespoons if new to fermented foods, gradually increase over 2-3 weeks. Benefits of daily consumption include consistent probiotic intake, steady immune support, long-term metabolic improvements, digestive regularity. Considerations: High sodium (500-750mg per cup) so watch total daily sodium, initial bloating possible as gut adapts, balance with other foods. Who should be cautious: high blood pressure (sodium), severe IBS (start very slow), histamine intolerance.",
+    "source": "Consumption Guidelines",
+    "metadata": {
+      "type": "health",
+      "topic": "daily_consumption",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "TIMELINE FOR PROBIOTIC BENEFITS: Days 2-3: Probiotics begin colonizing gut, first pH changes occur. 1 week: Reduced bloating, improved bowel regularity. 2-3 weeks: Noticeable digestive improvements, less gas, this is when most people notice the difference. 4-6 weeks: Immune function improvements become measurable. 2-3 months: Gut microbiome diversity stabilizes, skin improvements visible. 6+ months: Long-term metabolic benefits including cholesterol and blood sugar improvements. Key insight: Consistency matters more than quantity. Daily consumption of 1/2 cup is more effective than sporadic large portions.",
+    "source": "Probiotic Timeline",
+    "metadata": {
+      "type": "health",
+      "topic": "probiotic_timeline",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "FERMENTED FOODS VS PROBIOTIC SUPPLEMENTS COMPARISON: Fermented foods like kimchi offer multiple LAB strains (5-10+), contain prebiotic fiber from food matrix, include bioactive postbiotic compounds and vitamins, cost $2-5 per serving, add flavor to meals, and have cultural connection. Probiotic supplements usually have 1-5 strains, no prebiotic fiber, no postbiotics, cost $20-60 monthly, are pills/powder with no culinary use. Verdict: Fermented foods offer whole-food matrix benefits that supplements can't replicate. Best approach is food first, supplements only if needed with doctor consultation.",
+    "source": "Fermented vs Supplements",
+    "metadata": {
+      "type": "health",
+      "topic": "food_vs_supplements",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "IBS AND DIGESTIVE SENSITIVITY GUIDANCE: For people with IBS or sensitive digestion, some may initially react to fermented foods due to FODMAP sensitivity. Recommendation: Start with just 1-2 tablespoons daily, not a full serving. Gradually increase amount over 2-3 weeks as your microbiome adjusts. Monitor symptoms and adjust accordingly. Consider lighter ferments like Kongnamul variety vs traditional Tongbaechu. Initial bloating is normal and usually subsides as gut adapts. If symptoms persist or worsen, consult a healthcare provider. Many IBS sufferers find fermented foods helpful once past the adjustment period.",
+    "source": "IBS Guidance",
+    "metadata": {
+      "type": "health",
+      "topic": "ibs_guidance",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "WEIGHT MANAGEMENT WITH KIMCHI - RESEARCH FINDINGS: A 4-week study with 50 participants showed that fermented kimchi produced better results than fresh kimchi for weight management, including greater blood pressure reduction, higher body fat percentage decrease, and better blood sugar control. Mechanisms include low calorie density (23 cal/cup allows larger satisfying portions), high fiber (2g/cup provides satiety), and probiotic effects on metabolism that improve insulin sensitivity, reduce fat storage signals, and increase thermogenesis (calorie burning).",
+    "source": "Weight Management Research",
+    "metadata": {
+      "type": "health_research",
+      "topic": "weight_loss",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "HEART HEALTH BENEFITS - RESEARCH FINDINGS: A one-week study with 100 participants found that eating 15-210g kimchi daily led to decreased total cholesterol, lower LDL (bad) cholesterol, and reduced blood sugar levels - all major risk factors for heart disease. Mechanisms include garlic compounds (allicin) that lower cholesterol synthesis, fermentation creates compounds that block cholesterol absorption, SCFAs improve lipid metabolism, and consumption reduces visceral (belly) fat accumulation.",
+    "source": "Heart Health Research",
+    "metadata": {
+      "type": "health_research",
+      "topic": "heart_health",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE SOCIAL ENTERPRISE MISSION: Every purchase directly supports the small community, helping alleviate poverty and empowering scholars to pursue their dreams. The Social Inclusion through Bawang Peeling Program provides employment for senior citizens, stay-at-home mothers, single parents, and local housewives as garlic peelers. Educational scholarship program has successfully funded scholars from high school through culinary school, providing part-time work and extra allowance. Direct partnerships with Cordilleran farmers ensure stable markets and fair pricing. Glory to God in the highest from whom all blessings flow!",
+    "source": "Social Enterprise",
+    "metadata": {
+      "type": "csr",
+      "topic": "social_mission",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "CIRCULAR ECONOMY AND SUSTAINABILITY PRACTICES: Gift of Grace actively practices Circular Economy principles championed by CEO Satur Cadsi. Upcycling initiatives repurpose biodegradable waste from vegetables (cabbage trimmings, peels) to prevent landfill waste. Responsible sourcing ensures raw materials (cabbage, rice, coffee) come from local Cordillera farmers with fair trade practices. This reduces carbon footprint from transport. Biodegradable waste repurposing programs. Eco-friendly packaging commitment. Traditional fermentation methods use low energy. The company is committed to sustainable business practices while uplifting Filipino communities.",
+    "source": "Sustainability Practices",
+    "metadata": {
+      "type": "sustainability",
+      "topic": "circular_economy",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "LACTIC ACID BACTERIA (LAB) EXPLAINED: LAB are the fermentation heroes that make kimchi healthy. Primary genera include Lactobacillus (L. plantarum, L. brevis, L. sakei, L. casei), Leuconostoc (L. mesenteroides), Pediococcus (P. pentosaceus), and Weissella (W. koreensis, W. cibaria). What LAB does during fermentation: 1) Metabolizes sugars into lactic acid, lowering pH and creating tangy flavor. 2) Produces antimicrobial compounds including organic acids, bacteriocins, hydrogen peroxide. 3) Enhances nutrient bioavailability by breaking down complex carbs and increasing vitamin content. 4) Creates postbiotics like SCFAs, exopolysaccharides, and bioactive peptides.",
+    "source": "LAB Science",
+    "metadata": {
+      "type": "health_science",
+      "topic": "lactic_acid_bacteria",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "HOW PROBIOTICS WORK IN YOUR GUT - FIVE MECHANISMS: 1) Competitive Exclusion - probiotics compete for attachment sites in intestinal lining, outcompeting pathogens like E. coli and Salmonella. 2) Acidification - LAB produce lactic acid dropping pH to 4.0-4.6 where most pathogens cannot survive. 3) Antimicrobial Compound Production - bacteriocins kill specific harmful bacteria, hydrogen peroxide oxidizes pathogen membranes. 4) Immune Modulation - stimulates production of secretory IgA antibodies, natural killer cells, T-regulatory cells. 5) Gut Barrier Strengthening - enhances tight junction proteins, increases mucus production, reduces intestinal permeability (leaky gut).",
+    "source": "Probiotic Mechanisms",
+    "metadata": {
+      "type": "health_science",
+      "topic": "probiotic_mechanisms",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "DIFFERENCE BETWEEN KIMCHI AND SAUERKRAUT: Origin - Kimchi from Korea (2,000+ years), Sauerkraut from Germany/Central Europe. Main Ingredient - Kimchi uses napa cabbage, Sauerkraut uses green cabbage. Seasoning - Kimchi has gochugaru, garlic, ginger, fish sauce; Sauerkraut traditionally uses only salt. Flavor - Kimchi is spicy, tangy, umami, complex; Sauerkraut is sour, tangy, simple. Vegetables - Kimchi includes cabbage plus radish, scallions, carrots; Sauerkraut is cabbage only. Fermentation Time - Kimchi 5-7 days fresh or weeks-months aged; Sauerkraut 3-4 weeks. Both are fermented, probiotic-rich, and healthy. Choose based on flavor preference!",
+    "source": "Kimchi vs Sauerkraut",
+    "metadata": {
+      "type": "education",
+      "topic": "fermented_food_comparison",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "WHAT IS FERMENTATION EXPLAINED: Fermentation is a natural process where beneficial bacteria (like lactic acid bacteria) convert sugars and carbohydrates in food into lactic acid. This creates: 1) Probiotics - live beneficial bacteria that support gut health. 2) Preservation - acidic environment prevents spoilage and extends shelf life. 3) Flavor - tangy, complex taste development. 4) Enhanced Nutrients - increased vitamins (B, K2) and better bioavailability. Fermentation has been used for over 10,000 years across all cultures to preserve food and improve nutrition. Examples include kimchi, sauerkraut, yogurt, kefir, miso, tempeh, and kombucha.",
+    "source": "Fermentation Education",
+    "metadata": {
+      "type": "education",
+      "topic": "what_is_fermentation",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "WHY FERMENTED FOOD TASTES SOUR: The sour/tangy flavor in fermented foods comes from lactic acid produced during fermentation. Here's the process: 1) Lactic acid bacteria (LAB) consume sugars in vegetables. 2) They produce lactic acid as a metabolic byproduct. 3) Lactic acid lowers pH making the environment acidic. 4) This creates the characteristic sour, tangy taste. pH levels go from 6.5 (neutral fresh vegetables) to 3.5-4.5 (acidic fermented vegetables). Fermentation also creates acetic acid (vinegar-like notes), amino acids (umami/savory), and aromatic compounds for depth. Fun fact: The sourness is a safety feature - acidic environments kill harmful bacteria, making fermented foods naturally preserved!",
+    "source": "Sour Taste Science",
+    "metadata": {
+      "type": "education",
+      "topic": "sour_taste",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "ARE ALL FERMENTED FOODS HEALTHY? Most fermented foods offer health benefits, but not all are equal. HEALTHY with live probiotics: Kimchi (unpasteurized), Sauerkraut (raw, refrigerated), Yogurt (live active cultures), Kefir, Miso (unpasteurized), Tempeh, Kombucha. FERMENTED but NOT probiotic (pasteurized or processed): Beer and wine (alcohol kills bacteria), Shelf-stable pickles (vinegar-brined, not fermented), Pasteurized sauerkraut (heat-treated), Most store-bought bread (yeast killed in baking). Look for 'live and active cultures' or 'unpasteurized' on labels. Refrigerated sections usually have live probiotics. Gift of Grace uses traditional fermentation with live active cultures preserved.",
+    "source": "Healthy Fermented Foods",
+    "metadata": {
+      "type": "education",
+      "topic": "healthy_fermented_foods",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "SODIUM CONTENT IN KIMCHI - IMPORTANT NOTES: Kimchi is high in sodium at approximately 500-750mg per cup (150g serving). The daily recommended sodium intake is 2,300mg or less. Moderation is key especially for those with high blood pressure or sodium-sensitive conditions. Recommendations: 1/2 to 1 cup daily is beneficial for most people. Balance kimchi with other low-sodium foods in your diet. Drink plenty of water. The health benefits of probiotics generally outweigh sodium concerns for most healthy individuals, but consult a doctor if you have hypertension or kidney issues.",
+    "source": "Sodium Information",
+    "metadata": {
+      "type": "health",
+      "topic": "sodium_content",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "PASTEURIZATION AND PROBIOTICS: Store-bought fermented foods may be pasteurized (heat-treated) which KILLS live probiotics. Pasteurization is done for shelf stability but eliminates the beneficial bacteria. How to ensure you're getting live probiotics: Look for labels saying 'live and active cultures' or 'unpasteurized'. Buy from refrigerated section rather than shelf-stable. Choose products from artisan producers who use traditional methods. Gift of Grace uses traditional fermentation methods that preserve active cultures - our kimchi is NOT pasteurized, ensuring you get the full probiotic benefits in every serving.",
+    "source": "Pasteurization Facts",
+    "metadata": {
+      "type": "education",
+      "topic": "pasteurization",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE FREQUENTLY ASKED QUESTIONS - KIMCHI: What is it? Fermented napa cabbage and radish with spices. Is it Vegan? Most varieties are plant-based, but check label for fish sauce varieties. Is it Gluten-Free? Generally yes, but verify label for additives. How long does it last? Several months refrigerated, becoming more sour over time. Can I cook with it? Yes! Excellent for stews, fried rice, pancakes. How should I store it? Keep refrigerated in airtight container to contain odors. Price? ₱60 per pouch.",
+    "source": "Kimchi FAQ",
+    "metadata": {
+      "type": "faq",
+      "topic": "kimchi_faq",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE FREQUENTLY ASKED QUESTIONS - TOFU: Is it Gluten-Free? Naturally yes. How should I store it? Keep refrigerated, store opened tofu in water and change water daily. Shelf Life? Unopened lasts months until expiration; opened lasts 3-5 days. Can I freeze it? Yes - freezing changes texture to be more sponge-like, which is great for absorbing marinades. Do I need to cook it? Can be eaten raw (especially silken) but usually cooked to enhance flavor. What textures are available? Silken, Soft, Firm, and Extra-Firm. Price? ₱43.",
+    "source": "Tofu FAQ",
+    "metadata": {
+      "type": "faq",
+      "topic": "tofu_faq",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE FREQUENTLY ASKED QUESTIONS - RICE COFFEE: Does it have caffeine? No, it is 100% caffeine-free. Is it good for kids? Yes, safe for children and pregnant women. Can I add milk? Yes, prepare exactly like traditional coffee with milk, sugar, or honey. How do I prepare it? Steep in hot water or use French press, coffee maker, or pour-over method. Serve hot or iced. What's the flavor like? Rich, nutty aroma with smooth earthy taste and subtle herbal notes from moringa. Prices? 20g sachets (10 pcs) ₱170, 200g pack ₱90, 350g pack ₱165.",
+    "source": "Rice Coffee FAQ",
+    "metadata": {
+      "type": "faq",
+      "topic": "rice_coffee_faq",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "PARTNER PRODUCTS DISTRIBUTED BY GIFT OF GRACE: Gourmet Chicken Pastil (Rene's Brand) - ₱170, available in Original and Spicy flavors, authentic Filipino comfort food. Spanish-Style Bangus Sardines - ₱170, soft, savory milkfish preserved in oil, traditional Spanish preparation. Pickled Radish - crunchy side dish often paired with Korean meals. Frozen Mixed Vegetables - new entry into the cold chain market. These partner products help Gift of Grace reach their vision goal of offering 10 different varieties of quality healthy foods using locally-grown materials.",
+    "source": "Partner Products",
+    "metadata": {
+      "type": "product",
+      "topic": "partner_products",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE POP-UP MARKETS AND EVENTS: The company regularly participates in community markets and trade events including: Kadiwa ng Pangulo Markets, Malcolm Square Baguio events, Igorot Garden markets, National Food Fairs at Megatrade Hall and SM Megamall, IMPAKABSAT trade shows, Regional and national trade exhibitions, Multiple bazaars throughout Northern Luzon. These events provide opportunities to meet the team, sample products, and purchase directly. Follow their Facebook page @kimchigiftofficial for announcements on upcoming market appearances.",
+    "source": "Events and Markets",
+    "metadata": {
+      "type": "events",
+      "topic": "popup_markets",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
+  },
+  {
+    "content": "GIFT OF GRACE COMPLETE CONTACT INFORMATION: Principal Address: #5 Purok 6, Pinsao Pilot Project, Baguio City 2600, Benguet, Philippines. Phone Numbers - Landline: +63 074 661 3554, Smart Mobile: 0908 780 4565 and +63 999 991 6052, Globe Mobile: +63 917 5958 907. Email: kimchigift@gmail.com. Social Media - Facebook: @kimchigiftofficial, Instagram: @gif_tofgrace, TikTok: @giftofgrace.kimchigift. Online Shopping: Shopee Gift of Grace Official Store. Website: gogcorp.com. Feel free to reach out for orders, inquiries, wholesale partnerships, or just to say hello!",
+    "source": "Complete Contact Info",
+    "metadata": {
+      "type": "contact",
+      "topic": "all_contacts",
+      "company": "Gift of Grace Food Manufacturing Corporation"
+    }
   }
 ]

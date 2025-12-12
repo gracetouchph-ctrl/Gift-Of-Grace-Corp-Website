@@ -1,65 +1,602 @@
 version: "3.1"
 
+# ============================================================================
+# DOMAIN.YML - GIFT OF GRACE RASA CONFIG
+# ============================================================================
+
 intents:
-  - greet
+  # Product Intents
+  - product_inquiry
+  - specific_product_inquiry
+  - product_availability
+  
+  # Health & Nutrition Intents
+  - health_benefits_general
+  - probiotic_science
+  - health_condition_ibs
+  - health_condition_inflammation
+  - health_condition_skin
+  - health_condition_immune
+  - health_condition_other
+  - dietary_restrictions
+  - consumption_guidance
+  
+  # Recipe & Usage Intents
+  - recipe_request
+  - recipe_pairing
+  - storage_usage
+  - leftover_usage
+  
+  # Purchase Intents
+  - order_purchase
+  - pricing_information
+  - order_quantity
+  - payment_methods
+  
+  # Delivery Intents
+  - delivery_availability
+  - delivery_timeline
+  - shipping_cost
+  - delivery_tracking
+  - special_delivery
+  
+  # Company Intents
+  - company_info
+  - founder_story
+  - contact_information
+  - social_media
+  - business_recognition
+  
+  # Sustainability Intents
+  - sourcing_information
+  - sustainability_practices
+  - farmer_support
+  - freshness_quality
+  
+  # Fermentation Intents
+  - fermentation_process
+  - food_safety_fermentation
+  - kimchi_varieties
+  - traditional_knowledge
+  
+  # Seasonal Intents
+  - seasonal_products
+  - product_launch
+  - reorder_loyalty
+  
+  # Bulk Intents
+  - bulk_orders
+  - corporate_gifting
+  - restaurant_wholesale
+  
+  # First-Time Customer Intents
+  - first_time_guidance
+  - spice_tolerance
+  - comparison_products
+  - comparison_competitors
+  
+  # Miscellaneous Intents
+  - general_information
+  - greetings
   - goodbye
-  - thankyou
-  - acknowledge
-  - bot_challenge
-  - help
-  - corporate_query
-  - ask_products
-  - ask_price
-  - ask_awards
-  - ask_contact
-  - ask_founders
-  - ask_location
-  - ask_employees
-  - check_knowledge_base
-  - add_documents
-  - out_of_scope
+  - affirm
+  - deny
+  - gratitude
+  - help_request
+  - complaint
+  - suggestion
+  - schedule_call
   - nlu_fallback
-  - restart
-  - show_capabilities
+
+entities:
+  - PRODUCT
+  - HEALTH_CONDITION
+  - FERMENTATION_STAGE
+  - FLAVOR_PROFILE
+  - SEASON
+  - USE_CASE
+  - LOCATION
+  - QUANTITY
 
 slots:
-  search_query:
+  customer_type:
+    type: categorical
+    influence_conversation: true
+    mappings:
+      - type: custom
+    values:
+      - first_timer
+      - repeat_customer
+      - bulk_buyer
+      - health_conscious
+      - chef
+      - restaurant_owner
+
+  spice_tolerance:
+    type: categorical
+    influence_conversation: true
+    mappings:
+      - type: custom
+    values:
+      - mild
+      - medium
+      - hot
+      - very_hot
+      - no_preference
+
+  health_focus:
+    type: categorical
+    influence_conversation: true
+    mappings:
+      - type: custom
+    values:
+      - digestive
+      - immune
+      - skin
+      - anti_inflammatory
+      - energy
+      - weight_management
+      - general_wellness
+      - none
+
+  fermentation_stage_preference:
+    type: categorical
+    influence_conversation: false
+    mappings:
+      - type: custom
+    values:
+      - fresh
+      - mid_ferment
+      - fully_aged
+
+  location:
     type: text
     influence_conversation: false
     mappings:
-    - type: from_text
-  last_search_time:
+      - type: custom
+
+  product_interested:
     type: text
     influence_conversation: false
     mappings:
-    - type: custom
+      - type: custom
+
+  budget_range:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  dietary_restrictions:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
 
 responses:
+  utter_greet:
+    - text: "Hello! Welcome to Gift of Grace. I'm excited to help you discover our fermented foods! Are you new to kimchi and fermented vegetables, or are you already a fan?"
+    - text: "Hi there! 🎉 I'm here to help you with anything about Gift of Grace—from products to health benefits to recipes. What brings you today?"
+    - text: "Welcome! I'm the Gift of Grace assistant. Whether you want to learn about probiotics, find recipes, or place an order, I'm here to help!"
+
   utter_default:
-  - text: "I'm not sure I understand. Ask me about Gift of Grace - products, founders, awards, or contact info!"
+    - text: "I'm not quite sure about that. Can you ask me about our products, health benefits, recipes, or how to order? I'm here to help!"
+    - text: "I didn't catch that fully. Could you rephrase? I'm knowledgeable about our kimchi, fermented foods, nutrition, and ordering!"
+
+  utter_welcome_back:
+    - text: "Welcome back! Great to see you again! Ready to reorder your favorite, or would you like to try something new?"
+    - text: "Hey there! Your previous order was [PRODUCT]. Want to stock up again or explore something new?"
+
+  utter_acknowledge:
+    - text: "Got it!"
+    - text: "Makes sense!"
+    - text: "Understood!"
+    - text: "I hear you!"
+
+  utter_thank_you:
+    - text: "You're welcome! Let me know if you need anything else."
+    - text: "Happy to help! Feel free to ask more questions."
+    - text: "Anytime! That's what I'm here for."
+
+  utter_goodbye:
+    - text: "Thanks for chatting! Feel free to reach out anytime. You can also contact Grace or Satur directly at 09087804565 or kimchigit@gmail.com. Take care!"
+    - text: "Great talking with you! Enjoy your Gift of Grace products, and don't hesitate to reach out if you need anything!"
+
+  utter_product_list:
+    - text: |
+        We offer a wonderful range of fermented foods:
+        
+        **Core Products:**
+        🌶️ **Kimchi** - Our signature Korean fermented cabbage with tangy, spicy flavor
+        🥬 **Tofu** - Creamy, versatile fermented tofu
+        ☕ **Rice Coffee** - Caffeine-free comfort beverage with probiotic benefits
+        🥢 **Pickled Radish** - Crunchy, refreshing fermented daikon
+        
+        **Specialty Items:**
+        🍗 Chicken Pastil
+        🌶️ Spanish Sausage
+        🍜 Thai Street Food Items
+        
+        Each product is made with locally-sourced Baguio vegetables and fermented using traditional methods. What interests you?
+    - text: |
+        **Gift of Grace Product Line:**
+        1. **Kimchi** (multiple varieties)
+        2. **Tofu**
+        3. **Rice Coffee**
+        4. **Pickled Radish**
+        5. **Chicken Pastil**
+        6. **Spanish Sausage**
+        7. **Thai Street Food**
+        
+        All made with local Baguio ingredients and FDA-registered. Which would you like to learn more about?
+
+  utter_probiotic_benefits:
+    - text: |
+        Great question! Here's the science behind probiotics:
+        
+        **What are probiotics?**
+        Living beneficial bacteria (primarily Lactic Acid Bacteria/LAB) that colonize your gut and support health.
+        
+        **How they work:**
+        - Create acidic environment (pH < 4.6) that kills harmful bacteria
+        - Produce postbiotics: short-chain fatty acids (SCFAs) that reduce inflammation
+        - Enhance vitamin production (B vitamins, vitamin K2)
+        - Strengthen gut barrier through mucus support
+        - Boost natural killer cells by ~70% (immune response)
+        
+        **Gut-Brain Connection:**
+        70% of your immune system lives in your gut. Probiotics support neurotransmitter production (serotonin, GABA), affecting mood and mental health.
+        
+        **Timeline:**
+        Most people notice digestive improvements within 2-3 weeks of regular consumption.
+        
+        Any specific health goal you're working toward?
+    - text: |
+        Probiotics are living beneficial bacteria that do incredible work in your gut:
+        
+        ✅ **Digestive Health** - Improve regularity, reduce bloating
+        ✅ **Immune Boost** - 70% of immunity is gut-based
+        ✅ **Inflammation** - SCFAs produced during fermentation reduce systemic inflammation
+        ✅ **Brain Health** - Gut-brain axis affects mood, anxiety, focus
+        ✅ **Skin Health** - Probiotics balance skin microbiome
+        ✅ **Metabolism** - Support weight management and energy
+        
+        Our kimchi contains active LAB cultures that continue working even after fermentation. Would you like deeper info on any specific benefit?
+
+  utter_fermentation_science:
+    - text: |
+        **The Magic of Fermentation:**
+        
+        Fermentation is a biological process where beneficial bacteria (LAB - Lactic Acid Bacteria) metabolize sugars and other compounds, creating:
+        
+        1. **Acidic Environment** (pH < 4.6)
+           - Kills pathogens naturally
+           - Preserves food without additives
+           - Creates the tangy flavor you love
+        
+        2. **Living Cultures**
+           - Billions of beneficial bacteria per serving
+           - Continue working in your gut
+           - Produce enzymes that aid digestion
+        
+        3. **Enhanced Nutrients**
+           - Fermentation increases vitamin bioavailability
+           - Creates postbiotics (SCFAs, phenolic compounds)
+           - Produces natural antioxidants
+        
+        4. **Flavor & Preservation**
+           - Complex tangy-spicy taste
+           - 3-6 month shelf life when refrigerated
+           - Improves with age (aging = more probiotics)
+        
+        **Our Process:**
+        - Fresh Baguio vegetables (within 24 hours of harvest)
+        - Non-iodized pickling salt (critical for safe fermentation)
+        - Temperature-controlled fermentation (68-75°F optimal)
+        - 5-7 day active fermentation period
+        - FDA food safety compliance
+        
+        Questions about fermentation safety or process?
+
+  utter_health_benefits:
+    - text: |
+        **Kimchi Health Benefits (Research-Backed):**
+        
+        🧠 **Brain & Mood** - Gut-brain axis supports serotonin production
+        💪 **Immune System** - 70% immunity boost through natural killer cells
+        🔥 **Anti-Inflammatory** - SCFAs and antioxidants reduce inflammation
+        🦠 **Digestive Health** - Probiotics improve regularity and reduce bloating
+        ❤️ **Heart Health** - Cholesterol reduction and cardiovascular support
+        💪 **Anticancer** - Antioxidant compounds and antiproliferative properties
+        🧴 **Skin Health** - Probiotics balance skin microbiome from within
+        ⚖️ **Weight Management** - Improved metabolism and satiety
+        
+        **Timeline:** Results visible within 2-3 weeks of consistent consumption
+        
+        **Important:** This is food-medicine, not a replacement for medical treatment. Consult your doctor if you have serious health conditions.
+        
+        Any specific health goal I can help with?
+
+  utter_ibs_guidance:
+    - text: |
+        **Fermented Foods & IBS - Realistic Guidance:**
+        
+        The good news: Probiotics CAN help IBS by:
+        - Reducing inflammation in the gut
+        - Healing the intestinal barrier
+        - Improving nutrient absorption
+        - Balancing gut microbiota
+        
+        ⚠️ **The reality:** Some people initially experience bloating as their microbiome adjusts (FODMAP sensitivity).
+        
+        **Start Slow Protocol:**
+        1. Begin with 1-2 tablespoons daily (not full servings)
+        2. Gradually increase over 2-3 weeks
+        3. Drink extra water—fiber in fermented foods needs hydration
+        4. Track symptoms in a journal
+        
+        **Try This First:**
+        Our **Kongnamul variety** (lighter ferment) is gentler than traditional Tongbaechu. Less FODMAP content, milder fermentation intensity.
+        
+        **When to Seek Help:**
+        If you experience severe bloating or worsening symptoms beyond 1-2 weeks, contact us at kimchigit@gmail.com with your health profile. Grace can give personalized advice.
+        
+        Ready to start with a small sampler pack?
+
+  utter_spice_levels:
+    - text: |
+        **Spice Level Guide:**
+        
+        🌶️ **MILD** - Kongnamul Variety
+        - Gentle, tangy flavor
+        - Perfect for spice-sensitive palates
+        - Great intro for beginners
+        
+        🌶️🌶️ **MEDIUM** - Selected Varieties
+        - Balanced spicy-tangy
+        - Traditional Korean heat level
+        - Works for most people
+        
+        🌶️🌶️🌶️ **HOT** - Traditional Tongbaechu
+        - Bold, spicy kick
+        - Rich fermented flavor
+        - For heat lovers
+        
+        **Pro Tip:** The fermentation process mellows heat over time, so fresh is spicier than aged.
+        
+        What's your spice tolerance like?
+
+  utter_recipes:
+    - text: |
+        **Quick Kimchi Recipes:**
+        
+        ⏰ **5-Minute Kimchi Rice Bowl**
+        1. Warm rice in bowl
+        2. Top with kimchi + 1 tbsp brine
+        3. Add protein (egg, salmon, chicken)
+        4. Drizzle sesame oil
+        5. Enjoy!
+        
+        🥘 **Kimchi Jjigae (Stew)** - Classic comfort food
+        - Kimchi + pork/tuna
+        - Tofu cubes
+        - Gochugaru (optional extra spice)
+        - Simmer 20 minutes
+        
+        🥞 **Kimchi Pancakes (Buchimgae)**
+        - Mix kimchi + kimchi juice into flour batter
+        - Pan-fry until crispy
+        - Serve with soy dip
+        
+        🍚 **Fried Rice**
+        - Day-old rice
+        - Diced kimchi
+        - Eggs, veggies
+        - Use kimchi juice for flavor
+        
+        🍝 **Cold Noodle Topping**
+        - Chilled soba or udon
+        - Kimchi on top
+        - Kimchi juice + sesame oil dressing
+        
+        Want a specific recipe based on ingredients you have?
+
+  utter_storage_info:
+    - text: |
+        **Storage & Shelf Life:**
+        
+        🧊 **Refrigerate Immediately After Delivery**
+        - Fermentation slows dramatically in cold
+        - Extends shelf life to 3-6 months
+        - Probiotics stay active in fridge
+        
+        📅 **Shelf Life Timeline:**
+        - Fresh (0-2 weeks): Crispy, active fermentation
+        - Aged (2-6 weeks): Tangy flavor develops, more probiotics
+        - Long-term (1-6 months): Flavor deepens, probiotics remain viable
+        
+        ⚠️ **Signs of Spoilage (Discard):**
+        ❌ Mold on surface (white or colored)
+        ❌ Off smell (not just funk—actual rot)
+        ❌ Sliminess
+        ❌ Unusual cloudiness (some cloudiness is normal—LAB!)
+        ✅ Fizzing = normal fermentation
+        ✅ Cloudiness = active probiotics
+        
+        **Freezing:**
+        Yes, you can freeze! Texture may change slightly (softer), but probiotics remain viable. Thaw in fridge.
+        
+        Any storage questions?
+
+  utter_contact_info:
+    - text: |
+        **Ways to Reach Gift of Grace:**
+        
+        📱 **WhatsApp/Phone:** 09087804565
+        📧 **Email:** kimchigit@gmail.com
+        📍 **Facebook:** @kimchigiftofficial
+        📸 **Instagram:** @gif_tofgrace
+        🛒 **Shopee:** https://ph.shp.ee/k5ZzgF6
+        🌐 **Website:** gogcorp.com
+        
+        **Address:** Cadsi CRONO, Baguio City, Cordillera Region
+        
+        **Typical Response Time:**
+        - WhatsApp/Phone: 2-3 hours
+        - Email: 24 hours
+        - Facebook DM: 2-4 hours
+        
+        Who would you like to talk to—Grace for personal guidance, or Satur for business inquiries?
+
+  utter_sourcing_story:
+    - text: |
+        **Farm-to-Ferment Journey:**
+        
+        🌾 **Local Sourcing**
+        - Direct relationships with Benguet farmers
+        - Vegetables harvested within 24 hours of processing
+        - Cooler highland climate = fresher, crisper vegetables
+        
+        **Why This Matters:**
+        - **Freshness:** Direct from farm = peak nutrition
+        - **Safety:** Minimal handling = lower pathogenic load
+        - **Flavor:** Fresh vegetables = better fermentation
+        - **Support:** Direct payments to farming families
+        
+        **Baguio/Cordillera Agriculture:**
+        - Benguet supplies 80% of Metro Manila's salad vegetables
+        - High-quality because of cool highland climate
+        - Growing 2024: +6.05% production increase
+        - Primary crops: Cabbage, leafy greens, radishes, carrots
+        
+        **Our Farmers:**
+        Mostly small-hold operations in Kibungan, Buguias, Bokod, Atok (60-70% farming-dependent communities).
+        
+        By choosing Gift of Grace, you're directly supporting highland agriculture and local families. 💚
+        
+        Want to know more about specific farmer cooperatives?
+
+  utter_shipping_info:
+    - text: |
+        **Delivery Information:**
+        
+        📦 **Shipping Areas:**
+        - Primary: Baguio City & Cordillera Region
+        - Extended: Metro Manila (NCR)
+        - Flexible: Nationwide (contact for quotes)
+        
+        ⏱️ **Delivery Timeline:**
+        - Baguio City: 1-2 business days
+        - Metro Manila: 2-3 business days
+        - Provincial: 3-5 business days (depends on location)
+        
+        🚚 **Shipping Methods:**
+        - Standard: LBC, JRS, or local courier
+        - Express: Available (contact for rates)
+        - Bulk: Special arrangements available
+        
+        💰 **Shipping Costs:**
+        - Varies by location & weight
+        - Free shipping on orders above [ASK GRACE]
+        - Bulk discounts available
+        
+        **Temperature Control:**
+        We use insulated packaging with ice packs to maintain freshness during transit.
+        
+        Where are you located? I can estimate shipping for you!
+
+  utter_payment_methods:
+    - text: |
+        **Payment Options:**
+        
+        💳 **Online Payments (Shopee):**
+        - Credit/Debit Card
+        - Online Banking
+        - GCash / PayMaya
+        - Buy Now, Pay Later (Shopee installment)
+        
+        💵 **Direct Transfer:**
+        - Bank Transfer (ask for account details)
+        - GCash (ask for number)
+        - Gcash QR payment
+        
+        🏪 **Cash on Delivery (COD)**
+        - Available for metro areas
+        - Available for some provincial areas
+        - Confirm availability with Grace
+        
+        📞 **Phone/WhatsApp Orders:**
+        Contact 09087804565 to discuss payment after order confirmation
+        
+        **Security:** All payments are secure. We never store full card information.
+        
+        Which payment method is most convenient for you?
+
+  utter_offer_help:
+    - text: |
+        I'm here to help! I can assist you with:
+        
+        🛒 **Shopping:** Product info, pricing, ordering, shipping
+        🍽️ **Recipes:** Ideas for using our products
+        💪 **Health:** Probiotic benefits, nutrition, dietary questions
+        🌱 **Sourcing:** Our local farmers, sustainability practices
+        🧬 **Science:** Fermentation, food safety, microbiome
+        👥 **Company:** Gift of Grace story, founder info, contact
+        
+        What would you like to explore?
+
+  utter_escalate_human:
+    - text: |
+        This definitely needs a personal touch. Let me connect you with the Gift of Grace team!
+        
+        📱 **WhatsApp:** 09087804565 (quickest response)
+        📧 **Email:** kimchigit@gmail.com (detailed response)
+        📘 **Facebook DM:** @kimchigiftofficial
+        
+        Grace or Satur typically respond within 2 hours. They love talking directly with customers about custom needs! What's the best way to reach you?
+
+  utter_faq_generic:
+    - text: |
+        Great question! Can you give me a bit more detail? For example:
+        
+        - Are you asking about **health benefits** of fermented foods?
+        - Curious about **how to order** or **pricing**?
+        - Want **recipe ideas** or **pairing suggestions**?
+        - Interested in our **sourcing & sustainability**?
+        - Need info about **delivery & shipping**?
+        
+        Let me know and I'll give you the best answer!
 
 actions:
-  - action_session_start
-  - action_greet
-  - action_goodbye
-  - action_thankyou
-  - action_acknowledge
-  - action_bot_challenge
-  - action_help
-  - action_out_of_scope
-  - action_handle_products
-  - action_calculate_price
-  - action_handle_founders
-  - action_handle_awards
-  - action_handle_location
-  - action_handle_contact
-  - action_handle_employees
-  - action_corporate_query
-  - action_fallback
-  - action_check_knowledge_base
-  - action_add_document
-  - action_show_capabilities
-  - action_restart
+  # Product & Inventory
+  - action_recommend_product
+  - action_check_inventory
+  - action_check_seasonal_availability
+  - action_notify_product_launch
+  # Shipping & Delivery
+  - action_calculate_shipping
+  - action_check_delivery_area
+  - action_track_order
+  # Customer Management
+  - action_track_user_context
+  - action_set_customer_type
+  - action_set_spice_preference
+  - action_set_health_focus
+  - action_log_dietary_restrictions
+  - action_check_purchase_history
+  - action_apply_loyalty_discount
+  # Orders
+  - action_create_order
+  - action_send_recipe_email
+  # Support & Escalation
+  - action_escalate_to_human
+  # Brand Storytelling
+  - action_tell_founder_story
+  - action_tell_farmer_story
+  - action_tell_kimchi_history
+  - action_share_social_handles
+  - action_share_certifications
+  - action_highlight_unique_value
 
 session_config:
   session_expiration_time: 60

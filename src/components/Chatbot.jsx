@@ -3,9 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, MessageCircle, Bot, Loader2, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
-// RASA API Configuration
-// Change this URL when deploying to production
+// API Configuration
+// RASA for local development, HF Spaces (Gemini) for cloud deployment
 const RASA_API_URL = import.meta.env.VITE_RASA_API_URL || 'http://localhost:5005/webhooks/rest/webhook'
+const GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space/chat'
+
+// Deployment mode: 'auto' (try RASA first, fallback to Gemini), 'rasa', or 'gemini'
+const CHAT_MODE = import.meta.env.VITE_CHAT_MODE || 'auto'
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,10 +21,12 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [isRasaAvailable, setIsRasaAvailable] = useState(null) // null = checking, true = available, false = unavailable
+  const [isGeminiAvailable, setIsGeminiAvailable] = useState(null) // null = checking, true = available, false = unavailable
+  const [activeMode, setActiveMode] = useState(null) // 'rasa' or 'gemini'
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Check if RASA server is available on mount
+  // Check API availability on mount
   useEffect(() => {
     const checkRasaAvailability = async () => {
       try {
@@ -29,8 +35,8 @@ const Chatbot = () => {
           method: 'GET',
           mode: 'cors',
         })
-        // If we get any response, RASA is running
         setIsRasaAvailable(true)
+        return true
       } catch (error) {
         // Try sending a test message to the webhook endpoint
         try {
@@ -41,26 +47,66 @@ const Chatbot = () => {
           })
           if (testResponse.ok) {
             setIsRasaAvailable(true)
-          } else {
-            setIsRasaAvailable(false)
+            return true
           }
         } catch {
-          console.log('RASA server not available, hiding chatbot')
-          setIsRasaAvailable(false)
+          // RASA not available
+        }
+      }
+      console.log('RASA server not available')
+      setIsRasaAvailable(false)
+      return false
+    }
+
+    const checkGeminiAvailability = async () => {
+      try {
+        // Try to ping the HF Spaces health endpoint
+        const response = await fetch(GEMINI_API_URL.replace('/chat', '/health'), {
+          method: 'GET',
+          mode: 'cors',
+        })
+        if (response.ok) {
+          setIsGeminiAvailable(true)
+          return true
+        }
+      } catch (error) {
+        console.log('Gemini API not available:', error.message)
+      }
+      setIsGeminiAvailable(false)
+      return false
+    }
+
+    const checkAvailability = async () => {
+      if (CHAT_MODE === 'gemini') {
+        // Only use Gemini
+        const geminiOk = await checkGeminiAvailability()
+        if (geminiOk) setActiveMode('gemini')
+      } else if (CHAT_MODE === 'rasa') {
+        // Only use RASA
+        const rasaOk = await checkRasaAvailability()
+        if (rasaOk) setActiveMode('rasa')
+      } else {
+        // Auto mode: try RASA first, fallback to Gemini
+        const rasaOk = await checkRasaAvailability()
+        if (rasaOk) {
+          setActiveMode('rasa')
+        } else {
+          const geminiOk = await checkGeminiAvailability()
+          if (geminiOk) setActiveMode('gemini')
         }
       }
     }
 
-    checkRasaAvailability()
+    checkAvailability()
 
     // Re-check every 30 seconds in case server comes online
-    const interval = setInterval(checkRasaAvailability, 30000)
+    const interval = setInterval(checkAvailability, 30000)
     return () => clearInterval(interval)
   }, [])
 
-  // Show chatbot button after 7 seconds (only if RASA is available)
+  // Show chatbot button after 7 seconds (only if an API is available)
   useEffect(() => {
-    if (isRasaAvailable !== true) return // Don't show if RASA is not confirmed available
+    if (!activeMode) return // Don't show if no API is available
 
     const timer = setTimeout(() => {
       setHasAppeared(true)
@@ -71,7 +117,7 @@ const Chatbot = () => {
     }, 7000)
 
     return () => clearTimeout(timer)
-  }, [isRasaAvailable])
+  }, [activeMode])
 
   // Auto-open when initial message appears (only once)
   useEffect(() => {
@@ -99,26 +145,35 @@ const Chatbot = () => {
   const initialMessage = "Hello! 👋 Welcome to Gift of Grace. I'm here to help you discover our premium wellness products. How can I assist you today?"
 
   // ============================================
-  // RASA RAG INTEGRATION
+  // DUAL API INTEGRATION (RASA + GEMINI)
   // ============================================
-  // This function communicates with the RASA server
-  // which uses RAG (Retrieval Augmented Generation)
-  // to provide intelligent responses about Gift of Grace
+  // Supports both RASA (local) and Gemini via HF Spaces (cloud)
+  // Auto mode: tries RASA first, falls back to Gemini
   // ============================================
   const getModelResponse = async (userMessage, conversationHistory) => {
-    try {
-      // Generate a unique sender ID for the session
-      const senderId = sessionStorage.getItem('chatbot_sender_id') || `user_${Date.now()}`
-      if (!sessionStorage.getItem('chatbot_sender_id')) {
-        sessionStorage.setItem('chatbot_sender_id', senderId)
-      }
+    // Get session ID
+    const senderId = sessionStorage.getItem('chatbot_sender_id') || `user_${Date.now()}`
+    if (!sessionStorage.getItem('chatbot_sender_id')) {
+      sessionStorage.setItem('chatbot_sender_id', senderId)
+    }
 
-      // RASA REST API format
+    // Use the active mode to determine which API to call
+    if (activeMode === 'rasa') {
+      return await getRasaResponse(userMessage, senderId)
+    } else if (activeMode === 'gemini') {
+      return await getGeminiResponse(userMessage, senderId)
+    }
+
+    // Fallback if no mode is set
+    return "I apologize, but I'm temporarily unavailable. Please try again later."
+  }
+
+  // RASA API call
+  const getRasaResponse = async (userMessage, senderId) => {
+    try {
       const response = await fetch(RASA_API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sender: senderId,
           message: userMessage,
@@ -132,14 +187,11 @@ const Chatbot = () => {
       const data = await response.json()
 
       // RASA returns an array of responses
-      // Each response has a "text" field and optionally "buttons", "image", etc.
       if (Array.isArray(data) && data.length > 0) {
-        // Combine all text responses into one message
         const combinedResponse = data
           .filter(msg => msg.text)
           .map(msg => msg.text)
           .join('\n\n')
-
         return combinedResponse || 'I apologize, but I could not process that request.'
       }
 
@@ -147,9 +199,40 @@ const Chatbot = () => {
 
     } catch (error) {
       console.error('Error getting RASA response:', error)
-      // Mark RASA as unavailable and return graceful message
+      // Try fallback to Gemini if in auto mode
+      if (CHAT_MODE === 'auto' && isGeminiAvailable) {
+        console.log('Falling back to Gemini API...')
+        setActiveMode('gemini')
+        return await getGeminiResponse(userMessage, senderId)
+      }
       setIsRasaAvailable(false)
-      return "I apologize, but I'm temporarily unavailable. Please try again later or contact us directly through our social media channels."
+      return "I apologize, but I'm temporarily unavailable. Please try again later."
+    }
+  }
+
+  // Gemini (HF Spaces) API call
+  const getGeminiResponse = async (userMessage, senderId) => {
+    try {
+      const response = await fetch(GEMINI_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage,
+          session_id: senderId,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Gemini API error: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data.response || 'I apologize, but I could not process that request.'
+
+    } catch (error) {
+      console.error('Error getting Gemini response:', error)
+      setIsGeminiAvailable(false)
+      return "I apologize, but I'm temporarily unavailable. Please try again later."
     }
   }
 
@@ -290,8 +373,9 @@ const Chatbot = () => {
     return date.toLocaleDateString()
   }
 
-  // Don't render anything if RASA is not available
-  if (isRasaAvailable === false) {
+  // Don't render anything if no API is available (both RASA and Gemini unavailable)
+  const isAnyApiAvailable = activeMode !== null || isRasaAvailable === null || isGeminiAvailable === null
+  if (!isAnyApiAvailable && isRasaAvailable === false && isGeminiAvailable === false) {
     return null
   }
 
@@ -299,7 +383,7 @@ const Chatbot = () => {
     <>
       {/* Chatbot Button */}
       <AnimatePresence>
-        {hasAppeared && !isOpen && isRasaAvailable === true && (
+        {hasAppeared && !isOpen && activeMode !== null && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
