@@ -182,6 +182,10 @@ const Chatbot = () => {
     
     setMessages((prev) => [...prev, userMessage])
     setInputValue('')
+    // Reset textarea height
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto'
+    }
     setIsLoading(true)
     setIsTyping(false)
 
@@ -301,7 +305,7 @@ const Chatbot = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30"
           >
             <motion.button
               onClick={() => setIsOpen(true)}
@@ -389,7 +393,7 @@ const Chatbot = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden"
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
             />
 
             {/* Chat Container */}
@@ -398,7 +402,7 @@ const Chatbot = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-40 w-full sm:w-96 h-[calc(100vh-4rem)] sm:h-[600px] sm:max-h-[600px] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border-t border-l border-r sm:border border-gray-200/50 backdrop-blur-xl"
+              className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-40 w-full sm:w-96 h-[85vh] sm:h-[600px] sm:max-h-[600px] max-h-[calc(100vh-80px)] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border-t border-l border-r sm:border border-gray-200/50 backdrop-blur-xl"
             >
               {/* Chat Header */}
               <div className="bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white p-3 sm:p-4 flex items-center justify-between shadow-lg relative overflow-hidden rounded-t-3xl sm:rounded-t-3xl">
@@ -696,20 +700,37 @@ const Chatbot = () => {
               <div className="border-t border-gray-200/50 bg-white p-3 sm:p-4 safe-area-inset-bottom">
                 <form onSubmit={handleSendMessage} className="flex items-end space-x-2">
                   <div className="flex-1 relative">
-                    <input
+                    <textarea
                       ref={inputRef}
-                      type="text"
                       value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
+                      onChange={(e) => {
+                        setInputValue(e.target.value)
+                        // Auto-resize textarea
+                        e.target.style.height = 'auto'
+                        e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px'
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault()
+                          handleSendMessage(e)
+                        }
+                      }}
                       placeholder="Type your message..."
                       disabled={isLoading}
-                      className="w-full px-3 py-2.5 sm:px-4 sm:py-3 pr-10 sm:pr-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-accent/50 focus:border-grace-accent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md"
+                      rows={1}
+                      className="w-full px-3 py-2.5 sm:px-4 sm:py-3 pr-10 sm:pr-12 border-2 border-gray-200 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-grace-accent/50 focus:border-grace-accent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:shadow-md resize-none overflow-hidden min-h-[44px] max-h-[120px]"
+                      style={{ height: 'auto' }}
                     />
                     {inputValue.trim() && (
                       <motion.button
                         type="button"
-                        onClick={() => setInputValue('')}
-                        className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                        onClick={() => {
+                          setInputValue('')
+                          if (inputRef.current) {
+                            inputRef.current.style.height = 'auto'
+                          }
+                        }}
+                        className="absolute right-2 sm:right-3 top-3 p-1 hover:bg-gray-100 rounded-full transition-colors"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         whileHover={{ scale: 1.1 }}
@@ -722,7 +743,7 @@ const Chatbot = () => {
                   <motion.button
                     type="submit"
                     disabled={!inputValue.trim() || isLoading}
-                    className="w-11 h-11 sm:w-12 sm:h-12 bg-grace-accent text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-accent/90 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group flex-shrink-0"
+                    className="w-11 h-11 sm:w-12 sm:h-12 bg-grace-accent text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg hover:bg-grace-accent/90 hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group flex-shrink-0 self-end"
                     whileHover={!isLoading && inputValue.trim() ? { scale: 1.05 } : {}}
                     whileTap={!isLoading && inputValue.trim() ? { scale: 0.95 } : {}}
                     aria-label="Send message"

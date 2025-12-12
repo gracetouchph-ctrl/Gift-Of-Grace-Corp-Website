@@ -41,3 +41,4 @@ backend/.rasa/
 # RASA cache and temporary files
 backend/models/*.tar.gz
 backend/.rasa
+.vercel
