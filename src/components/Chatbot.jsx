@@ -26,65 +26,28 @@ const Chatbot = () => {
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Eyeball animation states
-  const [eyePosition, setEyePosition] = useState({ x: 0, y: 0 })
-  const [isBlinking, setIsBlinking] = useState(false)
-  const eyeRef = useRef(null)
+  // Grace mascot animation states
+  const [isWaving, setIsWaving] = useState(false)
 
-  // Track mouse movement for eyeball effect
+  // Trigger wave animation periodically
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (!eyeRef.current || isOpen) return
+    if (isOpen || !hasAppeared) return
 
-      const eye = eyeRef.current.getBoundingClientRect()
-      const eyeCenterX = eye.left + eye.width / 2
-      const eyeCenterY = eye.top + eye.height / 2
+    // Wave when first appearing
+    const initialWave = setTimeout(() => setIsWaving(true), 500)
+    const stopInitialWave = setTimeout(() => setIsWaving(false), 2500)
 
-      const angle = Math.atan2(e.clientY - eyeCenterY, e.clientX - eyeCenterX)
-      const distance = Math.min(
-        Math.hypot(e.clientX - eyeCenterX, e.clientY - eyeCenterY) / 15,
-        8
-      )
+    // Then wave periodically
+    const waveInterval = setInterval(() => {
+      setIsWaving(true)
+      setTimeout(() => setIsWaving(false), 2000)
+    }, 8000)
 
-      setEyePosition({
-        x: Math.cos(angle) * distance,
-        y: Math.sin(angle) * distance,
-      })
+    return () => {
+      clearTimeout(initialWave)
+      clearTimeout(stopInitialWave)
+      clearInterval(waveInterval)
     }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [isOpen])
-
-  // Random blinking effect
-  useEffect(() => {
-    if (isOpen) return
-
-    const blink = () => {
-      setIsBlinking(true)
-      setTimeout(() => setIsBlinking(false), 150)
-    }
-
-    // Blink randomly every 2-5 seconds
-    const scheduleNextBlink = () => {
-      const delay = 2000 + Math.random() * 3000
-      return setTimeout(() => {
-        blink()
-        blinkTimeout = scheduleNextBlink()
-      }, delay)
-    }
-
-    let blinkTimeout = scheduleNextBlink()
-
-    // Also blink twice quickly when first appearing
-    if (hasAppeared) {
-      setTimeout(() => {
-        blink()
-        setTimeout(blink, 300)
-      }, 500)
-    }
-
-    return () => clearTimeout(blinkTimeout)
   }, [isOpen, hasAppeared])
 
   // Check API availability on mount
@@ -433,230 +396,212 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Floating Eyeball Chat Button */}
+      {/* Floating Grace Mascot Chat Button */}
       <AnimatePresence>
         {hasAppeared && !isOpen && activeMode !== null && (
           <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
+            initial={{ scale: 0, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0, opacity: 0, y: 50 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30"
           >
             {/* Animated Speech bubble tooltip */}
             {showInitialMessage && (
               <motion.div
-                initial={{ opacity: 0, scale: 0, y: 20 }}
+                initial={{ opacity: 0, scale: 0, x: 20 }}
                 animate={{
                   opacity: 1,
                   scale: 1,
-                  y: [0, -5, 0],
+                  x: 0,
                 }}
                 transition={{
-                  opacity: { duration: 0.3 },
-                  scale: { type: 'spring', stiffness: 400, damping: 15 },
-                  y: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 15,
+                  delay: 0.3
                 }}
-                className="absolute -top-20 right-0 bg-white rounded-2xl shadow-xl px-4 py-3 border border-grace-accent/20 max-w-[200px]"
+                className="absolute -top-2 -left-44 sm:-left-48 bg-white rounded-2xl shadow-xl px-4 py-3 border border-grace-accent/20 w-40 sm:w-44"
               >
-                <motion.div className="flex items-center gap-1">
+                {/* Typing animation header */}
+                <motion.div className="flex items-center gap-1.5 mb-1">
                   <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-sm text-gray-700 font-medium"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="text-sm font-semibold text-grace-accent"
                   >
-                    Hi there!
+                    Hi! I'm Grace
                   </motion.span>
                   <motion.span
                     animate={{
-                      rotate: [0, 20, -20, 20, 0],
-                      scale: [1, 1.2, 1.2, 1.2, 1]
+                      rotate: [0, 14, -8, 14, -4, 10, 0],
                     }}
                     transition={{
-                      duration: 1,
+                      duration: 1.5,
                       repeat: Infinity,
-                      repeatDelay: 2
+                      repeatDelay: 3
                     }}
-                    className="text-lg"
+                    className="text-base"
                   >
                     👋
                   </motion.span>
                 </motion.div>
+
+                {/* Typing text effect */}
                 <motion.p
-                  initial={{ opacity: 0, width: 0 }}
-                  animate={{ opacity: 1, width: 'auto' }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="text-xs text-gray-500 overflow-hidden whitespace-nowrap"
-                >
-                  Click me to chat!
-                </motion.p>
-                {/* Animated dots */}
-                <motion.div
-                  className="flex gap-1 mt-1"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
+                  transition={{ delay: 0.8 }}
+                  className="text-xs text-gray-600"
+                >
+                  Need help? Click me!
+                </motion.p>
+
+                {/* Animated typing dots */}
+                <motion.div
+                  className="flex gap-1 mt-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
                 >
                   {[0, 1, 2].map((i) => (
                     <motion.div
                       key={i}
                       className="w-1.5 h-1.5 rounded-full bg-grace-accent"
                       animate={{
-                        y: [0, -4, 0],
-                        opacity: [0.4, 1, 0.4]
+                        y: [0, -5, 0],
+                        scale: [1, 1.2, 1]
                       }}
                       transition={{
-                        duration: 0.8,
+                        duration: 0.6,
                         repeat: Infinity,
-                        delay: i * 0.15,
+                        delay: i * 0.12,
                         ease: 'easeInOut'
                       }}
                     />
                   ))}
                 </motion.div>
-                {/* Speech bubble tail */}
-                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-r border-b border-grace-accent/20 transform rotate-45" />
+
+                {/* Speech bubble tail pointing right */}
+                <div className="absolute top-4 -right-2 w-4 h-4 bg-white border-r border-t border-grace-accent/20 transform rotate-45" />
               </motion.div>
             )}
 
+            {/* Grace Mascot Button */}
             <motion.button
-              ref={eyeRef}
               onClick={() => setIsOpen(true)}
-              className="relative w-16 h-16 sm:w-20 sm:h-20 cursor-pointer"
-              whileHover={{ scale: 1.1 }}
+              className="relative w-20 h-20 sm:w-24 sm:h-24 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              animate={{
+                y: [0, -8, 0],
+              }}
+              transition={{
+                y: {
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }
+              }}
             >
-              {/* Soft outer glow effect */}
+              {/* Soft glow/shadow under Grace */}
               <motion.div
-                className="absolute inset-0 rounded-full bg-sky-300/40 blur-xl"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-3 bg-grace-accent/20 rounded-full blur-md"
                 animate={{
-                  scale: [1, 1.15, 1],
-                  opacity: [0.4, 0.7, 0.4],
+                  scaleX: [1, 0.8, 1],
+                  opacity: [0.3, 0.5, 0.3]
                 }}
                 transition={{
                   duration: 2.5,
                   repeat: Infinity,
-                  ease: 'easeInOut',
+                  ease: 'easeInOut'
                 }}
               />
 
-              {/* Cute eyeball container */}
-              <div className="relative w-full h-full">
-                {/* Sclera (white of eye) - clean and bright */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-white to-sky-50 shadow-xl border-2 border-sky-100 overflow-hidden">
-                  {/* Subtle shine on sclera */}
-                  <div className="absolute top-1 left-2 w-3 h-2 bg-white/80 rounded-full blur-sm" />
-                </div>
+              {/* Decorative sparkles around Grace */}
+              <motion.div
+                className="absolute -top-2 -left-2 text-yellow-400 text-sm"
+                animate={{
+                  scale: [0, 1.2, 0],
+                  opacity: [0, 1, 0],
+                  rotate: [0, 180, 360]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: 0.5,
+                  ease: 'easeInOut'
+                }}
+              >
+                ✦
+              </motion.div>
+              <motion.div
+                className="absolute top-2 -right-3 text-pink-400 text-xs"
+                animate={{
+                  scale: [0, 1, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 1.8,
+                  repeat: Infinity,
+                  delay: 1,
+                  ease: 'easeInOut'
+                }}
+              >
+                ✦
+              </motion.div>
+              <motion.div
+                className="absolute bottom-4 -left-3 text-grace-accent text-xs"
+                animate={{
+                  scale: [0, 1.1, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2.2,
+                  repeat: Infinity,
+                  delay: 1.5,
+                  ease: 'easeInOut'
+                }}
+              >
+                ♥
+              </motion.div>
 
-                {/* Iris + Pupil container (moves with mouse) */}
-                <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
-                  animate={{
-                    x: eyePosition.x,
-                    y: eyePosition.y,
+              {/* Grace Character Image */}
+              <motion.div
+                className="relative w-full h-full"
+                animate={isWaving ? {
+                  rotate: [-2, 2, -2, 2, 0],
+                } : {}}
+                transition={{
+                  duration: 0.5,
+                  repeat: isWaving ? 3 : 0,
+                }}
+              >
+                <img
+                  src="/images/girl.png"
+                  alt="Grace - Your friendly assistant"
+                  className="w-full h-full object-contain drop-shadow-lg"
+                  style={{
+                    filter: 'drop-shadow(0 4px 12px rgba(240, 86, 68, 0.3))'
                   }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                  {/* Iris - friendly teal/blue color */}
-                  <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-sky-400 via-teal-400 to-emerald-500 shadow-lg overflow-hidden">
-                    {/* Iris sparkle/highlight */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.5)_0%,transparent_40%)]" />
+                />
+              </motion.div>
 
-                    {/* Soft radial pattern */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_30%,rgba(0,0,0,0.1)_70%)]" />
-
-                    {/* Pupil - larger for cute look */}
-                    <motion.div
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gray-900"
-                      animate={{
-                        scale: showInitialMessage ? [1, 1.1, 1] : 1,
-                      }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: showInitialMessage ? Infinity : 0,
-                        ease: 'easeInOut',
-                      }}
-                    >
-                      {/* Big anime-style highlight */}
-                      <div className="absolute top-0.5 left-1 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white" />
-                      {/* Small secondary highlight */}
-                      <div className="absolute bottom-1.5 right-1 w-1 h-1 rounded-full bg-white/70" />
-                    </motion.div>
-
-                    {/* Inner iris ring for depth */}
-                    <div className="absolute inset-1 rounded-full border border-white/20" />
-                  </div>
-                </motion.div>
-
-                {/* Cute eyelids (for blinking) - soft pink */}
-                <motion.div
-                  className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
-                  initial={false}
-                >
-                  {/* Upper eyelid */}
-                  <motion.div
-                    className="absolute inset-x-0 top-0 bg-gradient-to-b from-pink-200 via-pink-100 to-transparent rounded-t-full"
-                    initial={{ height: '0%' }}
-                    animate={{ height: isBlinking ? '52%' : '0%' }}
-                    transition={{ duration: 0.1, ease: 'easeInOut' }}
-                  />
-                  {/* Lower eyelid */}
-                  <motion.div
-                    className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-pink-200 via-pink-100 to-transparent rounded-b-full"
-                    initial={{ height: '0%' }}
-                    animate={{ height: isBlinking ? '52%' : '0%' }}
-                    transition={{ duration: 0.1, ease: 'easeInOut' }}
-                  />
-                </motion.div>
-
-                {/* Soft eye outline */}
-                <div className="absolute inset-0 rounded-full border-3 border-pink-200/60 pointer-events-none" />
-
-                {/* Cute sparkle decorations */}
-                <motion.div
-                  className="absolute -top-1 -right-1 text-yellow-300"
-                  animate={{
-                    scale: [1, 1.3, 1],
-                    opacity: [0.7, 1, 0.7],
-                    rotate: [0, 15, 0]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut'
-                  }}
-                >
-                  ✦
-                </motion.div>
-                <motion.div
-                  className="absolute -bottom-0.5 -left-1 text-xs text-pink-300"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.5, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    delay: 0.5,
-                    ease: 'easeInOut'
-                  }}
-                >
-                  ✦
-                </motion.div>
-              </div>
-
-              {/* Notification indicator - cute heart style */}
+              {/* Notification badge */}
               {showInitialMessage && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center"
+                  transition={{ type: 'spring', stiffness: 500, damping: 15, delay: 0.5 }}
+                  className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-br from-grace-accent to-rose-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center"
                 >
                   <motion.span
-                    className="text-white text-xs"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
+                    className="text-white text-sm"
+                    animate={{
+                      scale: [1, 1.3, 1],
+                    }}
+                    transition={{ duration: 1, repeat: Infinity }}
                   >
                     💬
                   </motion.span>
