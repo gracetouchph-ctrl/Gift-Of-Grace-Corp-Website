@@ -119,16 +119,7 @@ const Chatbot = () => {
     return () => clearTimeout(timer)
   }, [activeMode])
 
-  // Auto-open when initial message appears (only once)
-  useEffect(() => {
-    if (showInitialMessage && !isOpen && !hasAutoOpened) {
-      const timer = setTimeout(() => {
-        setIsOpen(true)
-        setHasAutoOpened(true)
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [showInitialMessage, isOpen, hasAutoOpened])
+  // Removed auto-open behavior - chat only opens when user clicks the button
 
   // Initialize with welcome message
   useEffect(() => {

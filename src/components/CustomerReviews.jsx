@@ -104,17 +104,17 @@ const CustomerReviews = memo(() => {
           <div className="relative">
             {/* Decorative Quote Icon - Top Left */}
             <motion.div
-              className="absolute -top-4 -left-4 lg:-top-6 lg:-left-6 z-10 hidden md:block"
+              className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 lg:-top-6 lg:-left-6 z-10 hidden sm:block"
               initial={{ opacity: 0, scale: 0, rotate: -180 }}
               animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4, type: 'spring', stiffness: 200 }}
             >
               <motion.div
-                className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-grace-accent/20 to-rose-100 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-grace-accent/20"
+                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-grace-accent/20 to-rose-100 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-grace-accent/20"
                 whileHover={{ scale: 1.1, rotate: 10 }}
                 transition={{ duration: 0.3 }}
               >
-                <Quote className="w-8 h-8 lg:w-10 lg:h-10 text-grace-accent" />
+                <Quote className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-grace-accent" />
               </motion.div>
             </motion.div>
 
@@ -173,17 +173,17 @@ const CustomerReviews = memo(() => {
 
             {/* Bottom Decorative Quote Icon */}
             <motion.div
-              className="absolute -bottom-4 -right-4 lg:-bottom-6 lg:-right-6 z-10 hidden md:block"
+              className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 lg:-bottom-6 lg:-right-6 z-10 hidden sm:block"
               initial={{ opacity: 0, scale: 0, rotate: 180 }}
               animate={isInView ? { opacity: 1, scale: 1, rotate: 180 } : {}}
               transition={{ duration: 0.6, delay: 0.5, type: 'spring', stiffness: 200 }}
             >
               <motion.div
-                className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-sky-100 to-grace-accent/20 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-sky-200/30"
+                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-sky-100 to-grace-accent/20 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-sky-200/30"
                 whileHover={{ scale: 1.1, rotate: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <Quote className="w-8 h-8 lg:w-10 lg:h-10 text-sky-500" />
+                <Quote className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-sky-500" />
               </motion.div>
             </motion.div>
           </div>
@@ -191,7 +191,7 @@ const CustomerReviews = memo(() => {
 
         {/* Trust Indicators with staggered animation */}
         <motion.div
-          className="mt-16 lg:mt-20 grid grid-cols-3 gap-6 lg:gap-8 max-w-3xl mx-auto"
+          className="mt-10 sm:mt-16 lg:mt-20 grid grid-cols-3 gap-3 sm:gap-6 lg:gap-8 max-w-3xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
@@ -207,21 +207,21 @@ const CustomerReviews = memo(() => {
                 transition={{ duration: 0.2 }}
               >
                 <motion.div
-                  className="inline-flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-grace-accent/10 to-rose-100/50 rounded-2xl mb-4"
+                  className="inline-flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-grace-accent/10 to-rose-100/50 rounded-xl sm:rounded-2xl mb-2 sm:mb-4"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
-                  <Icon className="w-7 h-7 lg:w-8 lg:h-8 text-grace-accent" />
+                  <Icon className="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-grace-accent" />
                 </motion.div>
                 <motion.div
-                  className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1"
+                  className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-0.5 sm:mb-1"
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.5 + index * 0.1, type: 'spring', stiffness: 200 }}
                 >
                   {stat.value}
                 </motion.div>
-                <div className="text-xs lg:text-sm text-gray-500 uppercase tracking-wide">
+                <div className="text-[10px] sm:text-xs lg:text-sm text-gray-500 uppercase tracking-wide leading-tight">
                   {stat.label}
                 </div>
               </motion.div>
@@ -231,13 +231,13 @@ const CustomerReviews = memo(() => {
 
         {/* Call to Action */}
         <motion.div
-          className="text-center mt-12 lg:mt-16"
+          className="text-center mt-8 sm:mt-12 lg:mt-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           <motion.p
-            className="text-gray-600 text-lg mb-6"
+            className="text-gray-600 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.7 }}
@@ -248,7 +248,7 @@ const CustomerReviews = memo(() => {
             href="https://ph.shp.ee/k5ZzgF6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-full font-semibold text-base shadow-xl shadow-gray-900/20"
+            className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-xl shadow-gray-900/20"
             whileHover={{
               scale: 1.05,
               boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
@@ -257,7 +257,7 @@ const CustomerReviews = memo(() => {
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            <Star className="w-5 h-5" />
+            <Star className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Experience the Quality</span>
           </motion.a>
         </motion.div>

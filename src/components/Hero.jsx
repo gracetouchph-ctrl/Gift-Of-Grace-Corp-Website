@@ -65,18 +65,18 @@ const Hero = memo(() => {
     >
       <motion.div className='absolute inset-0 overflow-hidden' style={{ y: backgroundY }}>
         <motion.div
-          className='absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-grace-accent/20 to-rose-200/30 rounded-full blur-3xl'
+          className='absolute -top-20 -right-20 sm:-top-40 sm:-right-40 w-[200px] h-[200px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] bg-gradient-to-br from-grace-accent/20 to-rose-200/30 rounded-full blur-3xl'
           style={{ y: orbY }}
         />
         <motion.div
-          className='absolute top-1/2 -left-40 w-[400px] h-[400px] bg-gradient-to-br from-grace-accent-alt/20 to-sky-200/30 rounded-full blur-3xl'
+          className='absolute top-1/2 -left-20 sm:-left-40 w-[150px] h-[150px] sm:w-[280px] sm:h-[280px] lg:w-[400px] lg:h-[400px] bg-gradient-to-br from-grace-accent-alt/20 to-sky-200/30 rounded-full blur-3xl'
           style={{ y: orbY }}
         />
         <motion.div
-          className='absolute -bottom-20 right-1/3 w-[300px] h-[300px] bg-gradient-to-br from-grace-gold/15 to-amber-100/20 rounded-full blur-3xl'
+          className='absolute -bottom-10 right-1/4 sm:-bottom-20 sm:right-1/3 w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] lg:w-[300px] lg:h-[300px] bg-gradient-to-br from-grace-gold/15 to-amber-100/20 rounded-full blur-3xl'
           style={{ y: orbY }}
         />
-        <div className='absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]' />
+        <div className='absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] sm:bg-[size:60px_60px]' />
       </motion.div>
 
       <motion.div
@@ -228,35 +228,35 @@ const Hero = memo(() => {
                 </div>
 
                 <motion.div
-                  className='absolute -bottom-4 -right-4 lg:-bottom-6 lg:-right-6 bg-white rounded-2xl shadow-xl p-4 lg:p-5 border border-gray-100'
+                  className='absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 lg:-bottom-6 lg:-right-6 bg-white rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 lg:p-5 border border-gray-100'
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
                   whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
                 >
-                  <div className='flex items-center gap-3'>
-                    <div className='w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-gradient-to-br from-grace-accent to-rose-500 flex items-center justify-center'>
+                  <div className='flex items-center gap-2 sm:gap-3'>
+                    <div className='w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-lg sm:rounded-xl bg-gradient-to-br from-grace-accent to-rose-500 flex items-center justify-center'>
                       <img
                         src='/images/giftofgracelogo_transparent.png'
                         alt='Gift of Grace'
-                        className='w-8 h-8 lg:w-10 lg:h-10 object-contain'
+                        className='w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 object-contain'
                       />
                     </div>
                     <div>
-                      <div className='font-semibold text-gray-900 text-sm lg:text-base'>Gift of Grace</div>
-                      <div className='text-xs text-gray-500'>Premium Quality</div>
+                      <div className='font-semibold text-gray-900 text-xs sm:text-sm lg:text-base'>Gift of Grace</div>
+                      <div className='text-[10px] sm:text-xs text-gray-500'>Premium Quality</div>
                     </div>
                   </div>
                 </motion.div>
               </motion.div>
 
               <motion.div
-                className='absolute -top-4 -left-4 w-20 h-20 bg-grace-gold/20 rounded-full blur-xl'
+                className='absolute -top-2 -left-2 sm:-top-4 sm:-left-4 w-12 h-12 sm:w-20 sm:h-20 bg-grace-gold/20 rounded-full blur-xl'
                 animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               />
               <motion.div
-                className='absolute -bottom-8 -left-8 w-24 h-24 bg-grace-accent/15 rounded-full blur-xl'
+                className='absolute -bottom-4 -left-4 sm:-bottom-8 sm:-left-8 w-16 h-16 sm:w-24 sm:h-24 bg-grace-accent/15 rounded-full blur-xl'
                 animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
               />

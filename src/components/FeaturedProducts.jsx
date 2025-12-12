@@ -202,7 +202,7 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
   const activeProduct = products[activeIndex]
 
   return (
-    <div className="relative bg-gradient-to-br from-slate-50 via-white to-grace-light-blue/20 rounded-3xl p-8 lg:p-12 border border-gray-100 shadow-xl overflow-hidden">
+    <div className="relative bg-gradient-to-br from-slate-50 via-white to-grace-light-blue/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-12 border border-gray-100 shadow-xl overflow-hidden">
       {/* Animated background orbs */}
       <motion.div
         className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl"
@@ -217,10 +217,10 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
         transition={{ duration: 4, repeat: Infinity }}
       />
 
-      <div className="relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="relative grid lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-16 items-center">
         {/* Image Side with AnimatePresence for smooth transitions */}
         <div className="relative order-2 lg:order-1">
-          <div className="relative h-80 lg:h-[450px] flex items-center justify-center">
+          <div className="relative h-56 sm:h-80 lg:h-[450px] flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeProduct.id}
@@ -273,21 +273,21 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
           {/* Navigation arrows with spring animation */}
           <motion.button
             onClick={() => setActiveIndex((prev) => (prev - 1 + products.length) % products.length)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 w-12 h-12 lg:w-14 lg:h-14 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 lg:-translate-x-6 w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600"
             whileHover={{ scale: 1.1, x: -2 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Previous product"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </motion.button>
           <motion.button
             onClick={() => setActiveIndex((prev) => (prev + 1) % products.length)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 w-12 h-12 lg:w-14 lg:h-14 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 lg:translate-x-6 w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600"
             whileHover={{ scale: 1.1, x: 2 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Next product"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </motion.button>
         </div>
 
@@ -303,14 +303,14 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
             >
               {/* Category badge */}
               <motion.div
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-6"
+                className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6"
                 style={{ backgroundColor: `${activeProduct.color}15`, color: activeProduct.color }}
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
                 <motion.span
-                  className="w-2 h-2 rounded-full"
+                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
                   style={{ backgroundColor: activeProduct.color }}
                   animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -320,7 +320,7 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
 
               {/* Product name with character stagger (simplified) */}
               <motion.h3
-                className="text-3xl lg:text-5xl font-serif font-medium text-gray-900 mb-4 tracking-tight"
+                className="text-2xl sm:text-3xl lg:text-5xl font-serif font-medium text-gray-900 mb-3 sm:mb-4 tracking-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
@@ -330,7 +330,7 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
 
               {/* Description */}
               <motion.p
-                className="text-gray-500 text-lg mb-6 max-w-md mx-auto lg:mx-0 leading-relaxed"
+                className="text-gray-500 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 max-w-md mx-auto lg:mx-0 leading-relaxed"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
@@ -340,7 +340,7 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
 
               {/* Rating */}
               <motion.div
-                className="flex items-center gap-1 justify-center lg:justify-start mb-8"
+                className="flex items-center gap-1 justify-center lg:justify-start mb-6 sm:mb-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
@@ -352,32 +352,32 @@ const HeroShowcase = memo(({ activeIndex, setActiveIndex, products }) => {
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.3 + i * 0.1, type: 'spring' }}
                   >
-                    <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400" />
                   </motion.div>
                 ))}
-                <span className="text-gray-400 ml-2 text-sm">(4.9 rating)</span>
+                <span className="text-gray-400 ml-2 text-xs sm:text-sm">(4.9 rating)</span>
               </motion.div>
 
               {/* Price and CTA */}
               <motion.div
-                className="flex items-center gap-6 justify-center lg:justify-start mb-10"
+                className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center lg:justify-start mb-8 sm:mb-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <span className="text-4xl lg:text-5xl font-bold text-gray-900">
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
                   {activeProduct.price}
                 </span>
                 <motion.a
                   href={activeProduct.shopeeLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-white px-8 py-4 rounded-full font-semibold shadow-xl"
+                  className="flex items-center gap-2 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-xl"
                   style={{ backgroundColor: activeProduct.color }}
                   whileHover={{ scale: 1.05, boxShadow: `0 20px 40px ${activeProduct.color}40` }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <ShoppingBag className="w-5 h-5" />
+                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
                   Shop Now
                   <ArrowRight className="w-4 h-4" />
                 </motion.a>
@@ -513,7 +513,7 @@ const FeaturedProducts = memo(() => {
 
         {/* View All CTA */}
         <motion.div
-          className="text-center mt-16 lg:mt-20"
+          className="text-center mt-12 sm:mt-16 lg:mt-20"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8 }}
@@ -522,20 +522,21 @@ const FeaturedProducts = memo(() => {
             href="https://ph.shp.ee/k5ZzgF6"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 bg-gray-900 text-white px-10 py-5 rounded-full font-semibold text-lg shadow-xl"
+            className="group inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5 rounded-full font-semibold text-sm sm:text-base lg:text-lg shadow-xl"
             whileHover={{
               scale: 1.03,
               boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <ShoppingBag className="w-5 h-5" />
-            <span>View All Products on Shopee</span>
+            <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">View All Products on Shopee</span>
+            <span className="sm:hidden">Shop on Shopee</span>
             <motion.div
               animate={{ x: [0, 4, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <ExternalLink className="w-5 h-5 opacity-70" />
+              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 opacity-70" />
             </motion.div>
           </motion.a>
         </motion.div>

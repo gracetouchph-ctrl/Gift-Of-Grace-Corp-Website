@@ -122,13 +122,13 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
       </div>
 
       {/* Bento Grid Gallery */}
-      <div className="grid grid-cols-6 grid-rows-2 gap-3 lg:gap-4 h-[400px] sm:h-[450px] lg:h-[500px] relative z-10">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 grid-rows-3 sm:grid-rows-2 gap-2 sm:gap-3 lg:gap-4 h-[450px] sm:h-[400px] lg:h-[500px] relative z-10">
         {galleryImages.map((image, index) => {
-          // Determine grid span based on size
+          // Determine grid span based on size - responsive classes
           const gridClass = image.size === 'large'
-            ? 'col-span-3 row-span-2'
+            ? 'col-span-2 row-span-2 sm:col-span-2 sm:row-span-2 lg:col-span-3 lg:row-span-2'
             : image.size === 'medium'
-            ? 'col-span-2 row-span-1'
+            ? 'col-span-1 row-span-1 sm:col-span-2 sm:row-span-1 lg:col-span-2 lg:row-span-1'
             : 'col-span-1 row-span-1'
 
           // Stagger delays
@@ -137,7 +137,7 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
           return (
             <motion.div
               key={image.id}
-              className={`${gridClass} group relative overflow-hidden rounded-2xl lg:rounded-3xl cursor-pointer`}
+              className={`${gridClass} group relative overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-3xl cursor-pointer`}
               initial={{ opacity: 0, scale: 0.8, y: 30 }}
               animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{
@@ -175,13 +175,13 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
 
               {/* Decorative corner accents */}
               <motion.div
-                className="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 border-white/40 rounded-tl-lg opacity-0 group-hover:opacity-100"
+                className="absolute top-2 left-2 sm:top-3 sm:left-3 w-5 h-5 sm:w-8 sm:h-8 border-t-2 border-l-2 border-white/40 rounded-tl-lg opacity-0 group-hover:opacity-100"
                 initial={{ scale: 0 }}
                 whileHover={{ scale: 1 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               />
               <motion.div
-                className="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 border-white/40 rounded-br-lg opacity-0 group-hover:opacity-100"
+                className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-5 h-5 sm:w-8 sm:h-8 border-b-2 border-r-2 border-white/40 rounded-br-lg opacity-0 group-hover:opacity-100"
                 initial={{ scale: 0 }}
                 whileHover={{ scale: 1 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
@@ -189,16 +189,16 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
 
               {/* Caption - slides up on hover */}
               <motion.div
-                className="absolute inset-x-0 bottom-0 p-4 lg:p-5"
+                className="absolute inset-x-0 bottom-0 p-2 sm:p-4 lg:p-5"
                 initial={{ y: 20, opacity: 0 }}
                 whileHover={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
               >
                 <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <h4 className="text-white font-semibold text-sm lg:text-base drop-shadow-lg">
+                  <h4 className="text-white font-semibold text-xs sm:text-sm lg:text-base drop-shadow-lg">
                     {image.caption}
                   </h4>
-                  <p className="text-white/80 text-xs lg:text-sm mt-1 drop-shadow">
+                  <p className="text-white/80 text-[10px] sm:text-xs lg:text-sm mt-0.5 sm:mt-1 drop-shadow hidden sm:block">
                     {image.description}
                   </p>
                 </div>
@@ -207,12 +207,12 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
               {/* Year badge for large image */}
               {image.size === 'large' && (
                 <motion.div
-                  className="absolute top-4 right-4 px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30"
+                  className="absolute top-2 right-2 sm:top-4 sm:right-4 px-2 py-1 sm:px-3 sm:py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30"
                   initial={{ opacity: 0, x: 20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: delay + 0.3 }}
                 >
-                  <span className="text-white text-xs font-medium">Est. 2017</span>
+                  <span className="text-white text-[10px] sm:text-xs font-medium">Est. 2017</span>
                 </motion.div>
               )}
 
@@ -227,7 +227,7 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
 
       {/* Stats row below gallery */}
       <motion.div
-        className="mt-8 lg:mt-10 grid grid-cols-3 gap-4 max-w-2xl mx-auto"
+        className="mt-6 sm:mt-8 lg:mt-10 grid grid-cols-3 gap-2 sm:gap-4 max-w-2xl mx-auto"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 1.4 }}
@@ -244,14 +244,14 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="inline-flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-grace-accent/10 to-rose-100/50 rounded-xl mb-2"
+              className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-grace-accent/10 to-rose-100/50 rounded-lg sm:rounded-xl mb-1 sm:mb-2"
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <stat.icon className="w-5 h-5 lg:w-6 lg:h-6 text-grace-accent" />
+              <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-grace-accent" />
             </motion.div>
-            <div className="text-xl lg:text-2xl font-bold text-gray-900">{stat.value}</div>
-            <div className="text-xs text-gray-500 uppercase tracking-wide">{stat.label}</div>
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{stat.value}</div>
+            <div className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">{stat.label}</div>
           </motion.div>
         ))}
       </motion.div>

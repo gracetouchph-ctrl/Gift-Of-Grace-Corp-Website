@@ -50,24 +50,24 @@ const Footer = memo(() => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-16 lg:py-20">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-12"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
           {/* Brand Section */}
-          <motion.div variants={itemVariants} className="lg:col-span-2">
+          <motion.div variants={itemVariants} className="sm:col-span-2 lg:col-span-2">
             <motion.h3
-              className="text-xl lg:text-2xl font-serif font-medium mb-4 tracking-tight"
+              className="text-lg sm:text-xl lg:text-2xl font-serif font-medium mb-3 sm:mb-4 tracking-tight"
               whileHover={{ x: 4 }}
               transition={{ duration: 0.2 }}
             >
               Gift of Grace Food Manufacturing
             </motion.h3>
-            <p className="text-gray-400 italic mb-4">A Touch of Grace, Infused with Comfort</p>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-md">
+            <p className="text-gray-400 italic mb-3 sm:mb-4 text-sm sm:text-base">A Touch of Grace, Infused with Comfort</p>
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-md">
               Proudly Filipino-made kimchi, tofu, rice coffee, pickled radish, and chicken pastil
               crafted to nourish, comfort, and bless communities across Northern Luzon and beyond.
             </p>
@@ -75,43 +75,43 @@ const Footer = memo(() => {
 
           {/* Contact Section */}
           <motion.div variants={itemVariants}>
-            <h4 className="text-sm font-semibold mb-6 tracking-wide uppercase text-grace-accent">Contact Us</h4>
-            <div className="space-y-4">
+            <h4 className="text-xs sm:text-sm font-semibold mb-4 sm:mb-6 tracking-wide uppercase text-grace-accent">Contact Us</h4>
+            <div className="space-y-3 sm:space-y-4">
               <motion.div
-                className="flex items-start gap-3 group"
+                className="flex items-start gap-2 sm:gap-3 group"
                 whileHover={{ x: 4 }}
                 transition={{ duration: 0.2 }}
               >
-                <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 text-grace-accent" />
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 flex-shrink-0 text-grace-accent" />
+                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
                   #5 Purok 6, Pinsao Pilot Project,<br />
                   Baguio City, 2600, Philippines
                 </p>
               </motion.div>
               <motion.a
                 href="mailto:kimchigift@gmail.com"
-                className="flex items-center gap-3 text-gray-400 group"
+                className="flex items-center gap-2 sm:gap-3 text-gray-400 group"
                 whileHover={{ x: 4, color: '#ffffff' }}
                 transition={{ duration: 0.2 }}
               >
-                <Mail className="w-5 h-5 flex-shrink-0 text-grace-accent group-hover:text-rose-400 transition-colors" />
-                <span className="text-sm">kimchigift@gmail.com</span>
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-grace-accent group-hover:text-rose-400 transition-colors" />
+                <span className="text-xs sm:text-sm">kimchigift@gmail.com</span>
               </motion.a>
-              <div className="space-y-2 text-gray-400 text-sm">
+              <div className="space-y-2 text-gray-400 text-xs sm:text-sm">
                 <motion.div
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-2 sm:gap-3"
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Phone className="w-5 h-5 flex-shrink-0 text-grace-accent" />
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-grace-accent" />
                   <span>+63 074 661 3554</span>
                 </motion.div>
                 <motion.div
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-2 sm:gap-3"
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Phone className="w-5 h-5 flex-shrink-0 text-grace-accent" />
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-grace-accent" />
                   <span>+63 917 5958 907</span>
                 </motion.div>
               </div>
@@ -120,8 +120,8 @@ const Footer = memo(() => {
 
           {/* Social Media Section */}
           <motion.div variants={itemVariants}>
-            <h4 className="text-sm font-semibold mb-6 tracking-wide uppercase text-grace-accent">Follow Us</h4>
-            <div className="flex flex-col gap-4">
+            <h4 className="text-xs sm:text-sm font-semibold mb-4 sm:mb-6 tracking-wide uppercase text-grace-accent">Follow Us</h4>
+            <div className="flex flex-col gap-3 sm:gap-4">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon
                 return (
@@ -130,21 +130,21 @@ const Footer = memo(() => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-gray-400 group"
+                    className="flex items-center gap-2 sm:gap-3 text-gray-400 group"
                     whileHover={{ x: 8, color: '#ffffff' }}
                     transition={{ duration: 0.2 }}
                   >
                     <motion.div
-                      className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 flex items-center justify-center"
                       whileHover={{
                         backgroundColor: 'rgba(240, 86, 68, 0.2)',
                         scale: 1.1,
                       }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Icon className="w-5 h-5 text-grace-accent group-hover:text-rose-400 transition-colors" />
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-grace-accent group-hover:text-rose-400 transition-colors" />
                     </motion.div>
-                    <span className="text-sm">{social.label}</span>
+                    <span className="text-xs sm:text-sm">{social.label}</span>
                   </motion.a>
                 )
               })}
@@ -154,14 +154,14 @@ const Footer = memo(() => {
 
         {/* Divider with animation */}
         <motion.div
-          className="border-t border-white/10 pt-8"
+          className="border-t border-white/10 pt-6 sm:pt-8"
           initial={{ opacity: 0, scaleX: 0 }}
           animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
             <motion.p
-              className="text-gray-500 text-sm flex items-center gap-1"
+              className="text-gray-500 text-xs sm:text-sm flex items-center gap-1 text-center sm:text-left"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.6 }}
@@ -171,12 +171,12 @@ const Footer = memo(() => {
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
               >
-                <Heart className="w-4 h-4 text-grace-accent fill-grace-accent" />
+                <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-grace-accent fill-grace-accent" />
               </motion.span>
               <span>in the Philippines.</span>
             </motion.p>
             <motion.div
-              className="flex gap-6 text-sm text-gray-500"
+              className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.7 }}
