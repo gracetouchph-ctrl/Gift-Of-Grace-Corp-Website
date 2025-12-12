@@ -16,11 +16,52 @@ const Chatbot = () => {
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
+  const [isRasaAvailable, setIsRasaAvailable] = useState(null) // null = checking, true = available, false = unavailable
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Show chatbot button after 7 seconds
+  // Check if RASA server is available on mount
   useEffect(() => {
+    const checkRasaAvailability = async () => {
+      try {
+        // Try to ping the RASA server
+        const response = await fetch(RASA_API_URL.replace('/webhooks/rest/webhook', '/'), {
+          method: 'GET',
+          mode: 'cors',
+        })
+        // If we get any response, RASA is running
+        setIsRasaAvailable(true)
+      } catch (error) {
+        // Try sending a test message to the webhook endpoint
+        try {
+          const testResponse = await fetch(RASA_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sender: 'test', message: 'hi' }),
+          })
+          if (testResponse.ok) {
+            setIsRasaAvailable(true)
+          } else {
+            setIsRasaAvailable(false)
+          }
+        } catch {
+          console.log('RASA server not available, hiding chatbot')
+          setIsRasaAvailable(false)
+        }
+      }
+    }
+
+    checkRasaAvailability()
+
+    // Re-check every 30 seconds in case server comes online
+    const interval = setInterval(checkRasaAvailability, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Show chatbot button after 7 seconds (only if RASA is available)
+  useEffect(() => {
+    if (isRasaAvailable !== true) return // Don't show if RASA is not confirmed available
+
     const timer = setTimeout(() => {
       setHasAppeared(true)
       // Show initial message 1 second after appearing
@@ -30,7 +71,7 @@ const Chatbot = () => {
     }, 7000)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [isRasaAvailable])
 
   // Auto-open when initial message appears (only once)
   useEffect(() => {
@@ -106,8 +147,9 @@ const Chatbot = () => {
 
     } catch (error) {
       console.error('Error getting RASA response:', error)
-      // Fallback response if RASA server fails
-      return "I'm sorry, I'm having trouble connecting to the knowledge base right now. Please make sure the RASA server is running (rasa run --cors \"*\") and try again."
+      // Mark RASA as unavailable and return graceful message
+      setIsRasaAvailable(false)
+      return "I apologize, but I'm temporarily unavailable. Please try again later or contact us directly through our social media channels."
     }
   }
 
@@ -244,11 +286,16 @@ const Chatbot = () => {
     return date.toLocaleDateString()
   }
 
+  // Don't render anything if RASA is not available
+  if (isRasaAvailable === false) {
+    return null
+  }
+
   return (
     <>
       {/* Chatbot Button */}
       <AnimatePresence>
-        {hasAppeared && !isOpen && (
+        {hasAppeared && !isOpen && isRasaAvailable === true && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

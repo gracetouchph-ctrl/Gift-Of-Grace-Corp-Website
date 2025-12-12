@@ -1,24 +1,28 @@
-import { useState, useEffect, useRef, memo } from 'react'
-import { Facebook, ShoppingBag, Mail, Phone, MapPin } from 'lucide-react'
+import { useRef, memo } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { Facebook, ShoppingBag, Mail, Phone, MapPin, Heart } from 'lucide-react'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+}
 
 const Footer = memo(() => {
   const currentYear = new Date().getFullYear()
-  const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
-  }, [])
+  const isInView = useInView(sectionRef, { once: true, amount: 0.1 })
 
   const socialLinks = [
     { icon: Facebook, href: 'https://www.facebook.com/kimchigiftofficial/', label: 'Facebook' },
@@ -34,98 +38,166 @@ const Footer = memo(() => {
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-grace-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl" />
+        <motion.div
+          className="absolute top-0 right-0 w-96 h-96 bg-grace-accent/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.7, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        />
       </div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 lg:py-20">
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12 transition-all duration-700 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
           {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <h3 className="text-xl lg:text-2xl font-serif font-medium mb-4 tracking-tight">
+          <motion.div variants={itemVariants} className="lg:col-span-2">
+            <motion.h3
+              className="text-xl lg:text-2xl font-serif font-medium mb-4 tracking-tight"
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.2 }}
+            >
               Gift of Grace Food Manufacturing
-            </h3>
+            </motion.h3>
             <p className="text-gray-400 italic mb-4">A Touch of Grace, Infused with Comfort</p>
             <p className="text-gray-400 text-sm leading-relaxed max-w-md">
               Proudly Filipino-made kimchi, tofu, rice coffee, pickled radish, and chicken pastil
               crafted to nourish, comfort, and bless communities across Northern Luzon and beyond.
             </p>
-          </div>
+          </motion.div>
 
           {/* Contact Section */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h4 className="text-sm font-semibold mb-6 tracking-wide uppercase text-grace-accent">Contact Us</h4>
             <div className="space-y-4">
-              <div className="flex items-start gap-3">
+              <motion.div
+                className="flex items-start gap-3 group"
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 text-grace-accent" />
                 <p className="text-gray-400 text-sm leading-relaxed">
                   #5 Purok 6, Pinsao Pilot Project,<br />
                   Baguio City, 2600, Philippines
                 </p>
-              </div>
-              <a
+              </motion.div>
+              <motion.a
                 href="mailto:kimchigift@gmail.com"
-                className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group"
+                className="flex items-center gap-3 text-gray-400 group"
+                whileHover={{ x: 4, color: '#ffffff' }}
+                transition={{ duration: 0.2 }}
               >
                 <Mail className="w-5 h-5 flex-shrink-0 text-grace-accent group-hover:text-rose-400 transition-colors" />
                 <span className="text-sm">kimchigift@gmail.com</span>
-              </a>
+              </motion.a>
               <div className="space-y-2 text-gray-400 text-sm">
-                <div className="flex items-center gap-3">
+                <motion.div
+                  className="flex items-center gap-3"
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <Phone className="w-5 h-5 flex-shrink-0 text-grace-accent" />
                   <span>+63 074 661 3554</span>
-                </div>
-                <div className="flex items-center gap-3">
+                </motion.div>
+                <motion.div
+                  className="flex items-center gap-3"
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <Phone className="w-5 h-5 flex-shrink-0 text-grace-accent" />
                   <span>+63 917 5958 907</span>
-                </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Social Media Section */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h4 className="text-sm font-semibold mb-6 tracking-wide uppercase text-grace-accent">Follow Us</h4>
             <div className="flex flex-col gap-4">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon
                 return (
-                  <a
+                  <motion.a
                     key={index}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group"
+                    className="flex items-center gap-3 text-gray-400 group"
+                    whileHover={{ x: 8, color: '#ffffff' }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-grace-accent/20 flex items-center justify-center transition-colors">
+                    <motion.div
+                      className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center"
+                      whileHover={{
+                        backgroundColor: 'rgba(240, 86, 68, 0.2)',
+                        scale: 1.1,
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Icon className="w-5 h-5 text-grace-accent group-hover:text-rose-400 transition-colors" />
-                    </div>
+                    </motion.div>
                     <span className="text-sm">{social.label}</span>
-                  </a>
+                  </motion.a>
                 )
               })}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Divider */}
-        <div className="border-t border-white/10 pt-8">
+        {/* Divider with animation */}
+        <motion.div
+          className="border-t border-white/10 pt-8"
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-500 text-sm">
-              (c) {currentYear} Gift of Grace. All rights reserved.
-            </p>
-            <div className="flex gap-6 text-sm text-gray-500">
-              <a href="#home" className="hover:text-grace-accent transition-colors">
+            <motion.p
+              className="text-gray-500 text-sm flex items-center gap-1"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.6 }}
+            >
+              <span>&copy; {currentYear} Gift of Grace. Made with</span>
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
+              >
+                <Heart className="w-4 h-4 text-grace-accent fill-grace-accent" />
+              </motion.span>
+              <span>in the Philippines.</span>
+            </motion.p>
+            <motion.div
+              className="flex gap-6 text-sm text-gray-500"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.7 }}
+            >
+              <motion.a
+                href="#home"
+                className="hover:text-grace-accent transition-colors"
+                whileHover={{ y: -2 }}
+              >
                 Privacy Policy
-              </a>
-              <a href="#home" className="hover:text-grace-accent transition-colors">
+              </motion.a>
+              <motion.a
+                href="#home"
+                className="hover:text-grace-accent transition-colors"
+                whileHover={{ y: -2 }}
+              >
                 Terms of Service
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   )

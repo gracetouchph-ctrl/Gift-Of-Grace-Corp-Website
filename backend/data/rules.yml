@@ -22,6 +22,11 @@ rules:
   - intent: thankyou
   - action: action_thankyou
 
+- rule: Respond to acknowledgments
+  steps:
+  - intent: acknowledge
+  - action: action_acknowledge
+
 - rule: Respond to bot challenge
   steps:
   - intent: bot_challenge
@@ -47,6 +52,16 @@ rules:
   steps:
   - intent: ask_products
   - action: action_handle_products
+
+- rule: Handle price calculation
+  steps:
+  - intent: ask_price
+  - action: action_calculate_price
+
+- rule: Handle employees query
+  steps:
+  - intent: ask_employees
+  - action: action_handle_employees
 
 - rule: Handle founders query
   steps:
