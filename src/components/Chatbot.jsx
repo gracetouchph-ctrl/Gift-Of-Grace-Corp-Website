@@ -402,7 +402,11 @@ const Chatbot = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-40 w-full sm:w-96 h-[85vh] sm:h-[600px] sm:max-h-[600px] max-h-[calc(100vh-80px)] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border-t border-l border-r sm:border border-gray-200/50 backdrop-blur-xl"
+              className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-40 w-full sm:w-96 bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border-t border-l border-r sm:border border-gray-200/50 backdrop-blur-xl"
+              style={{
+                height: 'min(600px, calc(100vh - 100px))',
+                maxHeight: 'calc(100vh - 100px)',
+              }}
             >
               {/* Chat Header */}
               <div className="bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white p-3 sm:p-4 flex items-center justify-between shadow-lg relative overflow-hidden rounded-t-3xl sm:rounded-t-3xl">
