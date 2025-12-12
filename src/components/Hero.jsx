@@ -1,95 +1,155 @@
 import { memo } from 'react'
-import { ChevronDown, ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronDown, Sparkles, Star, ShoppingBag } from 'lucide-react'
 
 const Hero = memo(() => {
   const scrollToProducts = () => {
     const element = document.getElementById('catalog')
-    element?.scrollIntoView({ behavior: 'smooth' })
+    element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
     <section
       id="home"
-      className="relative min-h-screen pt-20 overflow-hidden bg-gradient-to-br from-grace-light-blue via-white to-grace-accent-alt/20"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-b from-slate-50 via-white to-grace-light-blue/30"
     >
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-grace-accent-alt/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-grace-accent/15 rounded-full blur-3xl" />
+      {/* Modern geometric background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Large gradient orbs */}
+        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-grace-accent/20 to-rose-200/30 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 -left-40 w-[400px] h-[400px] bg-gradient-to-br from-grace-accent-alt/20 to-sky-200/30 rounded-full blur-3xl" />
+        <div className="absolute -bottom-20 right-1/3 w-[300px] h-[300px] bg-gradient-to-br from-grace-gold/15 to-amber-100/20 rounded-full blur-3xl" />
+
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center min-h-[calc(100vh-5rem)] py-8 sm:py-12 lg:py-20">
-          {/* Left Column - Text Content */}
-          <div className="flex flex-col justify-center space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left animate-fade-in">
-            {/* Tagline */}
-            <div className="space-y-2 sm:space-y-3 lg:space-y-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-grace-accent font-serif font-normal italic leading-tight tracking-tight">
-                A Touch of Grace,
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-32">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-8rem)]">
+
+          {/* Left Column - Content */}
+          <div className="flex flex-col justify-center text-center lg:text-left order-2 lg:order-1">
+
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md shadow-gray-200/50 border border-gray-100 mb-6 lg:mb-8 mx-auto lg:mx-0 w-fit animate-fade-in">
+              <Sparkles className="w-4 h-4 text-grace-gold" />
+              <span className="text-sm font-medium text-gray-700">Proudly Filipino-Made</span>
+              <div className="flex items-center gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3 h-3 fill-grace-gold text-grace-gold" />
+                ))}
+              </div>
+            </div>
+
+            {/* Main Headline */}
+            <div className="space-y-2 lg:space-y-3 mb-6 lg:mb-8 animate-fade-in">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif font-medium text-gray-900 leading-[1.1] tracking-tight">
+                A Touch of
+                <span className="block text-grace-accent italic">Grace</span>
               </h1>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-grace-dark-blue font-serif font-medium italic leading-tight tracking-tight">
+              <p className="text-xl sm:text-2xl lg:text-3xl text-gray-500 font-light tracking-tight">
                 Infused with Comfort
-              </h2>
+              </p>
             </div>
 
             {/* Description */}
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal tracking-normal px-2 sm:px-0 animate-fade-in-delay">
-              Discover our handcrafted delicacies made with care and tradition. Each product reflects
-              our passion for taste, wellness, and comfort—rooted in Filipino flavors and infused
-              with grace.
+            <p className="text-base lg:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0 mb-8 lg:mb-10 animate-fade-in-delay">
+              Discover our handcrafted delicacies—from authentic kimchi to artisan rice coffee—each
+              crafted with tradition, wellness, and Filipino heart.
             </p>
 
-            {/* CTA Button */}
-            <div className="pt-2 sm:pt-4 animate-fade-in-delay-2">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start animate-fade-in-delay-2">
               <a
                 href="https://ph.shp.ee/k5ZzgF6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-grace-accent to-grace-accent-alt text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base lg:text-lg font-medium tracking-wide uppercase hover:from-grace-accent-alt hover:to-grace-accent transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2"
-                aria-label="Shop now on Shopee"
+                className="group flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-full font-semibold text-base shadow-xl shadow-gray-900/20 hover:shadow-2xl hover:shadow-gray-900/30 hover:scale-105 active:scale-100 transition-all duration-300"
               >
+                <ShoppingBag className="w-5 h-5" />
                 <span>Shop Now</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
+              <button
+                onClick={scrollToProducts}
+                className="flex items-center gap-2 text-gray-600 hover:text-grace-accent px-6 py-4 rounded-full font-medium transition-colors"
+              >
+                <span>Explore Products</span>
+                <ChevronDown className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Trust indicators */}
+            <div className="flex items-center gap-6 lg:gap-8 justify-center lg:justify-start mt-10 lg:mt-12 pt-8 border-t border-gray-100 animate-fade-in-delay-2">
+              <div className="text-center lg:text-left">
+                <div className="text-2xl lg:text-3xl font-bold text-gray-900">150+</div>
+                <div className="text-xs text-gray-500 uppercase tracking-wider">Outlets</div>
+              </div>
+              <div className="w-px h-10 bg-gray-200" />
+              <div className="text-center lg:text-left">
+                <div className="text-2xl lg:text-3xl font-bold text-gray-900">Since</div>
+                <div className="text-xs text-gray-500 uppercase tracking-wider">2017</div>
+              </div>
+              <div className="w-px h-10 bg-gray-200" />
+              <div className="text-center lg:text-left">
+                <div className="text-2xl lg:text-3xl font-bold text-gray-900">5+</div>
+                <div className="text-xs text-gray-500 uppercase tracking-wider">Products</div>
+              </div>
             </div>
           </div>
 
-          {/* Right Column - Hero Image */}
-          <div className="relative flex items-center justify-center lg:justify-end mt-6 lg:mt-0 animate-fade-in-delay">
-            <div className="relative w-full max-w-xl px-2 sm:px-0">
-              {/* Main image container */}
-              <div className="relative bg-gradient-to-br from-white via-grace-light-blue/30 to-white p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border-2 border-grace-accent-alt/30 hover:scale-[1.02] transition-transform duration-300">
-                {/* Corner decorations */}
-                <div className="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-t-3 border-l-3 border-grace-accent/50 rounded-tl-2xl sm:rounded-tl-3xl" />
-                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-t-3 border-r-3 border-grace-accent/50 rounded-tr-2xl sm:rounded-tr-3xl" />
-                <div className="absolute bottom-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-b-3 border-l-3 border-grace-accent/50 rounded-bl-2xl sm:rounded-bl-3xl" />
-                <div className="absolute bottom-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-b-3 border-r-3 border-grace-accent/50 rounded-br-2xl sm:rounded-br-3xl" />
+          {/* Right Column - Image */}
+          <div className="relative order-1 lg:order-2 animate-fade-in-delay">
+            <div className="relative max-w-md lg:max-w-lg mx-auto">
+              {/* Background card */}
+              <div className="absolute inset-4 lg:inset-6 bg-gradient-to-br from-grace-accent/10 to-grace-accent-alt/10 rounded-3xl transform rotate-3" />
+              <div className="absolute inset-4 lg:inset-6 bg-gradient-to-br from-grace-gold/10 to-amber-50 rounded-3xl transform -rotate-3" />
 
-                {/* Image */}
-                <div className="relative rounded-lg sm:rounded-xl overflow-hidden bg-gradient-to-br from-grace-light-blue via-white to-grace-accent-alt/15">
+              {/* Main image container */}
+              <div className="relative bg-white rounded-3xl shadow-2xl shadow-gray-200/50 p-3 lg:p-4 border border-gray-100">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-grace-light-blue/50 via-white to-rose-50/50">
                   <img
                     src="/images/girl.png"
                     alt="Gift of Grace Products"
-                    className="relative w-full h-auto rounded-lg sm:rounded-xl object-contain z-10 hover:scale-105 transition-transform duration-500"
+                    className="w-full h-auto object-contain"
                     loading="eager"
                     fetchpriority="high"
                   />
                 </div>
+
+                {/* Floating badge */}
+                <div className="absolute -bottom-4 -right-4 lg:-bottom-6 lg:-right-6 bg-white rounded-2xl shadow-xl p-4 lg:p-5 border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-gradient-to-br from-grace-accent to-rose-500 flex items-center justify-center">
+                      <img
+                        src="/images/giftofgracelogo.png"
+                        alt="Gift of Grace"
+                        className="w-8 h-8 lg:w-10 lg:h-10 object-contain"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 text-sm lg:text-base">Gift of Grace</div>
+                      <div className="text-xs text-gray-500">Premium Quality</div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -left-4 w-20 h-20 bg-grace-gold/20 rounded-full blur-xl" />
+              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-grace-accent/15 rounded-full blur-xl" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2">
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
         <button
           onClick={scrollToProducts}
-          className="flex flex-col items-center text-grace-blue hover:text-grace-dark-blue transition-colors focus:outline-none focus:ring-2 focus:ring-grace-blue focus:ring-offset-2 rounded-lg p-2 animate-bounce-slow"
-          aria-label="Scroll to products section"
+          className="flex flex-col items-center gap-2 text-gray-400 hover:text-grace-accent transition-colors"
+          aria-label="Scroll to products"
         >
-          <span className="text-xs sm:text-sm mb-1 sm:mb-2 font-medium">Explore Products</span>
-          <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
+          <ChevronDown className="w-6 h-6" />
         </button>
       </div>
     </section>

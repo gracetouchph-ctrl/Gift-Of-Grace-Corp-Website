@@ -17,7 +17,7 @@ export default {
       },
       fontFamily: {
         'serif': ['Playfair Display', 'Georgia', 'serif'],
-        'sans': ['Source Sans Pro', 'system-ui', '-apple-system', 'sans-serif'],
+        'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
     },
   },

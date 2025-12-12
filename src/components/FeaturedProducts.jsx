@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, memo, useCallback } from 'react'
-import { ShoppingCart, ChevronLeft, ChevronRight, ExternalLink, Star } from 'lucide-react'
+import { ShoppingBag, ChevronLeft, ChevronRight, ExternalLink, Star, ArrowRight } from 'lucide-react'
 
 const products = [
   {
@@ -9,6 +9,7 @@ const products = [
     image: '/images/KimchiGift.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Authentic Korean kimchi with a perfect blend of spices',
+    category: 'Best Seller',
   },
   {
     id: 2,
@@ -17,6 +18,7 @@ const products = [
     image: '/images/RiceCoffee.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Traditional rice coffee with a smooth, comforting flavor',
+    category: 'Beverages',
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ const products = [
     image: '/images/PickledRadish.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Crisp and refreshing pickled radish, perfectly seasoned',
+    category: 'Sides',
   },
   {
     id: 4,
@@ -33,6 +36,7 @@ const products = [
     image: '/images/RenesBangus.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Premium marinated bangus, a Filipino delicacy',
+    category: 'Main Dish',
   },
   {
     id: 5,
@@ -41,99 +45,76 @@ const products = [
     image: '/images/RenesGourmetChicken.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Gourmet chicken prepared with traditional Filipino flavors',
+    category: 'Main Dish',
   },
 ]
 
-const ProductCard = memo(({ product, isCenter, onClick }) => (
-  <div
-    onClick={onClick}
-    className={`relative bg-white rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${
-      isCenter
-        ? 'shadow-2xl scale-100 opacity-100 z-10'
-        : 'shadow-lg scale-90 opacity-50 blur-[2px]'
-    }`}
-  >
-    {/* Featured Badge */}
-    {isCenter && (
-      <div className="absolute top-3 right-3 z-20 bg-gradient-to-br from-grace-gold to-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-lg flex items-center gap-1">
-        <Star className="w-3 h-3 fill-current" />
-        <span>Featured</span>
-      </div>
-    )}
+const ProductCard = memo(({ product, index }) => (
+  <div className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+    {/* Category Badge */}
+    <div className="absolute top-4 left-4 z-10">
+      <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-gray-700 shadow-sm">
+        {product.category}
+      </span>
+    </div>
 
     {/* Product Image */}
-    <div className={`relative h-48 sm:h-56 md:h-64 overflow-hidden ${
-      isCenter
-        ? 'bg-gradient-to-br from-grace-light-blue via-blue-50 to-grace-light-blue'
-        : 'bg-gradient-to-br from-gray-50 to-blue-50'
-    }`}>
+    <div className="relative h-56 lg:h-64 overflow-hidden bg-gradient-to-br from-gray-50 to-slate-100">
       <img
         src={product.image}
         alt={product.name}
         loading="lazy"
-        className="w-full h-full object-contain object-center p-4 transition-transform duration-300 hover:scale-105"
-        onError={(e) => {
-          e.target.style.display = 'none'
-          if (e.target.parentElement) {
-            e.target.parentElement.innerHTML = `
-              <div class="w-full h-full flex items-center justify-center">
-                <div class="text-5xl opacity-20 text-grace-blue font-serif">${product.name.charAt(0)}</div>
-              </div>
-            `
-          }
-        }}
+        className="w-full h-full object-contain object-center p-6 transition-transform duration-500 group-hover:scale-110"
       />
+      {/* Hover overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {/* Quick shop button */}
+      <a
+        href={product.shopeeLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg hover:bg-gray-50"
+      >
+        <ShoppingBag className="w-4 h-4" />
+        Quick Shop
+      </a>
     </div>
 
     {/* Product Info */}
-    <div className={`p-4 sm:p-5 ${isCenter ? 'bg-gradient-to-b from-white to-grace-light-blue/10' : 'bg-white'}`}>
-      <h3 className={`font-serif text-grace-dark-blue tracking-tight transition-all duration-300 ${
-        isCenter ? 'text-lg sm:text-xl font-medium' : 'text-base'
-      }`}>
+    <div className="p-5">
+      {/* Rating */}
+      <div className="flex items-center gap-1 mb-2">
+        {[...Array(5)].map((_, i) => (
+          <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+        ))}
+        <span className="text-xs text-gray-400 ml-1">(4.9)</span>
+      </div>
+
+      {/* Name */}
+      <h3 className="font-semibold text-gray-900 text-lg mb-1 group-hover:text-grace-accent transition-colors">
         {product.name}
       </h3>
 
-      {/* Star Rating - Only on center */}
-      {isCenter && (
-        <div className="flex items-center gap-1 mt-2">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <Star key={star} className="w-3.5 h-3.5 fill-grace-gold text-grace-gold" />
-          ))}
-          <span className="text-xs text-gray-500 ml-1">(4.9)</span>
-        </div>
-      )}
-
       {/* Description */}
-      {isCenter && (
-        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mt-2">
-          {product.description}
-        </p>
-      )}
+      <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4">
+        {product.description}
+      </p>
 
-      {/* Price */}
-      <div className={`flex items-baseline gap-2 ${isCenter ? 'mt-3' : 'mt-2'}`}>
-        <span className={`font-semibold tracking-tight ${
-          isCenter
-            ? 'text-xl sm:text-2xl bg-gradient-to-r from-grace-blue to-grace-dark-blue bg-clip-text text-transparent'
-            : 'text-lg text-grace-blue'
-        }`}>
+      {/* Price and CTA */}
+      <div className="flex items-center justify-between">
+        <span className="text-xl font-bold text-gray-900">
           {product.price}
         </span>
-      </div>
-
-      {/* Shop Button - Only on center */}
-      {isCenter && (
         <a
           href={product.shopeeLink}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="mt-4 flex items-center justify-center space-x-2 bg-gradient-to-r from-grace-blue to-grace-dark-blue text-white px-5 py-3 rounded-full text-sm font-semibold tracking-wide uppercase hover:from-grace-dark-blue hover:to-grace-blue transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] w-full"
+          className="flex items-center gap-1.5 text-sm font-medium text-grace-accent hover:text-grace-dark-blue transition-colors"
         >
-          <ExternalLink className="w-4 h-4" />
-          <span>Shop on Shopee</span>
+          <span>View</span>
+          <ArrowRight className="w-4 h-4" />
         </a>
-      )}
+      </div>
     </div>
   </div>
 ))
@@ -141,11 +122,9 @@ const ProductCard = memo(({ product, isCenter, onClick }) => (
 ProductCard.displayName = 'ProductCard'
 
 const FeaturedProducts = memo(() => {
-  const [currentIndex, setCurrentIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
 
-  // Intersection Observer for lazy loading animation
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -164,141 +143,59 @@ const FeaturedProducts = memo(() => {
     return () => observer.disconnect()
   }, [])
 
-  // Auto-scroll
-  useEffect(() => {
-    if (!isVisible) return
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % products.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [isVisible])
-
-  const goToSlide = useCallback((index) => {
-    if (index >= 0 && index < products.length) {
-      setCurrentIndex(index)
-    }
-  }, [])
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % products.length)
-  }, [])
-
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + products.length) % products.length)
-  }, [])
-
-  // Get visible products
-  const getVisibleProducts = () => {
-    const visible = []
-    for (let i = -1; i <= 1; i++) {
-      let idx = currentIndex + i
-      if (idx < 0) idx = products.length + idx
-      else if (idx >= products.length) idx = idx - products.length
-      visible.push({ productIndex: idx, position: i })
-    }
-    return visible
-  }
-
   return (
     <section
       ref={sectionRef}
       id="catalog"
-      className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-white to-grace-light-blue/30 overflow-hidden"
+      className="py-20 lg:py-28 bg-gradient-to-b from-grace-light-blue/30 via-white to-white overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className={`text-center mb-10 sm:mb-12 md:mb-16 transition-all duration-700 ${
+        <div className={`flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-16 transition-all duration-700 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-normal text-grace-dark-blue mb-3 sm:mb-4 tracking-tight">
-            Our Featured Products
-          </h2>
-          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
-            Discover our handcrafted delicacies made with care and tradition
+          <div>
+            <span className="inline-block px-4 py-1.5 bg-grace-accent/10 text-grace-accent rounded-full text-sm font-medium mb-4">
+              Our Products
+            </span>
+            <h2 className="text-3xl lg:text-4xl xl:text-5xl font-serif font-medium text-gray-900 tracking-tight">
+              Crafted with Care,
+              <span className="block text-grace-accent">Made with Love</span>
+            </h2>
+          </div>
+          <p className="text-gray-500 text-lg max-w-md lg:text-right">
+            Each product is carefully crafted using traditional recipes passed down through generations.
           </p>
         </div>
 
-        {/* Carousel Container */}
-        <div className={`relative transition-all duration-700 delay-200 ${
+        {/* Products Grid */}
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 transition-all duration-700 delay-200 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/95 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-gray-200"
-            aria-label="Previous product"
-          >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-grace-blue" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/95 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-gray-200"
-            aria-label="Next product"
-          >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-grace-blue" />
-          </button>
-
-          {/* Products Display */}
-          <div className="relative h-[420px] sm:h-[480px] md:h-[520px] flex items-center justify-center">
-            <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8">
-              {getVisibleProducts().map(({ productIndex, position }) => {
-                const product = products[productIndex]
-                const isCenter = position === 0
-                return (
-                  <div
-                    key={`${product.id}-${position}`}
-                    className={`w-[260px] sm:w-[300px] md:w-[340px] transition-all duration-500 ${
-                      position === -1 ? '-translate-x-4 hidden sm:block' :
-                      position === 1 ? 'translate-x-4 hidden sm:block' : ''
-                    }`}
-                  >
-                    <ProductCard
-                      product={product}
-                      isCenter={isCenter}
-                      onClick={() => goToSlide(productIndex)}
-                    />
-                  </div>
-                )
-              })}
+          {products.map((product, index) => (
+            <div
+              key={product.id}
+              style={{ transitionDelay: `${index * 100}ms` }}
+              className={`transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+            >
+              <ProductCard product={product} index={index} />
             </div>
-          </div>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center items-center gap-2 sm:gap-3 mt-6 sm:mt-8">
-            {products.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`transition-all duration-300 rounded-full ${
-                  index === currentIndex
-                    ? 'w-8 h-2.5 bg-grace-blue'
-                    : 'w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400'
-                }`}
-                aria-label={`Go to product ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Counter */}
-          <div className="text-center mt-4">
-            <p className="text-sm text-gray-500">
-              {currentIndex + 1} of {products.length}
-            </p>
-          </div>
+          ))}
         </div>
 
-        {/* View All Button */}
-        <div className={`text-center mt-10 sm:mt-12 transition-all duration-700 delay-400 ${
+        {/* View All CTA */}
+        <div className={`text-center mt-14 lg:mt-16 transition-all duration-700 delay-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           <a
             href="https://ph.shp.ee/k5ZzgF6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-grace-gold text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-medium tracking-wide uppercase hover:bg-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+            className="group inline-flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-full font-semibold text-base shadow-xl shadow-gray-900/20 hover:shadow-2xl hover:scale-105 active:scale-100 transition-all duration-300"
           >
-            <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+            <ShoppingBag className="w-5 h-5" />
             <span>View All Products on Shopee</span>
+            <ExternalLink className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
           </a>
         </div>
       </div>
