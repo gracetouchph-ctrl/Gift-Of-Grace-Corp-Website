@@ -64,6 +64,57 @@ start-all.bat
 
 ---
 
+## Admin Panel
+
+The admin panel allows you to manage PDF documents and site content through a web UI.
+
+### Run Admin Panel
+
+**Option 1: Run everything (Windows)**
+```bash
+start-all-admin.bat
+```
+
+**Option 2: Run separately**
+
+```bash
+# Terminal 1: Admin API (port 8001)
+cd backend
+python -m uvicorn admin_api:app --host 0.0.0.0 --port 8001
+
+# Terminal 2: Frontend (port 5173)
+npm run dev
+```
+
+### Access Admin
+
+1. Go to: `http://localhost:5173/admin/login`
+2. Password: `admin123` (change in production!)
+
+### Admin Features
+
+| Feature | Description |
+|---------|-------------|
+| **PDF Manager** | Upload/delete PDFs for RAG chatbot training |
+| **Products** | Add, edit, delete products with images and pricing |
+| **Awards** | Manage company awards and recognitions |
+| **About** | Edit mission, vision, and company story |
+| **Contact** | Update address, phone, email, social links |
+
+### Change Admin Password
+
+```python
+import hashlib
+print(hashlib.sha256("your_new_password".encode()).hexdigest())
+```
+
+Set the hash as environment variable:
+```bash
+export ADMIN_PASSWORD_HASH="your_hash_here"
+```
+
+---
+
 ## Project Structure
 
 ```
@@ -76,13 +127,21 @@ Gift-Of-Grace-Website/
 │   │   ├── CustomerReviews.jsx
 │   │   ├── About.jsx
 │   │   ├── Footer.jsx
-│   │   └── Chatbot.jsx       # AI chatbot
+│   │   ├── Chatbot.jsx       # AI chatbot
+│   │   └── admin/            # Admin panel components
+│   │       ├── AdminLogin.jsx
+│   │       ├── AdminDashboard.jsx
+│   │       ├── PDFManager.jsx
+│   │       └── SiteInfoManager.jsx
+│   ├── contexts/
+│   │   └── AuthContext.jsx   # Admin authentication
 │   ├── App.jsx
 │   └── index.css
 ├── backend/                  # Python backend
 │   ├── actions/
 │   │   ├── actions.py        # RASA custom actions
 │   │   └── rag_pipeline.py   # RAG implementation
+│   ├── admin_api.py          # Admin API server
 │   ├── data/                 # RASA training data
 │   ├── knowledge_base/       # PDF documents
 │   ├── vector_db/            # FAISS database
@@ -234,9 +293,12 @@ class ActionCorporateQuery(Action):
 
 | Endpoint | Port | Description |
 |----------|------|-------------|
+| Frontend | 5173 | `http://localhost:5173` |
+| Admin Panel | 5173 | `http://localhost:5173/admin/login` |
+| Admin API | 8001 | `http://localhost:8001` |
+| Admin API Docs | 8001 | `http://localhost:8001/docs` |
 | RASA REST API | 5005 | `http://localhost:5005/webhooks/rest/webhook` |
 | RASA Actions | 5055 | `http://localhost:5055/webhook` |
-| Frontend | 5173 | `http://localhost:5173` |
 
 ---
 
@@ -274,6 +336,9 @@ colors: {
 | "Model not loaded" | Wait 30 seconds for embedding model |
 | Slow first response | Cold start; subsequent requests faster |
 | RASA not responding | Ensure both ports 5005 and 5055 are running |
+| Admin API won't start | Install dependencies: `pip install faiss-cpu sentence-transformers` |
+| Admin login fails | Default password is `admin123` |
+| PDF upload fails | Check write permissions on `backend/knowledge_base/documents/` |
 
 ---
 
