@@ -1,33 +1,45 @@
 # Gift of Grace Website
 
-A modern, elegant React website for Gift of Grace with an AI-powered RAG chatbot.
+A modern React website for Gift of Grace with an AI-powered RAG chatbot.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | React 18, Vite, Tailwind CSS 3.4, Framer Motion |
+| **Backend** | Python 3.10+, RASA, FastAPI |
+| **AI/ML** | SentenceTransformers, FAISS, Google Gemini |
+| **Database** | FAISS Vector DB (126 chunks, 384-dim) |
+| **Deployment** | Vercel (frontend), Hugging Face Spaces (RAG API) |
+
+---
 
 ## Quick Start
 
-### Option 1: Run Everything (Recommended)
+### Prerequisites
+- Node.js 18+
+- Python 3.10+
+
+### Run Frontend
+
+```bash
+npm install
+npm run dev
+```
+
+Frontend runs at: `http://localhost:5173`
+
+### Run Backend (RASA + RAG)
 
 **Windows:**
 ```bash
-# Double-click or run:
-start-all.bat
+start-backend.bat
 ```
 
 **Linux/Mac:**
 ```bash
-chmod +x start-backend.sh
-./start-backend.sh &
-npm run dev
-```
-
-### Option 2: Run Separately
-
-#### Backend (RASA + RAG)
-
-```bash
-# Windows
-start-backend.bat
-
-# Linux/Mac
 cd backend
 python3 -m venv venv
 source venv/bin/activate
@@ -36,136 +48,209 @@ rasa run actions --port 5055 &
 rasa run --cors "*" --enable-api --port 5005
 ```
 
-#### Frontend (React)
-
+### Run Everything (Windows)
 ```bash
-npm install
-npm run dev
+start-all.bat
 ```
 
-### Environment Setup
+### Environment Variables
 
-1. **Frontend** - Copy `.env.example` to `.env` (optional, defaults work for local dev)
-2. **Backend** - Copy `backend/.env.example` to `backend/.env` and add your OpenAI API key:
+1. Copy `.env.example` to `.env`
+2. Copy `backend/.env.example` to `backend/.env` and add:
    ```
    OPENAI_API_KEY=your_key_here
+   GEMINI_API_KEY=your_key_here
    ```
 
-## Architecture
+---
+
+## Project Structure
 
 ```
 Gift-Of-Grace-Website/
-├── src/                    # React frontend
+├── src/                      # React frontend
 │   ├── components/
-│   │   └── Chatbot.jsx     # AI chatbot (connects to RASA)
-│   └── ...
-├── backend/                # Python RASA + RAG backend
+│   │   ├── Navbar.jsx        # Navigation
+│   │   ├── Hero.jsx          # Hero section
+│   │   ├── FeaturedProducts.jsx
+│   │   ├── CustomerReviews.jsx
+│   │   ├── About.jsx
+│   │   ├── Footer.jsx
+│   │   └── Chatbot.jsx       # AI chatbot
+│   ├── App.jsx
+│   └── index.css
+├── backend/                  # Python backend
 │   ├── actions/
-│   │   ├── actions.py      # RASA custom actions
-│   │   └── rag_pipeline.py # RAG implementation
-│   ├── data/               # RASA training data
-│   ├── knowledge_base/     # PDF documents for RAG
-│   ├── vector_db/          # FAISS vector database
-│   ├── models/             # Trained RASA models
-│   └── config.yml          # RASA configuration
-├── start-all.bat           # Start everything (Windows)
-├── start-backend.bat       # Start backend only (Windows)
-├── start-backend.sh        # Start backend only (Linux/Mac)
-└── start-frontend.bat      # Start frontend only (Windows)
+│   │   ├── actions.py        # RASA custom actions
+│   │   └── rag_pipeline.py   # RAG implementation
+│   ├── data/                 # RASA training data
+│   ├── knowledge_base/       # PDF documents
+│   ├── vector_db/            # FAISS database
+│   └── models/               # Trained RASA models
+├── huggingface-rag-api/      # HF Spaces deployment files
+└── public/images/            # Static assets
 ```
 
-## Chatbot Features
+---
 
-The AI chatbot uses:
-- **RASA** - Conversational AI framework for intent recognition
-- **RAG (Retrieval Augmented Generation)** - Searches knowledge base for relevant info
-- **FAISS** - Fast vector similarity search
-- **GPT-4o-mini** - Generates natural language responses
-- **SentenceTransformers** - Creates text embeddings
+## Deployment
 
-### Adding Documents to Knowledge Base
+### Frontend (Vercel)
+
+1. Push code to GitHub
+2. Import repository in [Vercel](https://vercel.com)
+3. Vercel auto-detects Vite + React
+4. Deploy
+
+### Backend RAG API (Hugging Face Spaces)
+
+Hugging Face Spaces provides free hosting:
+- 2 vCPU, 16 GB RAM, 50 GB storage
+- Unlimited requests
+- Requires public repository
+
+#### Step 1: Create Space
+
+1. Create account at https://huggingface.co/join
+2. Go to https://huggingface.co/spaces
+3. Click "Create new Space"
+4. Configure:
+   - **Name:** `giftofgrace-rag-api`
+   - **SDK:** Docker
+   - **Hardware:** CPU basic (free)
+   - **Visibility:** Public
+
+#### Step 2: Clone and Setup
+
+```bash
+git clone https://huggingface.co/spaces/YOUR_USERNAME/giftofgrace-rag-api
+cd giftofgrace-rag-api
+
+# Copy deployment files
+cp ../Gift-Of-Grace-Website/huggingface-rag-api/* .
+
+# Copy vector database
+mkdir vector_db
+cp ../Gift-Of-Grace-Website/backend/knowledge_base/vector_db/* vector_db/
+```
+
+#### Step 3: Add Secrets (Optional)
+
+1. Go to Space Settings
+2. Add secret: `GEMINI_API_KEY` with your API key from https://makersuite.google.com/app/apikey
+
+#### Step 4: Deploy
+
+```bash
+git add .
+git commit -m "Deploy RAG API"
+git push
+```
+
+Build takes 3-5 minutes. Check "Logs" tab for status.
+
+#### Step 5: Test
+
+```bash
+# Health check
+curl https://YOUR_USERNAME-giftofgrace-rag-api.hf.space/
+
+# Query test
+curl -X POST https://YOUR_USERNAME-giftofgrace-rag-api.hf.space/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "How much is kimchi?", "top_k": 5}'
+```
+
+---
+
+## Hugging Face RAG API Reference
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Health check |
+| `/health` | GET | Health check (alias) |
+| `/query` | POST | Query the RAG system |
+| `/embed` | POST | Get embedding vector |
+
+### POST /query
+
+**Request:**
+```json
+{
+  "query": "What products do you have?",
+  "top_k": 5
+}
+```
+
+**Response:**
+```json
+{
+  "answer": "Gift of Grace offers Kimchi Gift (P60), Tofu Gift (P43), and Rice Coffee (P90-170).",
+  "sources": ["Page 3, Chunk 4"],
+  "confidence": 0.87
+}
+```
+
+---
+
+## Connecting RASA to Hugging Face API
+
+Update `backend/actions/actions.py`:
+
+```python
+import requests
+
+HF_RAG_API = "https://YOUR_USERNAME-giftofgrace-rag-api.hf.space"
+
+class ActionCorporateQuery(Action):
+    def name(self):
+        return "action_corporate_query"
+
+    def run(self, dispatcher, tracker, domain):
+        user_message = tracker.latest_message.get("text", "")
+
+        try:
+            response = requests.post(
+                f"{HF_RAG_API}/query",
+                json={"query": user_message, "top_k": 5},
+                timeout=30
+            )
+
+            if response.status_code == 200:
+                data = response.json()
+                dispatcher.utter_message(text=data["answer"])
+            else:
+                dispatcher.utter_message(text="Let me check on that...")
+
+        except Exception as e:
+            dispatcher.utter_message(text="Sorry, please try again.")
+
+        return []
+```
+
+---
+
+## API Endpoints (Local Development)
+
+| Endpoint | Port | Description |
+|----------|------|-------------|
+| RASA REST API | 5005 | `http://localhost:5005/webhooks/rest/webhook` |
+| RASA Actions | 5055 | `http://localhost:5055/webhook` |
+| Frontend | 5173 | `http://localhost:5173` |
+
+---
+
+## Adding Documents to Knowledge Base
 
 1. Place PDF files in `backend/knowledge_base/documents/`
 2. Run: `cd backend && python setup_ordinances.py`
-3. Restart the backend servers
+3. Restart backend servers
 
-## API Endpoints
+---
 
-| Endpoint | Description |
-|----------|-------------|
-| `http://localhost:5005/webhooks/rest/webhook` | RASA REST API |
-| `http://localhost:5055/webhook` | RASA Actions Server |
-| `http://localhost:5173` | Frontend Dev Server |
+## Customization
 
-## 📦 Technologies Used
-
-- **React** - UI framework
-- **Vite** - Build tool and dev server
-- **Tailwind CSS v3.4.18** - Utility-first CSS framework
-
-
-## 🎨 Design Features
-
-- **Modern & Elegant UI** - Clean design with ample white space and premium aesthetics
-- **Responsive Design** - Fully responsive (desktop, tablet, mobile)
-- **Smooth Animations** - Optimized Framer Motion transitions with tween animations
-- **Blue-White-Gold Palette** - Premium color scheme (grace-blue, grace-gold)
-- **Interactive Product Carousel** - Horizontal scrollable carousel with circular looping
-- **Sticky Navigation** - Centered logo navbar with smooth scroll navigation
-- **Customer Reviews Section** - Showcasing social proof
-- **AI Chatbot** - Auto-appearing chatbot with logo avatar (appears after 7 seconds)
-- **Accessibility** - Full keyboard navigation, ARIA labels, focus states
-
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   ├── Navbar.jsx           # Centered logo navigation with mobile menu
-│   ├── Hero.jsx             # Hero section with logo, tagline, and girl image
-│   ├── FeaturedProducts.jsx # Horizontal carousel with 5 products
-│   ├── CustomerReviews.jsx  # Customer reviews showcase section
-│   ├── About.jsx            # Brand story and feature cards
-│   ├── Footer.jsx            # Footer with contact & social links
-│   └── Chatbot.jsx          # AI chatbot component
-├── App.jsx                   # Main app component
-├── main.jsx                  # React entry point
-└── index.css                 # Tailwind CSS & Google Fonts
-
-public/
-└── images/
-    ├── giftofgracelogo.png  # Brand logo
-    ├── girl.png             # Hero section image
-    ├── Customer Review.png  # Customer reviews showcase
-    ├── KimchiGift.png       # Product images
-    ├── RiceCoffee.png
-    ├── PickledRadish.png
-    ├── RenesBangus.png
-    └── RenesGourmetChicken.png
-```
-
-## 🖼️ Product Images
-
-Product images are located in `public/images/`:
-- `KimchiGift.png`
-- `RiceCoffee.png`
-- `PickledRadish.png`
-- `RenesBangus.png`
-- `RenesGourmetChicken.png`
-
-All product images should have `.png` or `.jpg` extensions for proper loading.
-
-## 🔗 Key Links
-
-- **Shopee Store**: `https://ph.shp.ee/k5ZzgF6` (configured in components)
-- **Social Media**: Update links in `Footer.jsx`
-
-## 🎯 Customization
-
-### Colors
-
-Colors are defined in `tailwind.config.js`:
-
+### Colors (tailwind.config.js)
 ```js
 colors: {
   'grace-blue': '#3B82F6',
@@ -176,42 +261,21 @@ colors: {
 ```
 
 ### Fonts
-
-The site uses **Playfair Display** (serif) and **Source Sans Pro** (sans-serif) from Google Fonts, loaded in `index.css`.
-
-### Products
-
-Edit the `products` array in `src/components/FeaturedProducts.jsx` to add/edit products:
-
-```js
-const products = [
-  {
-    id: 1,
-    name: 'Product Name',
-    price: '₱220',
-    image: '/images/ProductImage.png',
-    shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
-    description: 'Product description',
-  },
-  // ... more products
-]
-```
-## 🌐 Browser Support
-
-Modern browsers (Chrome, Firefox, Safari, Edge) - Latest 2 versions
-
-## 📦 Deployment
-
-Ready for deployment on **Vercel**, **Netlify**, or any static hosting service.
-
-For Vercel:
-1. Push code to GitHub
-2. Import repository in Vercel
-3. Vercel auto-detects Vite + React
-4. Deploy!
+- Playfair Display (serif)
+- Source Sans Pro (sans-serif)
 
 ---
 
-**Brand**: Gift of Grace  
-**Tagline**: A Touch of Grace, Infused with Comfort
+## Troubleshooting
 
+| Issue | Solution |
+|-------|----------|
+| HF build fails | Check Logs tab for errors |
+| "Model not loaded" | Wait 30 seconds for embedding model |
+| Slow first response | Cold start; subsequent requests faster |
+| RASA not responding | Ensure both ports 5005 and 5055 are running |
+
+---
+
+**Brand:** Gift of Grace
+**Tagline:** A Touch of Grace, Infused with Comfort
