@@ -73,9 +73,9 @@ class GiftOfGraceLauncher:
         self.mode_var = tk.StringVar(value="cloud")
 
         modes = [
-            ("cloud", "☁️  Cloud Mode", "Uses Gemini/OpenAI/OpenRouter (Recommended)"),
-            ("demo", "🖥️  Demo Mode", "Website + Admin only (No chatbot AI)"),
-            ("rasa", "🤖  RASA Mode", "Local AI chatbot (Slower startup)")
+            ("cloud", "☁️  Cloud Mode", "Website + Admin + AI Chatbot (via Internet)"),
+            ("demo", "🖥️  Demo Mode", "Website + Admin only (No AI chatbot)"),
+            ("rasa", "🤖  RASA Mode", "Website + Admin + Local AI (Slower)")
         ]
 
         for value, text, desc in modes:

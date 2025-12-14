@@ -14,17 +14,17 @@ echo  ╠═══════════════════════�
 echo  ║                                                      ║
 echo  ║   Choose how to run the application:                 ║
 echo  ║                                                      ║
-echo  ║   [1] DEMO MODE (Recommended)                        ║
-echo  ║       Quick startup for presentations                ║
+echo  ║   [1] DEMO MODE                                       ║
 echo  ║       Website + Admin Panel                          ║
+echo  ║       (No AI chatbot - fastest startup)              ║
 echo  ║                                                      ║
-echo  ║   [2] FULL MODE with RASA                            ║
-echo  ║       Local AI chatbot (slower startup)              ║
-echo  ║       Website + Admin + RASA                         ║
+echo  ║   [2] RASA MODE                                      ║
+echo  ║       Website + Admin + Local AI Chatbot             ║
+echo  ║       (Slower startup, works offline)                ║
 echo  ║                                                      ║
-echo  ║   [3] CLOUD MODE                                     ║
-echo  ║       Uses Hugging Face API                          ║
-echo  ║       Gemini/OpenAI/OpenRouter                       ║
+echo  ║   [3] CLOUD MODE (Recommended)                       ║
+echo  ║       Website + Admin + AI Chatbot                   ║
+echo  ║       (Uses Gemini/OpenAI/OpenRouter)                ║
 echo  ║                                                      ║
 echo  ║   [4] STOP ALL SERVICES                              ║
 echo  ║                                                      ║
