@@ -18,9 +18,18 @@ A modern React website for Gift of Grace with an AI-powered RAG chatbot.
 
 ## Quick Start
 
+### One-Click Launch (Easiest)
+
+Just double-click **`START.bat`** - it will:
+1. Install all dependencies automatically
+2. Start the Admin API and Frontend
+3. Open the website in your browser
+
+To stop: Press any key in the terminal, or double-click **`STOP.bat`**
+
 ### Prerequisites
-- Node.js 18+
-- Python 3.10+
+- Node.js 18+ ([Download](https://nodejs.org))
+- Python 3.10+ ([Download](https://python.org))
 
 ### Run Frontend
 
