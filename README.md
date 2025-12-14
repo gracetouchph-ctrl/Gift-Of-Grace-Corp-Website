@@ -20,10 +20,13 @@ A modern React website for Gift of Grace with an AI-powered RAG chatbot.
 
 ### One-Click Launch (Easiest)
 
-Just double-click **`START.bat`** - it will:
-1. Install all dependencies automatically
-2. Start the Admin API and Frontend
-3. Open the website in your browser
+Just double-click **`START.bat`** and choose a mode:
+
+| Mode | Description | Best For |
+|------|-------------|----------|
+| **[1] Demo** | Website + Admin only | Presentations, quick demos |
+| **[2] RASA** | Full local AI chatbot | Testing AI responses locally |
+| **[3] Cloud** | Hugging Face API | Production-like testing |
 
 To stop: Press any key in the terminal, or double-click **`STOP.bat`**
 
