@@ -20,7 +20,7 @@ class GiftOfGraceLauncher:
     def __init__(self, root):
         self.root = root
         self.root.title("Gift of Grace - Launcher")
-        self.root.geometry("500x600")
+        self.root.geometry("500x680")
         self.root.resizable(False, False)
         self.root.configure(bg="#1a1a2e")
 
@@ -193,38 +193,76 @@ class GiftOfGraceLauncher:
                 anchor="e"
             ).pack(side="right")
 
-        # Quick Links
-        links_frame = tk.LabelFrame(
+        # Quick Links - Local
+        local_frame = tk.LabelFrame(
             self.root,
-            text=" Quick Links ",
+            text=" Local (localhost) ",
             font=("Segoe UI", 11, "bold"),
             fg="#ffffff",
             bg="#16213e",
-            padx=20,
-            pady=15
+            padx=15,
+            pady=10
         )
-        links_frame.pack(padx=20, pady=10, fill="x")
+        local_frame.pack(padx=20, pady=5, fill="x")
 
-        links = [
-            ("🌐  Open Website", "http://localhost:5173"),
-            ("🔐  Open Admin Panel", "http://localhost:5173/admin/login"),
-            ("📚  API Documentation", "http://localhost:8001/docs")
+        local_links = [
+            ("🌐  Website", "http://localhost:5173"),
+            ("🔐  Admin", "http://localhost:5173/admin/login"),
+            ("📚  API Docs", "http://localhost:8001/docs")
         ]
 
-        for text, url in links:
+        local_btn_frame = tk.Frame(local_frame, bg="#16213e")
+        local_btn_frame.pack()
+
+        for text, url in local_links:
             btn = tk.Button(
-                links_frame,
+                local_btn_frame,
                 text=text,
                 command=lambda u=url: webbrowser.open(u),
-                font=("Segoe UI", 10),
+                font=("Segoe UI", 9),
                 fg="#ffffff",
                 bg="#0f3460",
                 activebackground="#1a5276",
                 cursor="hand2",
                 relief="flat",
-                width=25
+                width=12
             )
-            btn.pack(pady=3)
+            btn.pack(side="left", padx=3, pady=3)
+
+        # Quick Links - Deployed (Vercel)
+        deployed_frame = tk.LabelFrame(
+            self.root,
+            text=" Deployed (Vercel) ",
+            font=("Segoe UI", 11, "bold"),
+            fg="#ffffff",
+            bg="#16213e",
+            padx=15,
+            pady=10
+        )
+        deployed_frame.pack(padx=20, pady=5, fill="x")
+
+        deployed_links = [
+            ("🌐  Website", "https://giftofgrace-website.vercel.app"),
+            ("🔐  Admin", "https://giftofgrace-website.vercel.app/admin/login")
+        ]
+
+        deployed_btn_frame = tk.Frame(deployed_frame, bg="#16213e")
+        deployed_btn_frame.pack()
+
+        for text, url in deployed_links:
+            btn = tk.Button(
+                deployed_btn_frame,
+                text=text,
+                command=lambda u=url: webbrowser.open(u),
+                font=("Segoe UI", 9),
+                fg="#ffffff",
+                bg="#4a1a6b",
+                activebackground="#6b2d9b",
+                cursor="hand2",
+                relief="flat",
+                width=12
+            )
+            btn.pack(side="left", padx=3, pady=3)
 
         # Footer
         tk.Label(
