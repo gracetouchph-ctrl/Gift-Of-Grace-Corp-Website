@@ -41,7 +41,7 @@ const AnimatedText = ({ text, className, delay = 0 }) => {
 const Hero = memo(() => {
   const sectionRef = useRef(null)
   const contentRef = useRef(null)
-  const isInView = useInView(contentRef, { once: true, amount: 0.3 })
+  const isInView = useInView(contentRef, { once: true, amount: 0.1 })
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -183,7 +183,7 @@ const Hero = memo(() => {
                   className='text-center lg:text-left'
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 1 + index * 0.1, ease: 'easeOut' }}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1, ease: 'easeOut' }}
                 >
                   <div className='text-2xl lg:text-3xl font-bold text-gray-900'>{stat.value}</div>
                   <div className='text-xs text-gray-500 uppercase tracking-wider'>{stat.label}</div>

@@ -264,14 +264,33 @@ class GiftOfGraceLauncher:
             )
             btn.pack(side="left", padx=3, pady=3)
 
-        # Footer
+        # Footer / Config Info
+        footer_frame = tk.Frame(self.root, bg="#1a1a2e")
+        footer_frame.pack(side="bottom", pady=10)
+
         tk.Label(
-            self.root,
+            footer_frame,
             text="Admin Password: admin123",
             font=("Segoe UI", 9),
             fg="#666666",
             bg="#1a1a2e"
-        ).pack(side="bottom", pady=10)
+        ).pack()
+
+        tk.Label(
+            footer_frame,
+            text="Deployed: giftofgrace-website.vercel.app",
+            font=("Segoe UI", 8),
+            fg="#555555",
+            bg="#1a1a2e"
+        ).pack()
+
+        tk.Label(
+            footer_frame,
+            text="HF API: lingquerywho-giftofgrace-rag-api.hf.space",
+            font=("Segoe UI", 8),
+            fg="#555555",
+            bg="#1a1a2e"
+        ).pack()
 
     def update_status(self, service, status, color):
         if status == "running":
