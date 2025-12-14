@@ -1,0 +1,136 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║            GIFT OF GRACE - HOW TO RUN (TUTORIAL)                 ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+════════════════════════════════════════════════════════════════════
+ REQUIREMENTS (Install these first if you don't have them)
+════════════════════════════════════════════════════════════════════
+
+ 1. Node.js - Download from: https://nodejs.org
+    (Click the big green button, install, restart computer)
+
+ 2. Python - Download from: https://python.org
+    (Click "Download Python", install, CHECK "Add to PATH")
+
+
+════════════════════════════════════════════════════════════════════
+ HOW TO START THE APPLICATION
+════════════════════════════════════════════════════════════════════
+
+ STEP 1: Double-click "START.bat"
+         (The file with the gear icon)
+
+ STEP 2: You'll see a menu like this:
+
+         ╔══════════════════════════════════════════════════════╗
+         ║        GIFT OF GRACE - ONE CLICK LAUNCHER            ║
+         ╠══════════════════════════════════════════════════════╣
+         ║   [1] DEMO MODE (Recommended)                        ║
+         ║   [2] FULL MODE with RASA                            ║
+         ║   [3] CLOUD MODE                                     ║
+         ║   [4] STOP ALL SERVICES                              ║
+         ║   [5] EXIT                                           ║
+         ╚══════════════════════════════════════════════════════╝
+
+ STEP 3: Type "1" and press ENTER (for presentations)
+         Or type "3" and press ENTER (for full chatbot with AI)
+
+ STEP 4: Wait for it to start (about 10-30 seconds)
+
+ STEP 5: Your browser will open automatically!
+         If not, go to: http://localhost:5173
+
+
+════════════════════════════════════════════════════════════════════
+ WHICH MODE TO CHOOSE?
+════════════════════════════════════════════════════════════════════
+
+ [1] DEMO MODE - Best for presentations
+     - Fastest to start
+     - Shows the website and admin panel
+     - Chatbot may not respond (that's OK for demos)
+
+ [2] RASA MODE - For testing local AI
+     - Takes longer to start (1-2 minutes)
+     - Chatbot works offline
+     - Uses more computer resources
+
+ [3] CLOUD MODE - Best for full experience
+     - Uses internet for chatbot (Gemini/OpenAI)
+     - Chatbot gives smart responses
+     - Requires internet connection
+
+
+════════════════════════════════════════════════════════════════════
+ HOW TO STOP THE APPLICATION
+════════════════════════════════════════════════════════════════════
+
+ Option 1: In the launcher menu, type "3" to Stop All Services
+
+ Option 2: Double-click "STOP.bat"
+
+ Option 3: Close all the command prompt windows
+
+
+════════════════════════════════════════════════════════════════════
+ ACCESSING THE ADMIN PANEL
+════════════════════════════════════════════════════════════════════
+
+ URL:      http://localhost:5173/admin/login
+ Password: admin123
+
+ In the admin panel you can:
+ - Upload PDF documents (for chatbot training)
+ - Edit products, prices, and descriptions
+ - Update company information
+ - Manage awards and about section
+
+
+════════════════════════════════════════════════════════════════════
+ TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════
+
+ Problem: "Node.js is not installed" error
+ Solution: Install Node.js from https://nodejs.org
+
+ Problem: "Python is not installed" error
+ Solution: Install Python from https://python.org
+           Make sure to check "Add Python to PATH"
+
+ Problem: Website doesn't open
+ Solution: Manually go to http://localhost:5173 in your browser
+
+ Problem: Chatbot doesn't respond
+ Solution: Use Cloud Mode [3] - it connects to the online AI
+
+ Problem: Everything is frozen
+ Solution: Double-click STOP.bat, then try START.bat again
+
+
+════════════════════════════════════════════════════════════════════
+ QUICK REFERENCE
+════════════════════════════════════════════════════════════════════
+
+ Website:     http://localhost:5173
+ Admin:       http://localhost:5173/admin/login
+ Password:    admin123
+
+ Start:       Double-click START.bat
+ Stop:        Double-click STOP.bat (or type 4 in menu)
+
+
+════════════════════════════════════════════════════════════════════
+ FOR PRESENTATIONS - QUICK GUIDE
+════════════════════════════════════════════════════════════════════
+
+ 1. Double-click START.bat
+ 2. Type "3" for Cloud Mode (best chatbot)
+ 3. Wait 30 seconds
+ 4. Browser opens automatically
+ 5. Demo the website!
+ 6. To show admin: go to /admin/login, password: admin123
+ 7. When done: type "3" in launcher to stop
+
+════════════════════════════════════════════════════════════════════
