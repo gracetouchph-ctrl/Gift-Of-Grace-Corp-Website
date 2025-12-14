@@ -23,6 +23,7 @@ python launcher.py
 - **Start/Stop**: One-click to start or stop all services
 - **Status Monitor**: See which services are running
 - **Quick Links**: Open website, admin panel, or API docs
+- **Live Log Terminal**: Real-time console output from all services
 
 ### Screenshot
 
@@ -45,8 +46,27 @@ python launcher.py
 ║  🌐 Open Website                      ║
 ║  🔐 Open Admin Panel                  ║
 ║  📚 API Documentation                 ║
+╠═══════════════════════════════════════╣
+║  Logs                                 ║
+║  ┌─────────────────────────────────┐  ║
+║  │ [12:30:01] Starting Frontend... │  ║
+║  │ [12:30:02] Starting Admin API...│  ║
+║  │ [12:30:04] Frontend started     │  ║
+║  │ [12:30:05] All services ready!  │  ║
+║  └─────────────────────────────────┘  ║
+║        [ Clear Logs ]                 ║
 ╚═══════════════════════════════════════╝
 ```
+
+### Log Terminal
+
+The launcher includes a built-in log terminal that displays:
+- **System messages** (blue): Startup/shutdown status
+- **Info messages** (green): Service output and status updates
+- **Warnings** (yellow): Important notices (e.g., RASA loading)
+- **Errors** (red): Any error messages from services
+
+The log terminal captures real-time output from all running services, making it easy to debug issues without opening separate terminal windows.
 
 ### Requirements
 
