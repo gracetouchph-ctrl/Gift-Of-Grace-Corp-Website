@@ -10,7 +10,7 @@ A modern React website for Gift of Grace with an AI-powered RAG chatbot.
 |-------|------------|
 | **Frontend** | React 18, Vite, Tailwind CSS 3.4, Framer Motion |
 | **Backend** | Python 3.10+, RASA, FastAPI |
-| **AI/ML** | SentenceTransformers, FAISS, Google Gemini |
+| **AI/ML** | SentenceTransformers, FAISS, Gemini/OpenAI/OpenRouter |
 | **Database** | FAISS Vector DB (126 chunks, 384-dim) |
 | **Deployment** | Vercel (frontend), Hugging Face Spaces (RAG API) |
 
@@ -171,7 +171,27 @@ Gift-Of-Grace-Website/
 1. Push code to GitHub
 2. Import repository in [Vercel](https://vercel.com)
 3. Vercel auto-detects Vite + React
-4. Deploy
+4. **Add Environment Variables** in Vercel Dashboard → Settings → Environment Variables:
+
+| Variable | Value |
+|----------|-------|
+| `VITE_GEMINI_API_URL` | `https://lingquerywho-giftofgrace-rag-api.hf.space/chat` |
+| `VITE_CHAT_MODE` | `gemini` |
+
+5. Deploy (or Redeploy if already deployed)
+
+### LLM Support
+
+The Hugging Face RAG API supports multiple LLMs with automatic fallback:
+
+| LLM | Provider | Status |
+|-----|----------|--------|
+| Gemini 1.5 Flash | Google | Primary |
+| GPT-4o-mini | OpenAI | Fallback |
+| Various models | OpenRouter | Fallback |
+| DeepSeek | DeepSeek | Fallback |
+
+If one LLM fails, it automatically tries the next one.
 
 ### Backend RAG API (Hugging Face Spaces)
 
