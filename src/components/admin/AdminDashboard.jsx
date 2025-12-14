@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { 
-  FileText, 
-  Upload, 
-  Trash2, 
-  RefreshCw, 
-  Settings, 
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  FileText,
+  Upload,
+  Trash2,
+  RefreshCw,
+  Settings,
   LogOut,
   File,
   Package,
@@ -13,7 +13,9 @@ import {
   TrendingUp,
   BookOpen,
   Users,
-  Store
+  Store,
+  Menu,
+  X
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import PDFManager from './PDFManager'
@@ -22,6 +24,7 @@ import SiteInfoManager from './SiteInfoManager'
 const AdminDashboard = () => {
   const { logout } = useAuth()
   const [activeTab, setActiveTab] = useState('dashboard')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [stats, setStats] = useState({
     pdfs_count: 0,
     products_count: 0,
@@ -87,17 +90,58 @@ const AdminDashboard = () => {
     { id: 'site-info', label: 'Website Content', icon: Settings },
   ]
 
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId)
+    setSidebarOpen(false)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-rose-50">
-      {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200 shadow-xl z-50 flex flex-col">
-        <div className="p-6 flex-1 flex flex-col">
-          {/* Logo */}
-          <div className="flex flex-col items-center mb-8 pb-8 border-b border-gray-200">
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-white rounded-xl shadow p-1.5 flex items-center justify-center">
+            <img
+              src="/images/giftofgracelogo.png"
+              alt="Logo"
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                e.target.style.display = 'none'
+              }}
+            />
+          </div>
+          <span className="font-serif font-semibold text-gray-900">Admin</span>
+        </div>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 rounded-lg hover:bg-gray-100 transition-all"
+        >
+          {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar - Desktop fixed, Mobile slide-in */}
+      <div className={`fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200 shadow-xl z-50 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-4 sm:p-6 flex-1 flex flex-col pt-16 lg:pt-6">
+          {/* Logo - Hidden on mobile (shown in header) */}
+          <div className="hidden lg:flex flex-col items-center mb-8 pb-8 border-b border-gray-200">
             <div className="w-16 h-16 bg-white rounded-2xl shadow-lg p-2 mb-3 flex items-center justify-center relative">
-              <img 
-                src="/images/giftofgracelogo.png" 
-                alt="Gift of Grace Logo" 
+              <img
+                src="/images/giftofgracelogo.png"
+                alt="Gift of Grace Logo"
                 className="w-full h-full object-contain"
                 onError={(e) => {
                   e.target.style.display = 'none'
@@ -120,7 +164,7 @@ const AdminDashboard = () => {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                     activeTab === tab.id
                       ? 'bg-gradient-to-r from-grace-accent to-rose-500 text-white shadow-lg'
@@ -147,46 +191,46 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="ml-64 p-8">
+      {/* Main Content - Responsive margin */}
+      <div className="lg:ml-64 pt-16 lg:pt-0 p-4 sm:p-6 lg:p-8">
         {activeTab === 'dashboard' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-7xl mx-auto"
           >
-          <div className="mb-8">
-            <h1 className="text-4xl font-serif font-medium text-gray-900 mb-2">
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-4xl font-serif font-medium text-gray-900 mb-1 sm:mb-2">
               Welcome Back!
             </h1>
-            <p className="text-gray-500 text-lg">
+            <p className="text-gray-500 text-sm sm:text-lg">
               Manage your website content and chatbot training documents
             </p>
           </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               {[
-                { 
-                  icon: BookOpen, 
-                  label: 'Training Documents', 
-                  value: stats.pdfs_count, 
+                {
+                  icon: BookOpen,
+                  label: 'Training Docs',
+                  value: stats.pdfs_count,
                   color: 'from-blue-500 to-blue-600',
-                  description: 'PDFs used for chatbot training'
+                  description: 'PDFs for chatbot'
                 },
-                { 
-                  icon: Package, 
-                  label: 'Products', 
-                  value: stats.products_count, 
+                {
+                  icon: Package,
+                  label: 'Products',
+                  value: stats.products_count,
                   color: 'from-green-500 to-green-600',
-                  description: 'Active products on website'
+                  description: 'Active products'
                 },
-                { 
-                  icon: Award, 
-                  label: 'Awards & Recognition', 
-                  value: stats.awards_count, 
+                {
+                  icon: Award,
+                  label: 'Awards',
+                  value: stats.awards_count,
                   color: 'from-amber-500 to-amber-600',
-                  description: 'Company achievements'
+                  description: 'Achievements'
                 },
               ].map((stat, index) => {
                 const Icon = stat.icon
@@ -196,24 +240,24 @@ const AdminDashboard = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
+                    className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className={`w-14 h-14 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                        <Icon className="w-7 h-7 text-white" />
+                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                      <div className={`w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br ${stat.color} rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg`}>
+                        <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
                       </div>
                       {stat.value > 0 && (
-                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"></div>
                       )}
                     </div>
-                    <div className="text-4xl font-bold text-gray-900 mb-1">
+                    <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-1">
                       {loading ? (
-                        <div className="h-10 w-16 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="h-8 sm:h-10 w-12 sm:w-16 bg-gray-200 rounded animate-pulse"></div>
                       ) : (
                         stat.value
                       )}
                     </div>
-                    <div className="text-base font-semibold text-gray-700 mb-1">{stat.label}</div>
+                    <div className="text-sm sm:text-base font-semibold text-gray-700 mb-0.5 sm:mb-1">{stat.label}</div>
                     <div className="text-xs text-gray-500">{stat.description}</div>
                   </motion.div>
                 )
@@ -221,47 +265,53 @@ const AdminDashboard = () => {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg border border-gray-100">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">Quick Actions</h2>
-                <TrendingUp className="w-5 h-5 text-grace-accent" />
+            <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Quick Actions</h2>
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-grace-accent" />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <motion.button
-                  onClick={() => setActiveTab('pdfs')}
+                  onClick={() => handleTabChange('pdfs')}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex flex-col items-center gap-3 p-6 border-2 border-gray-200 rounded-xl hover:border-grace-accent hover:bg-gradient-to-br hover:from-grace-accent/5 hover:to-rose-50/50 transition-all group"
+                  className="flex flex-row sm:flex-col items-center gap-3 sm:gap-3 p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-grace-accent hover:bg-gradient-to-br hover:from-grace-accent/5 hover:to-rose-50/50 transition-all group"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Upload className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                    <Upload className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <span className="font-semibold text-gray-700 group-hover:text-grace-accent">Upload Documents</span>
-                  <span className="text-xs text-gray-500 text-center">Add PDFs for chatbot training</span>
+                  <div className="text-left sm:text-center">
+                    <span className="font-semibold text-gray-700 group-hover:text-grace-accent text-sm sm:text-base block">Upload Documents</span>
+                    <span className="text-xs text-gray-500">Add PDFs for chatbot</span>
+                  </div>
                 </motion.button>
                 <motion.button
-                  onClick={() => setActiveTab('site-info')}
+                  onClick={() => handleTabChange('site-info')}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex flex-col items-center gap-3 p-6 border-2 border-gray-200 rounded-xl hover:border-grace-accent hover:bg-gradient-to-br hover:from-grace-accent/5 hover:to-rose-50/50 transition-all group"
+                  className="flex flex-row sm:flex-col items-center gap-3 sm:gap-3 p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-grace-accent hover:bg-gradient-to-br hover:from-grace-accent/5 hover:to-rose-50/50 transition-all group"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Settings className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                    <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <span className="font-semibold text-gray-700 group-hover:text-grace-accent">Manage Content</span>
-                  <span className="text-xs text-gray-500 text-center">Update products, awards & info</span>
+                  <div className="text-left sm:text-center">
+                    <span className="font-semibold text-gray-700 group-hover:text-grace-accent text-sm sm:text-base block">Manage Content</span>
+                    <span className="text-xs text-gray-500">Update products & info</span>
+                  </div>
                 </motion.button>
                 <motion.button
                   onClick={fetchStats}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex flex-col items-center gap-3 p-6 border-2 border-gray-200 rounded-xl hover:border-grace-accent hover:bg-gradient-to-br hover:from-grace-accent/5 hover:to-rose-50/50 transition-all group"
+                  className="flex flex-row sm:flex-col items-center gap-3 sm:gap-3 p-4 sm:p-6 border-2 border-gray-200 rounded-xl hover:border-grace-accent hover:bg-gradient-to-br hover:from-grace-accent/5 hover:to-rose-50/50 transition-all group"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <RefreshCw className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                    <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <span className="font-semibold text-gray-700 group-hover:text-grace-accent">Refresh Data</span>
-                  <span className="text-xs text-gray-500 text-center">Update dashboard statistics</span>
+                  <div className="text-left sm:text-center">
+                    <span className="font-semibold text-gray-700 group-hover:text-grace-accent text-sm sm:text-base block">Refresh Data</span>
+                    <span className="text-xs text-gray-500">Update statistics</span>
+                  </div>
                 </motion.button>
               </div>
             </div>

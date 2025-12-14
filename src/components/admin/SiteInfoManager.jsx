@@ -231,40 +231,40 @@ const SiteInfoManager = ({ onUpdate }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-7xl mx-auto"
+      className="max-w-7xl mx-auto px-4 sm:px-6"
     >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      {/* Header - Mobile Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-4xl font-serif font-medium text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-4xl font-serif font-medium text-gray-900 mb-1 sm:mb-2">
             Site Information Manager
           </h1>
-          <p className="text-gray-500">
+          <p className="text-sm sm:text-base text-gray-500">
             Manage website content including products, awards, and company information
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           {(siteInfo.products?.length === 0 || siteInfo.awards?.length === 0) && (
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={handleInitSiteInfo}
               disabled={initializing}
-              className="flex items-center gap-2 px-4 py-3 bg-blue-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 sm:py-3 bg-blue-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 text-sm sm:text-base"
             >
-              <Download className="w-5 h-5" />
-              {initializing ? 'Importing...' : 'Import Current Data'}
+              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+              {initializing ? 'Importing...' : 'Import Data'}
             </motion.button>
           )}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-grace-accent to-rose-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-grace-accent to-rose-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 text-sm sm:text-base"
           >
-            <Save className="w-5 h-5" />
-            {saving ? 'Saving...' : 'Save All Changes'}
+            <Save className="w-4 h-4 sm:w-5 sm:h-5" />
+            {saving ? 'Saving...' : 'Save Changes'}
           </motion.button>
         </div>
       </div>
@@ -292,8 +292,8 @@ const SiteInfoManager = ({ onUpdate }) => {
         )}
       </AnimatePresence>
 
-      {/* Tabs */}
-      <div className="flex gap-2 mb-6 border-b border-gray-200">
+      {/* Tabs - Scrollable on Mobile */}
+      <div className="flex gap-1 sm:gap-2 mb-4 sm:mb-6 border-b border-gray-200 overflow-x-auto pb-px -mx-4 px-4 sm:mx-0 sm:px-0">
         {[
           { id: 'products', label: 'Products', icon: Package },
           { id: 'awards', label: 'Awards', icon: Award },
@@ -305,13 +305,13 @@ const SiteInfoManager = ({ onUpdate }) => {
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 border-b-2 transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeSection === tab.id
                   ? 'border-grace-accent text-grace-accent font-medium'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
-              <Icon className="w-5 h-5" />
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>{tab.label}</span>
             </button>
           )
@@ -320,21 +320,21 @@ const SiteInfoManager = ({ onUpdate }) => {
 
       {/* Products Section */}
       {activeSection === 'products' && (
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold text-gray-900">Products</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Products</h2>
             <button
               onClick={addProduct}
-              className="flex items-center gap-2 px-4 py-2 bg-grace-accent text-white rounded-xl font-medium hover:bg-rose-500 transition-all"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-grace-accent text-white rounded-xl font-medium hover:bg-rose-500 transition-all text-sm sm:text-base"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
               Add Product
             </button>
           </div>
           <div className="space-y-4">
             {(siteInfo.products || []).map((product) => (
-              <div key={product.id} className="p-4 border border-gray-200 rounded-xl">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div key={product.id} className="p-3 sm:p-4 border border-gray-200 rounded-xl">
+                <div className="grid grid-cols-1 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                     <input
@@ -353,11 +353,11 @@ const SiteInfoManager = ({ onUpdate }) => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grace-accent focus:border-transparent"
                     />
                   </div>
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
-                    <div className="flex gap-4 items-start">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start">
                       {/* Image Preview */}
-                      <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden flex-shrink-0 bg-gray-50">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden flex-shrink-0 bg-gray-50">
                         {product.image ? (
                           <img
                             src={product.image}
@@ -370,7 +370,7 @@ const SiteInfoManager = ({ onUpdate }) => {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <Image className="w-8 h-8" />
+                            <Image className="w-6 h-6 sm:w-8 sm:h-8" />
                           </div>
                         )}
                         <div className="w-full h-full items-center justify-center text-gray-400 hidden">
@@ -379,23 +379,21 @@ const SiteInfoManager = ({ onUpdate }) => {
                       </div>
 
                       {/* URL Input & Upload */}
-                      <div className="flex-1 space-y-2">
-                        <div className="flex gap-2">
-                          <div className="flex-1 relative">
-                            <Link className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                            <input
-                              type="text"
-                              value={product.image || ''}
-                              onChange={(e) => updateProduct(product.id, 'image', e.target.value)}
-                              placeholder="Enter image URL or upload below"
-                              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grace-accent focus:border-transparent"
-                            />
-                          </div>
+                      <div className="flex-1 w-full space-y-2">
+                        <div className="relative">
+                          <Link className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                          <input
+                            type="text"
+                            value={product.image || ''}
+                            onChange={(e) => updateProduct(product.id, 'image', e.target.value)}
+                            placeholder="Enter image URL or upload"
+                            className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-grace-accent focus:border-transparent"
+                          />
                         </div>
-                        <div className="flex items-center gap-2">
-                          <label className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg cursor-pointer transition-all text-sm">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <label className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg cursor-pointer transition-all text-xs sm:text-sm">
                             <Upload className="w-4 h-4" />
-                            Upload Image
+                            Upload
                             <input
                               type="file"
                               accept="image/*"
@@ -403,11 +401,8 @@ const SiteInfoManager = ({ onUpdate }) => {
                               onChange={(e) => handleImageUpload(product.id, e.target.files[0])}
                             />
                           </label>
-                          <span className="text-xs text-gray-500">Max 2MB (PNG, JPG, WebP)</span>
+                          <span className="text-xs text-gray-500">Max 2MB</span>
                         </div>
-                        <p className="text-xs text-gray-500">
-                          Tip: Use full URL like https://giftofgrace-website.vercel.app/images/product.png
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -455,21 +450,21 @@ const SiteInfoManager = ({ onUpdate }) => {
 
       {/* Awards Section */}
       {activeSection === 'awards' && (
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold text-gray-900">Awards</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Awards</h2>
             <button
               onClick={addAward}
-              className="flex items-center gap-2 px-4 py-2 bg-grace-accent text-white rounded-xl font-medium hover:bg-rose-500 transition-all"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-grace-accent text-white rounded-xl font-medium hover:bg-rose-500 transition-all text-sm sm:text-base"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
               Add Award
             </button>
           </div>
           <div className="space-y-4">
             {(siteInfo.awards || []).map((award) => (
-              <div key={award.id} className="p-4 border border-gray-200 rounded-xl">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div key={award.id} className="p-3 sm:p-4 border border-gray-200 rounded-xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                     <input
@@ -514,8 +509,8 @@ const SiteInfoManager = ({ onUpdate }) => {
 
       {/* About Section */}
       {activeSection === 'about' && (
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">About Section</h2>
+        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-lg">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6">About Section</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Mission</label>
@@ -550,9 +545,9 @@ const SiteInfoManager = ({ onUpdate }) => {
 
       {/* Contact Section */}
       {activeSection === 'contact' && (
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-lg">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6">Contact Information</h2>
+          <div className="grid grid-cols-1 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
               <input
