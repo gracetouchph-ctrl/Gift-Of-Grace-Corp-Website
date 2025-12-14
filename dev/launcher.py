@@ -20,7 +20,7 @@ class GiftOfGraceLauncher:
     def __init__(self, root):
         self.root = root
         self.root.title("Gift of Grace - Launcher")
-        self.root.geometry("500x680")
+        self.root.geometry("500x750")
         self.root.resizable(False, False)
         self.root.configure(bg="#1a1a2e")
 
@@ -40,7 +40,7 @@ class GiftOfGraceLauncher:
     def create_ui(self):
         # Title
         title_frame = tk.Frame(self.root, bg="#1a1a2e")
-        title_frame.pack(pady=20)
+        title_frame.pack(pady=10)
 
         tk.Label(
             title_frame,
@@ -62,13 +62,13 @@ class GiftOfGraceLauncher:
         mode_frame = tk.LabelFrame(
             self.root,
             text=" Select Mode ",
-            font=("Segoe UI", 11, "bold"),
+            font=("Segoe UI", 10, "bold"),
             fg="#ffffff",
             bg="#16213e",
-            padx=20,
-            pady=15
+            padx=15,
+            pady=8
         )
-        mode_frame.pack(padx=20, pady=10, fill="x")
+        mode_frame.pack(padx=20, pady=5, fill="x")
 
         self.mode_var = tk.StringVar(value="cloud")
 
@@ -106,7 +106,7 @@ class GiftOfGraceLauncher:
 
         # Control Buttons
         btn_frame = tk.Frame(self.root, bg="#1a1a2e")
-        btn_frame.pack(pady=20)
+        btn_frame.pack(pady=10)
 
         self.start_btn = tk.Button(
             btn_frame,
@@ -143,13 +143,13 @@ class GiftOfGraceLauncher:
         status_frame = tk.LabelFrame(
             self.root,
             text=" Service Status ",
-            font=("Segoe UI", 11, "bold"),
+            font=("Segoe UI", 10, "bold"),
             fg="#ffffff",
             bg="#16213e",
-            padx=20,
-            pady=15
+            padx=15,
+            pady=8
         )
-        status_frame.pack(padx=20, pady=10, fill="x")
+        status_frame.pack(padx=20, pady=5, fill="x")
 
         services = [
             ("frontend", "Frontend (React)", "localhost:5173"),
