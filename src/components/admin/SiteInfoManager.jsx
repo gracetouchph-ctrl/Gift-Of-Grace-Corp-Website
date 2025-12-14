@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Save, Plus, Edit, Trash2, X, CheckCircle, AlertCircle, Package, Award, Info, Phone, Download } from 'lucide-react'
+import { Save, Plus, Edit, Trash2, X, CheckCircle, AlertCircle, Package, Award, Info, Phone, Download, Upload, Image, Link } from 'lucide-react'
 
 const SiteInfoManager = ({ onUpdate }) => {
   const [siteInfo, setSiteInfo] = useState({
@@ -107,6 +107,28 @@ const SiteInfoManager = ({ onUpdate }) => {
   const showMessage = (type, text) => {
     setMessage({ type, text })
     setTimeout(() => setMessage({ type: '', text: '' }), 5000)
+  }
+
+  // Image upload handler - converts to base64 or uses URL
+  const handleImageUpload = async (productId, file) => {
+    if (!file) return
+
+    // Check file size (max 2MB for base64)
+    if (file.size > 2 * 1024 * 1024) {
+      showMessage('error', 'Image too large. Please use an image under 2MB or provide a URL.')
+      return
+    }
+
+    // Convert to base64
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      updateProduct(productId, 'image', reader.result)
+      showMessage('success', 'Image uploaded successfully!')
+    }
+    reader.onerror = () => {
+      showMessage('error', 'Failed to upload image')
+    }
+    reader.readAsDataURL(file)
   }
 
   const addProduct = () => {
@@ -331,14 +353,63 @@ const SiteInfoManager = ({ onUpdate }) => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grace-accent focus:border-transparent"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-                    <input
-                      type="text"
-                      value={product.image || ''}
-                      onChange={(e) => updateProduct(product.id, 'image', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grace-accent focus:border-transparent"
-                    />
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                    <div className="flex gap-4 items-start">
+                      {/* Image Preview */}
+                      <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg overflow-hidden flex-shrink-0 bg-gray-50">
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name || 'Product'}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                              e.target.nextSibling.style.display = 'flex'
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400">
+                            <Image className="w-8 h-8" />
+                          </div>
+                        )}
+                        <div className="w-full h-full items-center justify-center text-gray-400 hidden">
+                          <span className="text-xs">Invalid URL</span>
+                        </div>
+                      </div>
+
+                      {/* URL Input & Upload */}
+                      <div className="flex-1 space-y-2">
+                        <div className="flex gap-2">
+                          <div className="flex-1 relative">
+                            <Link className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <input
+                              type="text"
+                              value={product.image || ''}
+                              onChange={(e) => updateProduct(product.id, 'image', e.target.value)}
+                              placeholder="Enter image URL or upload below"
+                              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-grace-accent focus:border-transparent"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <label className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg cursor-pointer transition-all text-sm">
+                            <Upload className="w-4 h-4" />
+                            Upload Image
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => handleImageUpload(product.id, e.target.files[0])}
+                            />
+                          </label>
+                          <span className="text-xs text-gray-500">Max 2MB (PNG, JPG, WebP)</span>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          Tip: Use full URL like https://giftofgrace-website.vercel.app/images/product.png
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
