@@ -15,7 +15,9 @@ import {
   Users,
   Store,
   Menu,
-  X
+  X,
+  MessageCircle,
+  Power
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import PDFManager from './PDFManager'
@@ -32,12 +34,62 @@ const AdminDashboard = () => {
     documents_processed: false
   })
   const [loading, setLoading] = useState(true)
+  const [chatbotEnabled, setChatbotEnabled] = useState(true)
+  const [togglingChatbot, setTogglingChatbot] = useState(false)
 
   const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'http://localhost:8001'
 
   useEffect(() => {
     fetchStats()
+    fetchChatbotStatus()
   }, [])
+
+  const fetchChatbotStatus = async () => {
+    try {
+      const token = localStorage.getItem('admin_token')
+      const response = await fetch(`${API_BASE}/admin/site-info`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setChatbotEnabled(data.chatbot_enabled !== false)
+      }
+    } catch (error) {
+      console.error('Error fetching chatbot status:', error)
+    }
+  }
+
+  const toggleChatbot = async () => {
+    setTogglingChatbot(true)
+    try {
+      const token = localStorage.getItem('admin_token')
+      // First get current site info
+      const getResponse = await fetch(`${API_BASE}/admin/site-info`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      if (getResponse.ok) {
+        const siteInfo = await getResponse.json()
+        // Toggle the chatbot_enabled status
+        siteInfo.chatbot_enabled = !chatbotEnabled
+        // Save back
+        const saveResponse = await fetch(`${API_BASE}/admin/site-info`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(siteInfo)
+        })
+        if (saveResponse.ok) {
+          setChatbotEnabled(!chatbotEnabled)
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling chatbot:', error)
+    } finally {
+      setTogglingChatbot(false)
+    }
+  }
 
   const fetchStats = async () => {
     try {
@@ -262,6 +314,32 @@ const AdminDashboard = () => {
                   </motion.div>
                 )
               })}
+            </div>
+
+            {/* Chatbot Control */}
+            <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100 mb-6 sm:mb-8">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg transition-all ${chatbotEnabled ? 'bg-gradient-to-br from-green-500 to-green-600' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`}>
+                    <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Chatbot</h2>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      {chatbotEnabled ? 'Active on landing page' : 'Hidden from visitors'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={toggleChatbot}
+                  disabled={togglingChatbot}
+                  className={`relative inline-flex h-7 w-14 sm:h-8 sm:w-16 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 ${chatbotEnabled ? 'bg-green-500' : 'bg-gray-300'} ${togglingChatbot ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <span
+                    className={`inline-block h-5 w-5 sm:h-6 sm:w-6 transform rounded-full bg-white shadow-lg transition-transform ${chatbotEnabled ? 'translate-x-8 sm:translate-x-9' : 'translate-x-1'}`}
+                  />
+                </button>
+              </div>
             </div>
 
             {/* Quick Actions */}

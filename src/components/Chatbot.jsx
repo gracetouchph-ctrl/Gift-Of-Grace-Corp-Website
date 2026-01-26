@@ -64,6 +64,7 @@ const PARTICLE_COLORS = ['#E91E63', '#9C27B0', '#2196F3', '#00BCD4', '#4CAF50', 
 // RASA for local development, HF Spaces (Gemini) for cloud deployment
 const RASA_API_URL = import.meta.env.VITE_RASA_API_URL || 'http://localhost:5005/webhooks/rest/webhook'
 const GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space/chat'
+const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space'
 
 // Deployment mode: 'auto' (try RASA first, fallback to Gemini), 'rasa', or 'gemini'
 const CHAT_MODE = import.meta.env.VITE_CHAT_MODE || 'auto'
@@ -80,6 +81,7 @@ const Chatbot = () => {
   const [isRasaAvailable, setIsRasaAvailable] = useState(null) // null = checking, true = available, false = unavailable
   const [isGeminiAvailable, setIsGeminiAvailable] = useState(null) // null = checking, true = available, false = unavailable
   const [activeMode, setActiveMode] = useState(null) // 'rasa' or 'gemini'
+  const [chatbotEnabled, setChatbotEnabled] = useState(true) // Check if admin enabled chatbot
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -135,6 +137,23 @@ const Chatbot = () => {
       }
     }
   }, [hasAppeared, isOpen, isScrolling])
+
+  // Check if chatbot is enabled by admin
+  useEffect(() => {
+    const checkChatbotStatus = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/site-info`)
+        if (response.ok) {
+          const data = await response.json()
+          setChatbotEnabled(data.chatbot_enabled !== false)
+        }
+      } catch (error) {
+        console.log('Could not check chatbot status, defaulting to enabled')
+        setChatbotEnabled(true)
+      }
+    }
+    checkChatbotStatus()
+  }, [])
 
   // Load Lottie animation data and customize colors
   useEffect(() => {
@@ -526,6 +545,11 @@ const Chatbot = () => {
   }
 
   // Don't render anything if no API is available (both RASA and Gemini unavailable)
+  // Don't render if admin disabled chatbot
+  if (!chatbotEnabled) {
+    return null
+  }
+
   const isAnyApiAvailable = activeMode !== null || isRasaAvailable === null || isGeminiAvailable === null
   if (!isAnyApiAvailable && isRasaAvailable === false && isGeminiAvailable === false) {
     return null
