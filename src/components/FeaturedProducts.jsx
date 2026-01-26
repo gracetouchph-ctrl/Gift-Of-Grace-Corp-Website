@@ -2,11 +2,12 @@ import { useState, useRef, useEffect, memo, useCallback } from 'react'
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion'
 import { ShoppingBag, ChevronLeft, ChevronRight, ExternalLink, Star, ArrowRight, Sparkles } from 'lucide-react'
 
-const products = [
+// Fallback products (used when API is unavailable)
+const fallbackProducts = [
   {
     id: 1,
     name: 'Kimchi Gift Set',
-    price: '₱220',
+    price: 'P220',
     image: '/images/KimchiGift.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Authentic Korean kimchi with a perfect blend of spices',
@@ -16,7 +17,7 @@ const products = [
   {
     id: 2,
     name: 'Rice Coffee',
-    price: '₱180',
+    price: 'P180',
     image: '/images/RiceCoffee.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Traditional rice coffee with a smooth, comforting flavor',
@@ -26,7 +27,7 @@ const products = [
   {
     id: 3,
     name: 'Pickled Radish',
-    price: '₱200',
+    price: 'P200',
     image: '/images/PickledRadish.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Crisp and refreshing pickled radish, perfectly seasoned',
@@ -36,7 +37,7 @@ const products = [
   {
     id: 4,
     name: "Rene's Bangus",
-    price: '₱280',
+    price: 'P280',
     image: '/images/RenesBangus.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Premium marinated bangus, a Filipino delicacy',
@@ -46,7 +47,7 @@ const products = [
   {
     id: 5,
     name: "Rene's Gourmet Chicken",
-    price: '₱320',
+    price: 'P320',
     image: '/images/RenesGourmetChicken.png',
     shopeeLink: 'https://ph.shp.ee/k5ZzgF6',
     description: 'Gourmet chicken prepared with traditional Filipino flavors',
@@ -54,6 +55,9 @@ const products = [
     color: '#D4A574',
   },
 ]
+
+// Default colors for products fetched from API
+const defaultColors = ['#F05644', '#8B4513', '#E8C547', '#4A90A4', '#D4A574', '#9B59B6', '#27AE60']
 
 // Animation variants for staggered reveals
 const containerVariants = {
@@ -419,8 +423,43 @@ HeroShowcase.displayName = 'HeroShowcase'
 
 const FeaturedProducts = memo(() => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [products, setProducts] = useState(fallbackProducts)
+  const [isLoading, setIsLoading] = useState(true)
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+
+  const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space'
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/site-info`)
+        if (response.ok) {
+          const data = await response.json()
+          if (data.products && data.products.length > 0) {
+            // Map API data to component format
+            const mappedProducts = data.products.map((product, index) => ({
+              id: product.id || index + 1,
+              name: product.name || 'Product',
+              price: product.price || '',
+              image: product.image || '/images/placeholder.png',
+              shopeeLink: product.shopeeLink || 'https://ph.shp.ee/k5ZzgF6',
+              description: product.description || '',
+              category: product.category || 'Product',
+              color: product.color || defaultColors[index % defaultColors.length],
+            }))
+            setProducts(mappedProducts)
+          }
+        }
+      } catch (error) {
+        console.log('Using fallback products - API unavailable')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchProducts()
+  }, [API_BASE])
 
   // Auto-play carousel
   useEffect(() => {
@@ -428,7 +467,7 @@ const FeaturedProducts = memo(() => {
       setActiveIndex((prev) => (prev + 1) % products.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [products.length])
 
   // Parallax scroll effect for header
   const { scrollYProgress } = useScroll({
