@@ -316,31 +316,83 @@ const AdminDashboard = () => {
               })}
             </div>
 
-            {/* Chatbot Control */}
-            <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100 mb-6 sm:mb-8">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg transition-all ${chatbotEnabled ? 'bg-gradient-to-br from-green-500 to-green-600' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`}>
-                    <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            {/* Chatbot Control - Premium Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 mb-6 sm:mb-8 transition-all duration-500 ${
+                chatbotEnabled
+                  ? 'bg-gradient-to-br from-emerald-500 via-green-500 to-teal-600'
+                  : 'bg-gradient-to-br from-slate-600 via-gray-600 to-slate-700'
+              }`}
+            >
+              {/* Background decoration */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
+              </div>
+
+              <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                    chatbotEnabled
+                      ? 'bg-white/20 backdrop-blur-sm'
+                      : 'bg-white/10 backdrop-blur-sm'
+                  }`}>
+                    <MessageCircle className={`w-7 h-7 sm:w-8 sm:h-8 transition-all duration-300 ${
+                      chatbotEnabled ? 'text-white' : 'text-gray-300'
+                    }`} />
                   </div>
                   <div>
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Chatbot</h2>
-                    <p className="text-xs sm:text-sm text-gray-500">
-                      {chatbotEnabled ? 'Active on landing page' : 'Hidden from visitors'}
+                    <h2 className="text-2xl sm:text-3xl font-serif font-medium text-white tracking-tight">
+                      Grace AI
+                    </h2>
+                    <p className={`text-sm sm:text-base font-medium mt-0.5 ${
+                      chatbotEnabled ? 'text-emerald-100' : 'text-gray-400'
+                    }`}>
+                      {chatbotEnabled ? '● Live on your website' : '○ Currently offline'}
                     </p>
                   </div>
                 </div>
-                <button
-                  onClick={toggleChatbot}
-                  disabled={togglingChatbot}
-                  className={`relative inline-flex h-7 w-14 sm:h-8 sm:w-16 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-grace-accent focus:ring-offset-2 ${chatbotEnabled ? 'bg-green-500' : 'bg-gray-300'} ${togglingChatbot ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
-                  <span
-                    className={`inline-block h-5 w-5 sm:h-6 sm:w-6 transform rounded-full bg-white shadow-lg transition-transform ${chatbotEnabled ? 'translate-x-8 sm:translate-x-9' : 'translate-x-1'}`}
-                  />
-                </button>
+
+                <div className="flex items-center gap-4">
+                  <span className={`text-sm font-semibold uppercase tracking-wider ${
+                    chatbotEnabled ? 'text-emerald-100' : 'text-gray-400'
+                  }`}>
+                    {chatbotEnabled ? 'Enabled' : 'Disabled'}
+                  </span>
+                  <button
+                    onClick={toggleChatbot}
+                    disabled={togglingChatbot}
+                    className={`relative inline-flex h-9 w-20 sm:h-10 sm:w-24 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent ${
+                      chatbotEnabled
+                        ? 'bg-white/30 hover:bg-white/40'
+                        : 'bg-white/10 hover:bg-white/20'
+                    } ${togglingChatbot ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  >
+                    <motion.span
+                      layout
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      className={`inline-block h-7 w-7 sm:h-8 sm:w-8 transform rounded-full shadow-lg ${
+                        chatbotEnabled
+                          ? 'translate-x-12 sm:translate-x-14 bg-white'
+                          : 'translate-x-1 bg-gray-300'
+                      }`}
+                    />
+                  </button>
+                </div>
               </div>
-            </div>
+
+              {/* Status indicator */}
+              <div className={`mt-4 pt-4 border-t ${chatbotEnabled ? 'border-white/20' : 'border-white/10'}`}>
+                <p className={`text-xs sm:text-sm ${chatbotEnabled ? 'text-emerald-100/80' : 'text-gray-400/80'}`}>
+                  {chatbotEnabled
+                    ? 'Visitors can chat with Grace AI on your landing page. Turn off to hide the chatbot.'
+                    : 'The chatbot is hidden from visitors. Turn on to enable customer support.'}
+                </p>
+              </div>
+            </motion.div>
 
             {/* Quick Actions */}
             <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100">
