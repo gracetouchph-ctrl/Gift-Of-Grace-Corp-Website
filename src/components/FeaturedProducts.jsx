@@ -428,7 +428,7 @@ const FeaturedProducts = memo(() => {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
-  const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space'
+  const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'https://gracetouchph-ctrl-giftofgrace-rag-api.hf.space'
 
   // Fetch products from API
   useEffect(() => {

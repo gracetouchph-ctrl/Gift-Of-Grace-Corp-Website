@@ -63,8 +63,8 @@ const PARTICLE_COLORS = ['#E91E63', '#9C27B0', '#2196F3', '#00BCD4', '#4CAF50', 
 // API Configuration
 // RASA for local development, HF Spaces (Gemini) for cloud deployment
 const RASA_API_URL = import.meta.env.VITE_RASA_API_URL || 'http://localhost:5005/webhooks/rest/webhook'
-const GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space/chat'
-const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'https://lingquerywho-giftofgrace-rag-api.hf.space'
+const GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL || 'https://gracetouchph-ctrl-giftofgrace-rag-api.hf.space/chat'
+const API_BASE = import.meta.env.VITE_ADMIN_API_URL || 'https://gracetouchph-ctrl-giftofgrace-rag-api.hf.space'
 
 // Deployment mode: 'auto' (try RASA first, fallback to Gemini), 'rasa', or 'gemini'
 const CHAT_MODE = import.meta.env.VITE_CHAT_MODE || 'auto'

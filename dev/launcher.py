@@ -344,7 +344,7 @@ class GiftOfGraceLauncher:
 
         tk.Label(
             footer_frame,
-            text="HF API: lingquerywho-giftofgrace-rag-api.hf.space",
+            text="HF API: gracetouchph-ctrl-giftofgrace-rag-api.hf.space",
             font=("Segoe UI", 8),
             fg="#555555",
             bg="#1a1a2e"

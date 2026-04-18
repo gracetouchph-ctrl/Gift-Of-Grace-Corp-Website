@@ -175,7 +175,7 @@ Gift-Of-Grace-Website/
 
 | Variable | Value |
 |----------|-------|
-| `VITE_GEMINI_API_URL` | `https://lingquerywho-giftofgrace-rag-api.hf.space/chat` |
+| `VITE_GEMINI_API_URL` | `https://gracetouchph-ctrl-giftofgrace-rag-api.hf.space/chat` |
 | `VITE_CHAT_MODE` | `gemini` |
 
 5. Deploy (or Redeploy if already deployed)
