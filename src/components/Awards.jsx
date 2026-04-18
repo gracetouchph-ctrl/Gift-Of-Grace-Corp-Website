@@ -1,33 +1,32 @@
 import { useState, useRef, memo } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { ExternalLink, Award, PlayCircle, Image as ImageIcon, X } from 'lucide-react'
+import { ExternalLink, Award, PlayCircle, Image as ImageIcon, X, ArrowUpRight, Link2, Sparkles } from 'lucide-react'
 import { awards } from '../data/awards'
 
-const iconFor = (type) => {
-  if (type === 'Video') return PlayCircle
-  if (type === 'Gallery') return ImageIcon
-  return Award
+const typeConfig = {
+  Article: { icon: Award, color: '#f05644', bg: 'rgba(240,86,68,0.08)', label: 'Article' },
+  Gallery: { icon: ImageIcon, color: '#D4AF37', bg: 'rgba(212,175,55,0.08)', label: 'Gallery' },
+  Post: { icon: Sparkles, color: '#60b2d4', bg: 'rgba(96,178,212,0.08)', label: 'Post' },
+  Video: { icon: PlayCircle, color: '#f05644', bg: 'rgba(240,86,68,0.08)', label: 'Video' },
+  Links: { icon: Link2, color: '#9b7dd4', bg: 'rgba(155,125,212,0.08)', label: 'Collection' },
 }
+
+const getType = (type) => typeConfig[type] || typeConfig.Article
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.25 },
   },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 15,
-    },
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 }
 
@@ -38,19 +37,141 @@ const overlayVariants = {
 }
 
 const modalVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 20 },
+  hidden: { opacity: 0, scale: 0.92, y: 30 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 300, damping: 25 },
+    transition: { type: 'spring', stiffness: 260, damping: 24 },
   },
   exit: {
     opacity: 0,
-    scale: 0.9,
-    y: 20,
+    scale: 0.92,
+    y: 30,
     transition: { duration: 0.2 },
   },
+}
+
+function AwardCard({ item, idx, onOpenLinks }) {
+  const config = getType(item.type)
+  const Icon = config.icon
+  const hasLinks = !!item.links
+  const isFeatured = idx === 0
+
+  return (
+    <motion.div
+      variants={itemVariants}
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100/80 bg-white ${
+        isFeatured ? 'sm:col-span-2 sm:row-span-2' : ''
+      }`}
+      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)' }}
+      whileHover={{
+        y: -6,
+        boxShadow: `0 20px 50px rgba(0,0,0,0.08), 0 0 0 1px ${config.color}15`,
+      }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      {/* Image */}
+      <div className={`relative w-full overflow-hidden ${isFeatured ? 'h-52 sm:h-72 lg:h-80' : 'h-44 sm:h-52'}`}>
+        <motion.div
+          className="absolute inset-0 bg-center bg-cover"
+          style={{
+            backgroundImage: item.preview
+              ? `url(${item.preview})`
+              : `linear-gradient(135deg, ${config.color}30, ${config.color}08)`,
+          }}
+          whileHover={{ scale: 1.06 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+
+        {/* Year pill */}
+        <div className="absolute top-4 right-4">
+          <span
+            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide backdrop-blur-md"
+            style={{
+              background: 'rgba(255,255,255,0.15)',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,0.2)',
+            }}
+          >
+            {item.year}
+          </span>
+        </div>
+
+        {/* Type badge */}
+        <div className="absolute top-4 left-4">
+          <span
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-md"
+            style={{
+              background: 'rgba(255,255,255,0.15)',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,0.2)',
+            }}
+          >
+            <Icon className="w-3.5 h-3.5" />
+            {config.label}
+          </span>
+        </div>
+
+        {/* Title overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-5">
+          <h3
+            className={`font-serif font-semibold leading-tight text-white drop-shadow-lg ${
+              isFeatured ? 'text-xl sm:text-2xl lg:text-3xl' : 'text-lg'
+            }`}
+          >
+            {item.title}
+          </h3>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-5">
+        <p className="text-sm text-gray-500 leading-relaxed flex-1">
+          {item.highlight}
+        </p>
+
+        <div className="mt-4 pt-4 border-t border-gray-50">
+          {hasLinks ? (
+            <motion.button
+              onClick={() => onOpenLinks(item)}
+              className="inline-flex items-center gap-2 text-sm font-medium rounded-full px-4 py-2"
+              style={{ color: config.color, background: config.bg }}
+              whileHover={{ scale: 1.03, x: 2 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link2 className="w-4 h-4" />
+              View collection
+              <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+            </motion.button>
+          ) : (
+            <motion.a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium rounded-full px-4 py-2"
+              style={{ color: config.color, background: config.bg }}
+              whileHover={{ scale: 1.03, x: 2 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ExternalLink className="w-4 h-4" />
+              Read more
+              <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+            </motion.a>
+          )}
+        </div>
+      </div>
+
+      {/* Accent line */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-0.5 origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
+        style={{ background: `linear-gradient(90deg, ${config.color}, ${config.color}40)` }}
+      />
+    </motion.div>
+  )
 }
 
 const Awards = memo(() => {
@@ -65,9 +186,9 @@ const Awards = memo(() => {
       className="py-20 lg:py-28 bg-gradient-to-b from-slate-50/50 via-white to-white overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header with scroll reveal */}
+        {/* Header */}
         <motion.div
-          className="text-center mb-12 lg:mb-16"
+          className="text-center mb-14 lg:mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -98,204 +219,116 @@ const Awards = memo(() => {
           </motion.p>
         </motion.div>
 
-        {/* Awards Grid with staggered entrance */}
+        {/* Bento Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 auto-rows-auto"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          {awards.map((item, idx) => {
-            const Icon = iconFor(item.type)
-            const hasLinks = !!item.links
-            return (
-              <motion.div
-                key={`${item.title}-${idx}`}
-                variants={itemVariants}
-                whileHover={{
-                  y: -8,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
-                }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col cursor-pointer"
-              >
-                {/* Image Container */}
-                <div className="relative h-40 sm:h-48 w-full overflow-hidden">
-                  <motion.div
-                    className="absolute inset-0 bg-center bg-cover"
-                    style={{
-                      backgroundImage: item.preview
-                        ? `linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url(${item.preview})`
-                        : 'linear-gradient(180deg, rgba(24,78,167,0.35), rgba(240,86,68,0.65))',
-                    }}
-                    initial={{ scale: 1.1 }}
-                    whileHover={{ scale: 1.15 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-                  {/* Icon Badge */}
-                  <motion.div
-                    className="absolute top-3 left-3 flex items-center gap-2 text-white"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + idx * 0.05 }}
-                  >
-                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/15 backdrop-blur-sm text-white">
-                      <Icon className="w-5 h-5" />
-                    </span>
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-white/80">{item.type}</p>
-                      <p className="text-sm font-semibold">{item.year}</p>
-                    </div>
-                  </motion.div>
-
-                  {/* Title */}
-                  <div className="absolute bottom-3 left-3 right-3 text-white">
-                    <h3 className="text-lg font-semibold leading-tight line-clamp-2 drop-shadow">{item.title}</h3>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-4 sm:p-5 flex-1 flex flex-col">
-                  <p className="text-sm text-gray-600 flex-1">{item.highlight}</p>
-
-                  {hasLinks ? (
-                    <div className="mt-4">
-                      <motion.button
-                        onClick={() => setOpenItem(item)}
-                        className="inline-flex items-center gap-2 text-sm text-grace-accent font-semibold"
-                        whileHover={{ x: 4, color: '#c41e52' }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View links
-                      </motion.button>
-                    </div>
-                  ) : (
-                    <div className="mt-4">
-                      <motion.a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-grace-accent font-semibold"
-                        whileHover={{ x: 4, color: '#c41e52' }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View
-                      </motion.a>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            )
-          })}
+          {awards.map((item, idx) => (
+            <AwardCard
+              key={`${item.title}-${idx}`}
+              item={item}
+              idx={idx}
+              onOpenLinks={setOpenItem}
+            />
+          ))}
         </motion.div>
+      </div>
 
-        {/* Modal with AnimatePresence */}
-        <AnimatePresence>
-          {openItem && openItem.links && (
+      {/* Links Modal */}
+      <AnimatePresence>
+        {openItem && openItem.links && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6"
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
             <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6"
-              variants={overlayVariants}
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+              onClick={() => setOpenItem(null)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+
+            <motion.div
+              className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden"
+              variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
-              {/* Backdrop */}
-              <motion.div
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-                onClick={() => setOpenItem(null)}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              />
-
-              {/* Modal Content */}
-              <motion.div
-                className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
-                variants={modalVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                {/* Modal Header */}
-                <div
-                  className="relative h-32 sm:h-40 bg-center bg-cover"
-                  style={{
-                    backgroundImage: openItem.preview
-                      ? `linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url(${openItem.preview})`
-                      : 'linear-gradient(180deg, rgba(24,78,167,0.35), rgba(240,86,68,0.65))'
-                  }}
+              {/* Modal header */}
+              <div className="relative px-6 pt-6 pb-4 border-b border-gray-100">
+                <motion.button
+                  onClick={() => setOpenItem(null)}
+                  className="absolute top-4 right-4 w-8 h-8 inline-flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Close"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  <motion.button
-                    onClick={() => setOpenItem(null)}
-                    className="absolute top-3 right-3 w-9 h-9 inline-flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-md"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    aria-label="Close"
-                  >
-                    <X className="w-5 h-5" />
-                  </motion.button>
-                  <div className="absolute bottom-3 left-4 right-4 text-white">
-                    <p className="text-xs uppercase tracking-wide text-white/80">{openItem.type}</p>
-                    <h3 className="text-xl font-semibold leading-tight">{openItem.title}</h3>
-                    <p className="text-sm text-white/80 mt-1">{openItem.year}</p>
-                  </div>
-                </div>
+                  <X className="w-4 h-4" />
+                </motion.button>
 
-                {/* Modal Body */}
-                <div className="p-5 space-y-4">
-                  <p className="text-sm text-gray-600">{openItem.highlight}</p>
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-2"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                      visible: { transition: { staggerChildren: 0.05 } }
+                <div className="flex items-center gap-3 mb-2">
+                  <span
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+                    style={{
+                      color: getType(openItem.type).color,
+                      background: getType(openItem.type).bg,
                     }}
                   >
-                    {openItem.links.map((link, linkIdx) => (
-                      <motion.a
-                        key={`${link.url}-${linkIdx}`}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-between gap-2 text-xs sm:text-sm text-grace-dark-blue bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
-                        variants={{
-                          hidden: { opacity: 0, y: 10 },
-                          visible: { opacity: 1, y: 0 },
-                        }}
-                        whileHover={{
-                          borderColor: 'rgba(240, 86, 68, 0.6)',
-                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                          y: -2,
-                        }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <span className="truncate">{link.label}</span>
-                        <ExternalLink className="w-3.5 h-3.5 text-grace-accent flex-shrink-0" />
-                      </motion.a>
-                    ))}
-                  </motion.div>
-                  <div className="text-right pt-2">
-                    <motion.button
-                      onClick={() => setOpenItem(null)}
-                      className="text-sm font-semibold text-grace-accent"
-                      whileHover={{ scale: 1.05, color: '#c41e52' }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Close
-                    </motion.button>
-                  </div>
+                    {(() => { const TypeIcon = getType(openItem.type).icon; return <TypeIcon className="w-3.5 h-3.5" /> })()}
+                    {getType(openItem.type).label}
+                  </span>
+                  <span className="text-xs text-gray-400">{openItem.year}</span>
                 </div>
-              </motion.div>
+                <h3 className="text-xl font-serif font-semibold text-gray-900 pr-8">
+                  {openItem.title}
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">{openItem.highlight}</p>
+              </div>
+
+              {/* Links grid */}
+              <div className="p-6 max-h-80 overflow-y-auto scrollbar-thin">
+                <motion.div
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-2"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.03 } },
+                  }}
+                >
+                  {openItem.links.map((link, linkIdx) => (
+                    <motion.a
+                      key={`${link.url}-${linkIdx}`}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/link flex items-center justify-between gap-2 text-sm text-gray-700 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl px-3.5 py-2.5 transition-colors"
+                      variants={{
+                        hidden: { opacity: 0, y: 8 },
+                        visible: { opacity: 1, y: 0 },
+                      }}
+                      whileHover={{ y: -1 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <span className="truncate">{link.label}</span>
+                      <ArrowUpRight
+                        className="w-3.5 h-3.5 flex-shrink-0 text-gray-400 transition-all group-hover/link:text-grace-accent group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                      />
+                    </motion.a>
+                  ))}
+                </motion.div>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 })
