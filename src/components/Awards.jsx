@@ -4,11 +4,26 @@ import { ExternalLink, Award, PlayCircle, Image as ImageIcon, X, ArrowUpRight, L
 import { awards } from '../data/awards'
 
 const typeConfig = {
-  Article: { icon: Award, color: '#f05644', bg: 'rgba(240,86,68,0.08)', label: 'Article' },
-  Gallery: { icon: ImageIcon, color: '#D4AF37', bg: 'rgba(212,175,55,0.08)', label: 'Gallery' },
-  Post: { icon: Sparkles, color: '#60b2d4', bg: 'rgba(96,178,212,0.08)', label: 'Post' },
-  Video: { icon: PlayCircle, color: '#f05644', bg: 'rgba(240,86,68,0.08)', label: 'Video' },
-  Links: { icon: Link2, color: '#9b7dd4', bg: 'rgba(155,125,212,0.08)', label: 'Collection' },
+  Article: {
+    icon: Award, color: '#f05644', bg: 'rgba(240,86,68,0.08)', label: 'Article',
+    gradient: 'linear-gradient(135deg, #f05644 0%, #d4453a 40%, #c2392f 100%)',
+  },
+  Gallery: {
+    icon: ImageIcon, color: '#D4AF37', bg: 'rgba(212,175,55,0.08)', label: 'Gallery',
+    gradient: 'linear-gradient(135deg, #D4AF37 0%, #c9a02e 40%, #b8922a 100%)',
+  },
+  Post: {
+    icon: Sparkles, color: '#60b2d4', bg: 'rgba(96,178,212,0.08)', label: 'Post',
+    gradient: 'linear-gradient(135deg, #60b2d4 0%, #4a9fc4 40%, #3d8fb5 100%)',
+  },
+  Video: {
+    icon: PlayCircle, color: '#f05644', bg: 'rgba(240,86,68,0.08)', label: 'Video',
+    gradient: 'linear-gradient(135deg, #f05644 0%, #d4453a 40%, #c2392f 100%)',
+  },
+  Links: {
+    icon: Link2, color: '#9b7dd4', bg: 'rgba(155,125,212,0.08)', label: 'Collection',
+    gradient: 'linear-gradient(135deg, #9b7dd4 0%, #8a6bc5 40%, #7a5cb8 100%)',
+  },
 }
 
 const getType = (type) => typeConfig[type] || typeConfig.Article
@@ -71,29 +86,28 @@ function AwardCard({ item, idx, onOpenLinks }) {
       }}
       transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      {/* Image */}
-      <div className={`relative w-full overflow-hidden ${isFeatured ? 'h-52 sm:h-72 lg:h-80' : 'h-44 sm:h-52'}`}>
-        <motion.div
-          className="absolute inset-0 bg-center bg-cover"
+      {/* Visual header */}
+      <div className={`relative w-full overflow-hidden ${isFeatured ? 'h-48 sm:h-64 lg:h-72' : 'h-40 sm:h-44'}`}>
+        {/* Gradient background */}
+        <div className="absolute inset-0" style={{ background: config.gradient }} />
+
+        {/* Decorative pattern */}
+        <div className="absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage: item.preview
-              ? `url(${item.preview})`
-              : `linear-gradient(135deg, ${config.color}30, ${config.color}08)`,
+            backgroundImage: `radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px), radial-gradient(circle at 50% 50%, white 1px, transparent 1px)`,
+            backgroundSize: '60px 60px, 80px 80px, 40px 40px',
           }}
-          whileHover={{ scale: 1.06 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+
+        {/* Large decorative icon */}
+        <div className="absolute -right-4 -bottom-4 opacity-[0.12]">
+          <Icon className={isFeatured ? 'w-40 h-40 sm:w-52 sm:h-52' : 'w-28 h-28 sm:w-36 sm:h-36'} strokeWidth={1} color="white" />
+        </div>
 
         {/* Year pill */}
         <div className="absolute top-4 right-4">
-          <span
-            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide backdrop-blur-md"
-            style={{
-              background: 'rgba(255,255,255,0.15)',
-              color: 'white',
-              border: '1px solid rgba(255,255,255,0.2)',
-            }}
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide"
+            style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.25)' }}
           >
             {item.year}
           </span>
@@ -101,26 +115,19 @@ function AwardCard({ item, idx, onOpenLinks }) {
 
         {/* Type badge */}
         <div className="absolute top-4 left-4">
-          <span
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-md"
-            style={{
-              background: 'rgba(255,255,255,0.15)',
-              color: 'white',
-              border: '1px solid rgba(255,255,255,0.2)',
-            }}
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+            style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '1px solid rgba(255,255,255,0.25)' }}
           >
             <Icon className="w-3.5 h-3.5" />
             {config.label}
           </span>
         </div>
 
-        {/* Title overlay */}
+        {/* Title */}
         <div className="absolute bottom-0 left-0 right-0 p-5">
-          <h3
-            className={`font-serif font-semibold leading-tight text-white drop-shadow-lg ${
-              isFeatured ? 'text-xl sm:text-2xl lg:text-3xl' : 'text-lg'
-            }`}
-          >
+          <h3 className={`font-serif font-semibold leading-tight text-white ${
+            isFeatured ? 'text-xl sm:text-2xl lg:text-3xl' : 'text-lg'
+          }`}>
             {item.title}
           </h3>
         </div>
