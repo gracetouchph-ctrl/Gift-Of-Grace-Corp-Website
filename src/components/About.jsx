@@ -9,8 +9,9 @@ const galleryImages = [
     src: '/images/CompanyPicture1.PNG',
     caption: 'Where It All Began',
     description: 'Our humble home kitchen in 2017',
-    size: 'large', // large, medium, small
+    size: 'large',
     accent: 'from-grace-accent/80 to-rose-600/80',
+    objectPosition: 'center 20%',
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const galleryImages = [
     description: 'Team expansion & community',
     size: 'medium',
     accent: 'from-sky-500/80 to-blue-600/80',
+    objectPosition: 'center 15%',
   },
   {
     id: 3,
@@ -27,6 +29,7 @@ const galleryImages = [
     description: 'Production excellence',
     size: 'small',
     accent: 'from-emerald-500/80 to-teal-600/80',
+    objectPosition: 'center 15%',
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ const galleryImages = [
     description: 'Awards & milestones',
     size: 'small',
     accent: 'from-amber-500/80 to-orange-600/80',
+    objectPosition: 'center center',
   },
   {
     id: 5,
@@ -43,6 +47,7 @@ const galleryImages = [
     description: 'Expanding our reach',
     size: 'medium',
     accent: 'from-purple-500/80 to-violet-600/80',
+    objectPosition: 'center 30%',
   },
 ]
 
@@ -163,6 +168,7 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
                   src={image.src}
                   alt={image.caption}
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: image.objectPosition || 'center center' }}
                   loading="lazy"
                 />
               </motion.div>
