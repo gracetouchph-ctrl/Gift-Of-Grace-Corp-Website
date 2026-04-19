@@ -1,25 +1,55 @@
 import { useRef, memo } from 'react'
-import { motion, useInView, useScroll, useTransform } from 'framer-motion'
-import { Star, Quote, Users, Heart } from 'lucide-react'
+import { motion, useInView } from 'framer-motion'
+import { Star, Quote } from 'lucide-react'
+
+const reviews = [
+  {
+    name: 'Maria Santos',
+    location: 'Baguio City',
+    rating: 5,
+    text: 'The kimchi is absolutely authentic! Reminds me of homemade Korean kimchi but with a Filipino twist. My family loves it with every meal.',
+    product: 'Gift of Grace Kimchi',
+  },
+  {
+    name: 'James Reyes',
+    location: 'La Trinidad',
+    rating: 5,
+    text: 'I order the rice coffee every month. The flavor is so smooth and natural. You can tell it\'s made with care and quality ingredients.',
+    product: 'Artisan Rice Coffee',
+  },
+  {
+    name: 'Ana Dela Cruz',
+    location: 'Manila',
+    rating: 5,
+    text: 'Discovered Gift of Grace at SM and now I\'m hooked. The pickled radish is the perfect side dish. Great quality for the price.',
+    product: 'Pickled Radish',
+  },
+  {
+    name: 'Roberto Cadsi',
+    location: 'Pangasinan',
+    rating: 5,
+    text: 'We serve Gift of Grace products at our restaurant. Customers always ask where we source our kimchi. Consistently great quality.',
+    product: 'Gift of Grace Kimchi',
+  },
+]
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
   },
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
       type: 'spring',
-      stiffness: 100,
-      damping: 15,
+      stiffness: 80,
+      damping: 20,
     },
   },
 }
@@ -28,237 +58,106 @@ const CustomerReviews = memo(() => {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 })
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  })
-
-  const decorY1 = useTransform(scrollYProgress, [0, 1], [0, -60])
-  const decorY2 = useTransform(scrollYProgress, [0, 1], [0, 60])
-
-  const stats = [
-    { label: 'Happy Customers', value: '500+', icon: Users },
-    { label: '5-Star Ratings', value: '98%', icon: Star },
-    { label: 'Customer Satisfaction', value: '99%', icon: Heart },
-  ]
-
   return (
     <section
       ref={sectionRef}
       id="reviews"
-      className="py-20 lg:py-28 bg-gradient-to-b from-white via-slate-50/30 to-white relative overflow-hidden"
+      className="py-20 lg:py-28 bg-white"
     >
-      {/* Decorative background elements with parallax */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-10 right-20 w-64 h-64 bg-grace-gold/5 rounded-full blur-3xl"
-          style={{ y: decorY1 }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-80 h-80 bg-grace-accent/5 rounded-full blur-3xl"
-          style={{ y: decorY2 }}
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          className="text-center mb-12 lg:mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <motion.span
-            className="inline-block px-4 py-1.5 bg-grace-accent/10 text-grace-accent rounded-full text-sm font-medium mb-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16">
+          <motion.div
+            className="lg:max-w-2xl"
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7 }}
           >
-            Testimonials
-          </motion.span>
-          <motion.h2
-            className="text-3xl lg:text-4xl xl:text-5xl font-serif font-medium text-gray-900 tracking-tight mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            What Our Customers Say
-          </motion.h2>
-          <motion.p
-            className="text-gray-500 text-lg max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            Real feedback from people who love our products
-          </motion.p>
-        </motion.div>
+            <Quote className="w-12 h-12 text-grace-gold mb-6" />
+            <h2 className="text-4xl lg:text-5xl font-serif font-medium text-gray-900 leading-tight mb-4">
+              Voices from Our Community
+            </h2>
+            <p className="text-gray-600 text-lg">
+              Honest stories from customers who've made our products part of their daily lives.
+            </p>
+          </motion.div>
 
-        {/* Main Review Display */}
+          <motion.div
+            className="hidden lg:block w-32 h-px bg-gradient-to-r from-grace-gold to-grace-accent mt-8 lg:mt-0"
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          />
+        </div>
+
+        {/* Reviews Grid */}
         <motion.div
-          className="max-w-5xl mx-auto"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <div className="relative">
-            {/* Decorative Quote Icon - Top Left */}
-            <motion.div
-              className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 lg:-top-6 lg:-left-6 z-10 hidden sm:block"
-              initial={{ opacity: 0, scale: 0, rotate: -180 }}
-              animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4, type: 'spring', stiffness: 200 }}
-            >
-              <motion.div
-                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-grace-accent/20 to-rose-100 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-grace-accent/20"
-                whileHover={{ scale: 1.1, rotate: 10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Quote className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-grace-accent" />
-              </motion.div>
-            </motion.div>
-
-            {/* Main Review Image Container */}
-            <motion.div
-              className="relative bg-white rounded-2xl lg:rounded-3xl shadow-xl overflow-hidden border border-gray-100"
-              whileHover={{
-                boxShadow: '0 30px 60px rgba(0,0,0,0.15)',
-                y: -4,
-              }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-            >
-              {/* Gold Accent Border */}
-              <div className="absolute inset-0 border-2 lg:border-4 border-grace-accent/10 rounded-2xl lg:rounded-3xl pointer-events-none" />
-
-              {/* Image Container */}
-              <div className="relative">
-                {/* Decorative corners */}
-                <motion.div
-                  className="absolute top-0 left-0 w-12 h-12 lg:w-24 lg:h-24 border-t-2 lg:border-t-4 border-l-2 lg:border-l-4 border-grace-accent/20 rounded-tl-2xl lg:rounded-tl-3xl z-10"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.5, duration: 0.4 }}
-                />
-                <motion.div
-                  className="absolute top-0 right-0 w-12 h-12 lg:w-24 lg:h-24 border-t-2 lg:border-t-4 border-r-2 lg:border-r-4 border-grace-accent/20 rounded-tr-2xl lg:rounded-tr-3xl z-10"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.55, duration: 0.4 }}
-                />
-                <motion.div
-                  className="absolute bottom-0 left-0 w-12 h-12 lg:w-24 lg:h-24 border-b-2 lg:border-b-4 border-l-2 lg:border-l-4 border-grace-accent/20 rounded-bl-2xl lg:rounded-bl-3xl z-10"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.6, duration: 0.4 }}
-                />
-                <motion.div
-                  className="absolute bottom-0 right-0 w-12 h-12 lg:w-24 lg:h-24 border-b-2 lg:border-b-4 border-r-2 lg:border-r-4 border-grace-accent/20 rounded-br-2xl lg:rounded-br-3xl z-10"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.65, duration: 0.4 }}
-                />
-
-                {/* Customer Review Image */}
-                <motion.img
-                  src="/images/Customer Review.png"
-                  alt="Customer Reviews - Gift of Grace"
-                  className="w-full h-auto object-contain"
-                  loading="lazy"
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                />
-              </div>
-            </motion.div>
-
-            {/* Bottom Decorative Quote Icon */}
-            <motion.div
-              className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 lg:-bottom-6 lg:-right-6 z-10 hidden sm:block"
-              initial={{ opacity: 0, scale: 0, rotate: 180 }}
-              animate={isInView ? { opacity: 1, scale: 1, rotate: 180 } : {}}
-              transition={{ duration: 0.6, delay: 0.5, type: 'spring', stiffness: 200 }}
-            >
-              <motion.div
-                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-sky-100 to-grace-accent/20 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-sky-200/30"
-                whileHover={{ scale: 1.1, rotate: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Quote className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-sky-500" />
-              </motion.div>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Trust Indicators with staggered animation */}
-        <motion.div
-          className="mt-10 sm:mt-16 lg:mt-20 grid grid-cols-3 gap-3 sm:gap-6 lg:gap-8 max-w-3xl mx-auto"
+          className="grid md:grid-cols-2 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          {stats.map((stat, index) => {
-            const Icon = stat.icon
-            return (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="text-center"
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.2 }}
-              >
-                <motion.div
-                  className="inline-flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-grace-accent/10 to-rose-100/50 rounded-xl sm:rounded-2xl mb-2 sm:mb-4"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
-                  <Icon className="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-grace-accent" />
-                </motion.div>
-                <motion.div
-                  className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-0.5 sm:mb-1"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.5 + index * 0.1, type: 'spring', stiffness: 200 }}
-                >
-                  {stat.value}
-                </motion.div>
-                <div className="text-[10px] sm:text-xs lg:text-sm text-gray-500 uppercase tracking-wide leading-tight">
-                  {stat.label}
+          {reviews.map((review, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              className="bg-white border-l-4 border-grace-accent p-6 lg:p-8"
+              whileHover={{ x: 8 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Quote mark */}
+              <Quote className="w-8 h-8 text-grace-gold/30 mb-4" />
+
+              {/* Review text */}
+              <p className="text-gray-700 text-lg leading-relaxed mb-6 italic">
+                "{review.text}"
+              </p>
+
+              {/* Rating */}
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(review.rating)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-grace-gold fill-current" />
+                ))}
+              </div>
+
+              {/* Customer info */}
+              <div className="border-t border-gray-100 pt-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-semibold text-gray-900">{review.name}</h4>
+                    <p className="text-gray-500 text-sm">{review.location}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-grace-accent font-medium text-sm">{review.product}</p>
+                  </div>
                 </div>
-              </motion.div>
-            )
-          })}
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* Call to Action */}
+        {/* Simple stats */}
         <motion.div
-          className="text-center mt-8 sm:mt-12 lg:mt-16"
+          className="mt-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <motion.p
-            className="text-gray-600 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.7 }}
-          >
-            Join hundreds of satisfied customers
-          </motion.p>
+          <p className="text-gray-500 text-lg mb-8">
+            Hundreds of satisfied customers across the Philippines
+          </p>
+
+          {/* Call to Action */}
           <motion.a
             href="https://ph.shp.ee/k5ZzgF6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-xl shadow-gray-900/20"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
-              y: -4,
-            }}
+            className="inline-flex items-center gap-3 bg-grace-accent text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-grace-accent/90 transition-colors"
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            <Star className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>Experience the Quality</span>
+            <Star className="w-5 h-5" />
+            <span>Shop on Shopee</span>
           </motion.a>
         </motion.div>
       </div>

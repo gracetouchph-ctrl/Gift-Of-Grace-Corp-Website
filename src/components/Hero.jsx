@@ -48,8 +48,6 @@ const Hero = memo(() => {
     offset: ['start start', 'end start'],
   })
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
-  const orbY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '10%'])
 
   const scrollToProducts = () => {
@@ -61,23 +59,8 @@ const Hero = memo(() => {
     <section
       ref={sectionRef}
       id='home'
-      className='relative min-h-screen overflow-hidden bg-gradient-to-b from-slate-50 via-white to-grace-light-blue/30'
+      className='relative min-h-screen overflow-hidden bg-gradient-to-b from-amber-50/40 via-white to-white'
     >
-      <motion.div className='absolute inset-0 overflow-hidden' style={{ y: backgroundY }}>
-        <motion.div
-          className='absolute -top-20 -right-20 sm:-top-40 sm:-right-40 w-[200px] h-[200px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px] bg-gradient-to-br from-grace-accent/20 to-rose-200/30 rounded-full blur-3xl'
-          style={{ y: orbY }}
-        />
-        <motion.div
-          className='absolute top-1/2 -left-20 sm:-left-40 w-[150px] h-[150px] sm:w-[280px] sm:h-[280px] lg:w-[400px] lg:h-[400px] bg-gradient-to-br from-grace-accent-alt/20 to-sky-200/30 rounded-full blur-3xl'
-          style={{ y: orbY }}
-        />
-        <motion.div
-          className='absolute -bottom-10 right-1/4 sm:-bottom-20 sm:right-1/3 w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] lg:w-[300px] lg:h-[300px] bg-gradient-to-br from-grace-gold/15 to-amber-100/20 rounded-full blur-3xl'
-          style={{ y: orbY }}
-        />
-        <div className='absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] sm:bg-[size:60px_60px]' />
-      </motion.div>
 
       <motion.div
         ref={contentRef}
@@ -97,11 +80,6 @@ const Hero = memo(() => {
             >
               <Sparkles className='w-4 h-4 text-grace-gold' />
               <span className='text-sm font-medium text-gray-700'>Proudly Filipino-Made</span>
-              <div className='flex items-center gap-0.5'>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className='w-3 h-3 fill-grace-gold text-grace-gold' />
-                ))}
-              </div>
             </motion.div>
 
             <motion.div variants={itemVariants} className='space-y-2 lg:space-y-3 mb-6 lg:mb-8'>
@@ -175,8 +153,8 @@ const Hero = memo(() => {
             >
               {[
                 { value: '150+', label: 'Outlets' },
-                { value: 'Since', label: '2017' },
-                { value: '5+', label: 'Products' },
+                { value: '2017', label: 'Established' },
+                { value: 'Halal Certified', label: 'Quality' },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -199,19 +177,6 @@ const Hero = memo(() => {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <div className='relative max-w-md lg:max-w-lg mx-auto'>
-              <motion.div
-                className='absolute inset-4 lg:inset-6 bg-gradient-to-br from-grace-accent/10 to-grace-accent-alt/10 rounded-3xl'
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 3 }}
-                transition={{ duration: 20, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
-              />
-              <motion.div
-                className='absolute inset-4 lg:inset-6 bg-gradient-to-br from-grace-gold/10 to-amber-50 rounded-3xl'
-                initial={{ rotate: 0 }}
-                animate={{ rotate: -3 }}
-                transition={{ duration: 15, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
-              />
-
               <motion.div
                 className='relative bg-white rounded-3xl shadow-2xl shadow-gray-200/50 p-3 lg:p-4 border border-gray-100'
                 whileHover={{ y: -8, boxShadow: '0 30px 60px rgba(0,0,0,0.12)' }}
@@ -250,16 +215,7 @@ const Hero = memo(() => {
                 </motion.div>
               </motion.div>
 
-              <motion.div
-                className='absolute -top-2 -left-2 sm:-top-4 sm:-left-4 w-12 h-12 sm:w-20 sm:h-20 bg-grace-gold/20 rounded-full blur-xl'
-                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <motion.div
-                className='absolute -bottom-4 -left-4 sm:-bottom-8 sm:-left-8 w-16 h-16 sm:w-24 sm:h-24 bg-grace-accent/15 rounded-full blur-xl'
-                animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.7, 0.4] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              />
+              <div className='absolute -top-1 -left-1 w-2 h-2 bg-grace-accent/40 rounded-full' />
             </div>
           </motion.div>
         </div>

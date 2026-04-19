@@ -1,184 +1,125 @@
 import { useRef, memo } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Store, MapPin, ShoppingCart } from 'lucide-react'
+import { MapPin, Package } from 'lucide-react'
 
 const partners = [
-  { name: 'SM', icon: ShoppingCart },
-  { name: 'Savemore', icon: ShoppingCart },
-  { name: 'Puregold', icon: Store },
-  { name: 'Robinsons', icon: Store },
+  { name: 'SM Supermarket', color: '#003DA5', initial: 'SM' },
+  { name: 'Savemore', color: '#E31937', initial: 'S' },
+  { name: 'Puregold', color: '#FFB800', initial: 'P' },
+  { name: 'Robinsons', color: '#00529B', initial: 'R' },
 ]
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 15,
-    },
-  },
-}
 
 const WhereToFindUs = memo(() => {
   const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
+  const isInView = useInView(sectionRef, { once: true, amount: 0.3 })
 
   return (
     <section
       ref={sectionRef}
       id="where-to-find-us"
-      className="py-20 lg:py-28 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden"
+      className="py-16 lg:py-20 bg-stone-50"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          className="max-w-3xl mx-auto text-center mb-12 lg:mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="flex items-center gap-3 mb-8 lg:mb-12"
+          initial={{ opacity: 0, x: -30 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6 }}
         >
-          <motion.span
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-grace-accent/10 text-grace-accent rounded-full text-sm font-medium mb-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <MapPin className="w-4 h-4" />
+          <MapPin className="w-6 h-6 text-grace-accent" />
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
             Where to Find Us
-          </motion.span>
-          <motion.h2
-            className="text-3xl lg:text-4xl xl:text-5xl font-serif font-medium text-gray-900 tracking-tight mb-4"
+          </h2>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Retail Partners */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Available in Leading{' '}
-            <motion.span
-              className="text-grace-accent"
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Available at trusted retail partners
+            </h3>
+            <div className="flex flex-wrap gap-4 mb-4">
+              {partners.map((partner, index) => (
+                <motion.div
+                  key={partner.name}
+                  className="flex items-center gap-3 bg-white rounded-lg px-4 py-3 shadow-sm border border-gray-100"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                    style={{ backgroundColor: partner.color }}
+                  >
+                    {partner.initial}
+                  </div>
+                  <span className="font-medium text-gray-800">{partner.name}</span>
+                </motion.div>
+              ))}
+            </div>
+            <motion.p
+              className="text-gray-600 text-sm"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.8 }}
             >
-              Retail Chains
-            </motion.span>
-          </motion.h2>
-          <motion.p
-            className="text-gray-500 text-lg"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+              Available across Northern Luzon supermarkets
+            </motion.p>
+          </motion.div>
+
+          {/* Location & Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
-            From a humble home-based kitchen to shelves across Northern Luzon, Gift of Grace
-            products are now available in major supermarkets and retail partners.
-          </motion.p>
-        </motion.div>
-
-        {/* Partners Grid with staggered animation */}
-        <motion.div
-          className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
-          {partners.map((partner, index) => {
-            const Icon = partner.icon
-            return (
-              <motion.div
-                key={partner.name}
-                variants={itemVariants}
-                className="group relative overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm cursor-pointer"
-                whileHover={{
-                  y: -8,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-              >
-                {/* Hover gradient overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-grace-accent/5 via-transparent to-rose-50/50"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-
-                {/* Animated background circle */}
-                <motion.div
-                  className="absolute -top-10 -right-10 w-24 h-24 bg-grace-accent/5 rounded-full"
-                  initial={{ scale: 0 }}
-                  whileHover={{ scale: 2 }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                />
-
-                <div className="relative px-6 py-8 flex flex-col items-center justify-center gap-3">
-                  {/* Icon */}
-                  <motion.div
-                    className="w-12 h-12 rounded-xl bg-gradient-to-br from-grace-accent/10 to-rose-100/50 flex items-center justify-center"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                  >
-                    <Icon className="w-6 h-6 text-grace-accent" />
-                  </motion.div>
-
-                  {/* Partner Name */}
-                  <motion.span
-                    className="text-lg lg:text-xl font-semibold tracking-wide text-gray-800"
-                    whileHover={{ color: '#E91E63' }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {partner.name}
-                  </motion.span>
-
-                  {/* Underline on hover */}
-                  <motion.div
-                    className="absolute bottom-4 left-1/2 h-0.5 bg-grace-accent rounded-full"
-                    initial={{ width: 0, x: '-50%' }}
-                    whileHover={{ width: 40 }}
-                    transition={{ duration: 0.3 }}
-                  />
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Our Location
+            </h3>
+            <div className="space-y-4">
+              <div className="bg-white rounded-lg p-4 border border-gray-100 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-grace-accent mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium text-gray-900">Gift of Grace</p>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      #5 Purok 6, Pinsao Pilot Project<br />
+                      Baguio City 2600
+                    </p>
+                  </div>
                 </div>
-              </motion.div>
-            )
-          })}
-        </motion.div>
+              </div>
 
-        {/* Additional info */}
-        <motion.div
-          className="text-center mt-12 lg:mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <motion.p
-            className="text-gray-500 text-sm max-w-md mx-auto"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.6 }}
-          >
-            Can't find us nearby? Order directly from our{' '}
-            <motion.a
-              href="https://ph.shp.ee/k5ZzgF6"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-grace-accent font-medium"
-              whileHover={{ color: '#c41e52' }}
-            >
-              Shopee store
-            </motion.a>{' '}
-            for nationwide delivery.
-          </motion.p>
-        </motion.div>
+              <div className="bg-white rounded-lg p-4 border border-gray-100 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <Package className="w-5 h-5 text-grace-accent mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium text-gray-900">Online Orders</p>
+                    <p className="text-gray-600 text-sm mb-2">
+                      Can't find us nearby? Order directly for nationwide delivery.
+                    </p>
+                    <motion.a
+                      href="https://ph.shp.ee/k5ZzgF6"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 bg-grace-accent text-white text-sm font-medium rounded-md"
+                      whileHover={{ backgroundColor: '#d14538' }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Visit our Shopee store
+                    </motion.a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
