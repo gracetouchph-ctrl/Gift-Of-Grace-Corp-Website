@@ -153,7 +153,7 @@ const Hero = memo(() => {
             >
               {[
                 { value: '150+', label: 'Outlets' },
-                { value: '2017', label: 'Established' },
+                { value: '2015', label: 'Established' },
                 { value: 'Halal Certified', label: 'Quality' },
               ].map((stat, index) => (
                 <motion.div

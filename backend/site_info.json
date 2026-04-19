@@ -2,28 +2,78 @@
   "products": [
     {
       "id": 1,
-      "name": "Kimchi Gift Set",
-      "price": "₱220",
+      "name": "Kimchi Gift 500g",
+      "price": "₱175",
       "image": "/images/KimchiGift.png",
       "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
-      "description": "Authentic Korean kimchi with a perfect blend of spices",
+      "description": "Authentic Korean kimchi with a Filipino twist, made with love in our Baguio kitchen",
       "category": "Best Seller",
       "color": "#F05644"
     },
     {
       "id": 2,
-      "name": "Rice Coffee",
-      "price": "₱180",
+      "name": "Kimchi Gift 250g",
+      "price": "₱90",
+      "image": "/images/KimchiGift.png",
+      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
+      "description": "Our signature kimchi in a smaller pack — perfect for trying or single servings",
+      "category": "Best Seller",
+      "color": "#F05644"
+    },
+    {
+      "id": 3,
+      "name": "Rice Coffee 350g",
+      "price": "₱240",
       "image": "/images/RiceCoffee.png",
       "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
-      "description": "Traditional rice coffee with a smooth, comforting flavor",
+      "description": "Traditional rice coffee with a smooth, comforting flavor — caffeine-free option available",
       "category": "Beverages",
       "color": "#8B4513"
     },
     {
-      "id": 3,
+      "id": 4,
+      "name": "Rice Coffee 200g",
+      "price": "₱140",
+      "image": "/images/RiceCoffee.png",
+      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
+      "description": "Our artisan rice coffee in a convenient 200g pack",
+      "category": "Beverages",
+      "color": "#8B4513"
+    },
+    {
+      "id": 5,
+      "name": "Rice Coffee Sachet 10pcs",
+      "price": "₱270",
+      "image": "/images/RiceCoffee.png",
+      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
+      "description": "Individual 20g sachets for on-the-go — 10 pieces per pack",
+      "category": "Beverages",
+      "color": "#8B4513"
+    },
+    {
+      "id": 6,
+      "name": "Tofu Gift 520g",
+      "price": "₱100",
+      "image": "/images/KimchiGift.png",
+      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
+      "description": "Wholesome tofu, crafted with care for a rich and smooth taste",
+      "category": "Sides",
+      "color": "#E8C547"
+    },
+    {
+      "id": 7,
+      "name": "Tofu Gift 300g",
+      "price": "₱65",
+      "image": "/images/KimchiGift.png",
+      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
+      "description": "Our smooth tofu in a convenient 300g pack",
+      "category": "Sides",
+      "color": "#E8C547"
+    },
+    {
+      "id": 8,
       "name": "Pickled Radish",
-      "price": "₱200",
+      "price": "₱80",
       "image": "/images/PickledRadish.png",
       "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
       "description": "Crisp and refreshing pickled radish, perfectly seasoned",
@@ -31,24 +81,24 @@
       "color": "#E8C547"
     },
     {
-      "id": 4,
-      "name": "Rene's Bangus",
-      "price": "₱280",
-      "image": "/images/RenesBangus.png",
-      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
-      "description": "Premium marinated bangus, a Filipino delicacy",
-      "category": "Main Dish",
-      "color": "#4A90A4"
-    },
-    {
-      "id": 5,
-      "name": "Rene's Gourmet Chicken",
-      "price": "₱320",
+      "id": 9,
+      "name": "Gourmet Chicken Pastil",
+      "price": "₱170",
       "image": "/images/RenesGourmetChicken.png",
       "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
-      "description": "Gourmet chicken prepared with traditional Filipino flavors",
+      "description": "Gourmet chicken pastil in Original and Spicy flavors — a Filipino comfort classic",
       "category": "Main Dish",
       "color": "#D4A574"
+    },
+    {
+      "id": 10,
+      "name": "Spanish Style Bangus Sardines",
+      "price": "₱170",
+      "image": "/images/RenesBangus.png",
+      "shopeeLink": "https://ph.shp.ee/k5ZzgF6",
+      "description": "Premium Spanish-style bangus sardines, 190g — a Filipino delicacy",
+      "category": "Main Dish",
+      "color": "#4A90A4"
     }
   ],
   "awards": [
@@ -86,7 +136,7 @@
   "about": {
     "mission": "To produce 10 different varieties of quality and healthy foods by year 2025.",
     "vision": "To provide not just a living but to extend blessing, sharing grace through nutritious, flavorful, and proudly Filipino-made local products.",
-    "story": "Gift of Grace Food Manufacturing Corporation began its journey in 2017, born from a mother's passion for creating Korean kimchi infused with a flavor profile tailored to the Filipino taste. What started as a humble home-based business sharing products with neighbors soon grew beyond the household, reaching the local community, the online market, and eventually well-known retail chains such as SM, Savemore, Puregold, and Robinsons."
+    "story": "Gift of Grace Food Manufacturing Corporation began its journey in 2015, born from a mother's passion for creating Korean kimchi infused with a flavor profile tailored to the Filipino taste. What started as a humble home-based business sharing products with neighbors soon grew beyond the household, reaching the local community, the online market, and eventually well-known retail chains such as SM, Savemore, Puregold, Robinsons, and Super8."
   },
   "contact": {
     "address": "#5 Purok 6, Pinsao Pilot Project, Baguio City 2600, Benguet, Philippines",
@@ -95,7 +145,7 @@
     "facebook": "https://www.facebook.com/kimchigiftofficial"
   },
   "company_info": {
-    "founded": "2017",
+    "founded": "2015",
     "founders": "Satur Cadsi (CEO) and Janice Osenio Cadsi (COO)",
     "location": "Baguio City, Philippines",
     "certification": "Halal certified"

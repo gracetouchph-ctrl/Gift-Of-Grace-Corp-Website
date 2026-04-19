@@ -8,7 +8,7 @@ const galleryImages = [
     id: 1,
     src: '/images/CompanyPicture1.PNG',
     caption: 'Where It All Began',
-    description: 'Our humble home kitchen in 2017',
+    description: 'Our humble home kitchen in 2015',
     size: 'large',
     accent: 'from-grace-accent/80 to-rose-600/80',
     objectPosition: 'center 20%',
@@ -218,7 +218,7 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: delay + 0.3 }}
                 >
-                  <span className="text-white text-[10px] sm:text-xs font-medium">Est. 2017</span>
+                  <span className="text-white text-[10px] sm:text-xs font-medium">Est. 2015</span>
                 </motion.div>
               )}
 
@@ -239,7 +239,7 @@ const JourneyGallery = memo(({ isInView, scrollYProgress }) => {
         transition={{ duration: 0.6, delay: 1.4 }}
       >
         {[
-          { icon: TrendingUp, value: '2017', label: 'Founded' },
+          { icon: TrendingUp, value: '2015', label: 'Founded' },
           { icon: Users, value: '150+', label: 'Retail Partners' },
           { icon: Award, value: '10+', label: 'Awards Won' },
         ].map((stat, index) => (
@@ -367,7 +367,7 @@ const About = memo(() => {
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Gift of Grace Food Manufacturing Corporation began its journey in 2017, born from a
+            Gift of Grace Food Manufacturing Corporation began its journey in 2015, born from a
             mother's passion for creating Korean kimchi infused with a flavor profile tailored to
             the Filipino taste.
           </motion.p>

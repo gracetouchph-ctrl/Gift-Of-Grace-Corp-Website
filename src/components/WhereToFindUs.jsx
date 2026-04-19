@@ -7,6 +7,7 @@ const partners = [
   { name: 'Savemore', color: '#E31937', initial: 'S' },
   { name: 'Puregold', color: '#FFB800', initial: 'P' },
   { name: 'Robinsons', color: '#00529B', initial: 'R' },
+  { name: 'Super8', color: '#E85D00', initial: 'S8' },
 ]
 
 const WhereToFindUs = memo(() => {
